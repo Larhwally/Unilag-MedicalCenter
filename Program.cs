@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Unilag_MedicalCenter
+namespace UnilagMedCenter_API
 {
     public class Program
     {

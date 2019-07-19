@@ -6,12 +6,16 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using UnilagMedCenter.Service.DataServices;
+using UnilagMedCenter.Service.Infrastructure;
+using UnilagMedCenter_Data;
 
-namespace Unilag_MedicalCenter
+namespace UnilagMedCenter_API
 {
     public class Startup
     {
@@ -25,7 +29,13 @@ namespace Unilag_MedicalCenter
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<I_UnilagMedCenter, UnilagMedCenter_DS>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            //to connect to SQL Server
+            services.AddDbContext<UnilagMedCenDBContext>
+            (options => options.UseSqlServer(Configuration.GetConnectionString("CoredbDatabase")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
