@@ -1,0 +1,1104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="UNILAG_MCModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="tbl_Admin">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Medstaff_id" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_MedicalStaff" Relationship="Self.FK__tbl_Admin__MedSt__60A75C0F" FromRole="tbl_Admin" ToRole="tbl_MedicalStaff" />
+    <NavigationProperty Name="tbl_Login" Relationship="Self.FK__tbl_Login__UserI__49C3F6B7" FromRole="tbl_Admin" ToRole="tbl_Login" />
+  </EntityType>
+  <EntityType Name="tbl_Clinic">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Clinic_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Clinic_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Clinic_description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="clinic_open_schedule" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_ClinicOpenSchedule" Relationship="Self.FK__tbl_Clini__clini__412EB0B6" FromRole="tbl_Clinic" ToRole="tbl_ClinicOpenSchedule" />
+    <NavigationProperty Name="tbl_Visit" Relationship="Self.FK__tbl_Visit__Clini__4F7CD00D" FromRole="tbl_Clinic" ToRole="tbl_Visit" />
+  </EntityType>
+  <EntityType Name="tbl_ClinicOpenSchedule">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Clinic_day" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Clinic_time" Type="Time" Precision="7" />
+    <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Clinic" Relationship="Self.FK__tbl_Clini__clini__412EB0B6" FromRole="tbl_ClinicOpenSchedule" ToRole="tbl_Clinic" />
+  </EntityType>
+  <EntityType Name="tbl_Department">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Department_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <Property Name="Faculty_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="tbl_Faculty" Relationship="Self.FK__tbl_Depar__Facul__4222D4EF" FromRole="tbl_Department" ToRole="tbl_Faculty" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Patie__Depar__4AB81AF0" FromRole="tbl_Department" ToRole="tbl_Patient" />
+  </EntityType>
+  <EntityType Name="tbl_Dependent">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Relationship" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Guardian_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Staff_Patient" Relationship="Self.FK__tbl_Depen__Guard__3B75D760" FromRole="tbl_Dependent" ToRole="tbl_Staff_Patient" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Patie__Depen__4BAC3F29" FromRole="tbl_Dependent" ToRole="tbl_Patient" />
+  </EntityType>
+  <EntityType Name="tbl_Diagnosis">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Examination" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Prescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Visit_id" Type="Int32" Nullable="false" />
+    <Property Name="Vital_id" Type="Int32" Nullable="false" />
+    <Property Name="Doctor_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Doctor" Relationship="Self.FK__tbl_Diagn__Docto__440B1D61" FromRole="tbl_Diagnosis" ToRole="tbl_Doctor" />
+    <NavigationProperty Name="tbl_Visit" Relationship="Self.FK__tbl_Diagn__Visit__44FF419A" FromRole="tbl_Diagnosis" ToRole="tbl_Visit" />
+    <NavigationProperty Name="tbl_VitalSigns" Relationship="Self.FK__tbl_Diagn__Vital__45F365D3" FromRole="tbl_Diagnosis" ToRole="tbl_VitalSigns" />
+  </EntityType>
+  <EntityType Name="tbl_Doctor">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Specialization" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Staff_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Diagnosis" Relationship="Self.FK__tbl_Diagn__Docto__440B1D61" FromRole="tbl_Doctor" ToRole="tbl_Diagnosis" />
+    <NavigationProperty Name="tbl_MedicalStaff" Relationship="Self.FK__tbl_Docto__Staff__2A4B4B5E" FromRole="tbl_Doctor" ToRole="tbl_MedicalStaff" />
+  </EntityType>
+  <EntityType Name="tbl_Emergency">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Emergency_case_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Patient_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Emerg__Patie__47DBAE45" FromRole="tbl_Emergency" ToRole="tbl_Patient" />
+  </EntityType>
+  <EntityType Name="tbl_Faculty">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Faculty_title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Department" Relationship="Self.FK__tbl_Depar__Facul__4222D4EF" FromRole="tbl_Faculty" ToRole="tbl_Department" />
+  </EntityType>
+  <EntityType Name="tbl_Login">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="User_type" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Name="Medical_staff" Type="Int32" Nullable="false" />
+    <Property Name="UserID" Type="Int32" Nullable="false" />
+    <Property Name="status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Admin" Relationship="Self.FK__tbl_Login__UserI__49C3F6B7" FromRole="tbl_Login" ToRole="tbl_Admin" />
+    <NavigationProperty Name="tbl_MedicalStaff" Relationship="Self.FK__tbl_Login__Medic__6477ECF3" FromRole="tbl_Login" ToRole="tbl_MedicalStaff" />
+  </EntityType>
+  <EntityType Name="tbl_MedicalStaff">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Staff_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="First_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Last_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Other_name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Position" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Phone_num" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Nationality" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Staff_type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Admin" Relationship="Self.FK__tbl_Admin__MedSt__60A75C0F" FromRole="tbl_MedicalStaff" ToRole="tbl_Admin" />
+    <NavigationProperty Name="tbl_Doctor" Relationship="Self.FK__tbl_Docto__Staff__2A4B4B5E" FromRole="tbl_MedicalStaff" ToRole="tbl_Doctor" />
+    <NavigationProperty Name="tbl_Login" Relationship="Self.FK__tbl_Login__Medic__6477ECF3" FromRole="tbl_MedicalStaff" ToRole="tbl_Login" />
+    <NavigationProperty Name="tbl_Visit" Relationship="Self.FK__tbl_Visit__Recor__412EB0B6" FromRole="tbl_MedicalStaff" ToRole="tbl_Visit" />
+    <NavigationProperty Name="tbl_VitalSigns" Relationship="Self.FK__tbl_Vital__Nurse__46E78A0C" FromRole="tbl_MedicalStaff" ToRole="tbl_VitalSigns" />
+  </EntityType>
+  <EntityType Name="tbl_NextOfKin">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Last_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="First_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Other_names" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Phone_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Relationship" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+    <Property Name="Status" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Patie__NextO__4CA06362" FromRole="tbl_NextOfKin" ToRole="tbl_Patient" />
+  </EntityType>
+  <EntityType Name="tbl_Patient">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Last_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="First_name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Other_names" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Phone_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Gender" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="Hospital_number" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Date_of_birth" Type="DateTime" Precision="3" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Marital_status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Nationality" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Patient_type" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Next_of_kin" Type="Int32" Nullable="false" />
+    <Property Name="Department" Type="Int32" Nullable="false" />
+    <Property Name="Dependent_id" Type="Int32" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Department" Relationship="Self.FK__tbl_Patie__Depar__4AB81AF0" FromRole="tbl_Patient" ToRole="tbl_Department" />
+    <NavigationProperty Name="tbl_Dependent" Relationship="Self.FK__tbl_Patie__Depen__4BAC3F29" FromRole="tbl_Patient" ToRole="tbl_Dependent" />
+    <NavigationProperty Name="tbl_Emergency" Relationship="Self.FK__tbl_Emerg__Patie__47DBAE45" FromRole="tbl_Patient" ToRole="tbl_Emergency" />
+    <NavigationProperty Name="tbl_NextOfKin" Relationship="Self.FK__tbl_Patie__NextO__4CA06362" FromRole="tbl_Patient" ToRole="tbl_NextOfKin" />
+    <NavigationProperty Name="tbl_Staff_Patient" Relationship="Self.FK__tbl_Staff__Patie__37A5467C" FromRole="tbl_Patient" ToRole="tbl_Staff_Patient" />
+    <NavigationProperty Name="tbl_Student_Patient" Relationship="Self.FK__tbl_Stude__Patie__4E88ABD4" FromRole="tbl_Patient" ToRole="tbl_Student_Patient" />
+    <NavigationProperty Name="tbl_Visit" Relationship="Self.FK__tbl_Visit__Patie__5070F446" FromRole="tbl_Patient" ToRole="tbl_Visit" />
+  </EntityType>
+  <EntityType Name="tbl_Staff_Patient">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Staff_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="No_of_dependent" Type="Int32" />
+    <Property Name="Date_of_employment" Type="Int32" />
+    <Property Name="Patient_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Dependent" Relationship="Self.FK__tbl_Depen__Guard__3B75D760" FromRole="tbl_Staff_Patient" ToRole="tbl_Dependent" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Staff__Patie__37A5467C" FromRole="tbl_Staff_Patient" ToRole="tbl_Patient" />
+  </EntityType>
+  <EntityType Name="tbl_Student_Patient">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Matric_number" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+    <Property Name="Year_of_admission" Type="DateTime" Precision="0" />
+    <Property Name="Patient_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Createdby" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Stude__Patie__4E88ABD4" FromRole="tbl_Student_Patient" ToRole="tbl_Patient" />
+  </EntityType>
+  <EntityType Name="tbl_Visit">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Visit_datetime" Type="DateTime" Precision="3" />
+    <Property Name="Patient_id" Type="Int32" Nullable="false" />
+    <Property Name="Recordstaff_id" Type="Int32" Nullable="false" />
+    <Property Name="Clinic_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Clinic" Relationship="Self.FK__tbl_Visit__Clini__4F7CD00D" FromRole="tbl_Visit" ToRole="tbl_Clinic" />
+    <NavigationProperty Name="tbl_Diagnosis" Relationship="Self.FK__tbl_Diagn__Visit__44FF419A" FromRole="tbl_Visit" ToRole="tbl_Diagnosis" />
+    <NavigationProperty Name="tbl_MedicalStaff" Relationship="Self.FK__tbl_Visit__Recor__412EB0B6" FromRole="tbl_Visit" ToRole="tbl_MedicalStaff" />
+    <NavigationProperty Name="tbl_Patient" Relationship="Self.FK__tbl_Visit__Patie__5070F446" FromRole="tbl_Visit" ToRole="tbl_Patient" />
+    <NavigationProperty Name="tbl_VitalSigns" Relationship="Self.FK__tbl_Vital__Visit__534D60F1" FromRole="tbl_Visit" ToRole="tbl_VitalSigns" />
+  </EntityType>
+  <EntityType Name="tbl_VitalSigns">
+    <Key>
+      <PropertyRef Name="ItbId" />
+    </Key>
+    <Property Name="ItbId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Blood_pressure" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+    <Property Name="Temperature" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Pulse" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="Respiratory" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Visit_id" Type="Int32" Nullable="false" />
+    <Property Name="Nurse_id" Type="Int32" Nullable="false" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="CreateDate" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="tbl_Diagnosis" Relationship="Self.FK__tbl_Diagn__Vital__45F365D3" FromRole="tbl_VitalSigns" ToRole="tbl_Diagnosis" />
+    <NavigationProperty Name="tbl_MedicalStaff" Relationship="Self.FK__tbl_Vital__Nurse__46E78A0C" FromRole="tbl_VitalSigns" ToRole="tbl_MedicalStaff" />
+    <NavigationProperty Name="tbl_Visit" Relationship="Self.FK__tbl_Vital__Visit__534D60F1" FromRole="tbl_VitalSigns" ToRole="tbl_Visit" />
+  </EntityType>
+  <Association Name="FK__tbl_Admin__MedSt__60A75C0F">
+    <End Role="tbl_MedicalStaff" Type="Self.tbl_MedicalStaff" Multiplicity="0..1" />
+    <End Role="tbl_Admin" Type="Self.tbl_Admin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_MedicalStaff">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Admin">
+        <PropertyRef Name="Medstaff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Login__UserI__49C3F6B7">
+    <End Role="tbl_Admin" Type="Self.tbl_Admin" Multiplicity="1" />
+    <End Role="tbl_Login" Type="Self.tbl_Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Admin">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Login">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Clini__clini__412EB0B6">
+    <End Role="tbl_ClinicOpenSchedule" Type="Self.tbl_ClinicOpenSchedule" Multiplicity="1" />
+    <End Role="tbl_Clinic" Type="Self.tbl_Clinic" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_ClinicOpenSchedule">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Clinic">
+        <PropertyRef Name="clinic_open_schedule" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Visit__Clini__4F7CD00D">
+    <End Role="tbl_Clinic" Type="Self.tbl_Clinic" Multiplicity="1" />
+    <End Role="tbl_Visit" Type="Self.tbl_Visit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Clinic">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Visit">
+        <PropertyRef Name="Clinic_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Depar__Facul__4222D4EF">
+    <End Role="tbl_Faculty" Type="Self.tbl_Faculty" Multiplicity="1" />
+    <End Role="tbl_Department" Type="Self.tbl_Department" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Faculty">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Department">
+        <PropertyRef Name="Faculty_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Patie__Depar__4AB81AF0">
+    <End Role="tbl_Department" Type="Self.tbl_Department" Multiplicity="1" />
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Department">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Patient">
+        <PropertyRef Name="Department" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Depen__Guard__3B75D760">
+    <End Role="tbl_Staff_Patient" Type="Self.tbl_Staff_Patient" Multiplicity="1" />
+    <End Role="tbl_Dependent" Type="Self.tbl_Dependent" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Staff_Patient">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Dependent">
+        <PropertyRef Name="Guardian_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Patie__Depen__4BAC3F29">
+    <End Role="tbl_Dependent" Type="Self.tbl_Dependent" Multiplicity="0..1" />
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Dependent">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Patient">
+        <PropertyRef Name="Dependent_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Diagn__Docto__440B1D61">
+    <End Role="tbl_Doctor" Type="Self.tbl_Doctor" Multiplicity="1" />
+    <End Role="tbl_Diagnosis" Type="Self.tbl_Diagnosis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Doctor">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Diagnosis">
+        <PropertyRef Name="Doctor_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Diagn__Visit__44FF419A">
+    <End Role="tbl_Visit" Type="Self.tbl_Visit" Multiplicity="1" />
+    <End Role="tbl_Diagnosis" Type="Self.tbl_Diagnosis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Visit">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Diagnosis">
+        <PropertyRef Name="Visit_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Diagn__Vital__45F365D3">
+    <End Role="tbl_VitalSigns" Type="Self.tbl_VitalSigns" Multiplicity="1" />
+    <End Role="tbl_Diagnosis" Type="Self.tbl_Diagnosis" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_VitalSigns">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Diagnosis">
+        <PropertyRef Name="Vital_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Docto__Staff__2A4B4B5E">
+    <End Role="tbl_MedicalStaff" Type="Self.tbl_MedicalStaff" Multiplicity="1" />
+    <End Role="tbl_Doctor" Type="Self.tbl_Doctor" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_MedicalStaff">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Doctor">
+        <PropertyRef Name="Staff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Emerg__Patie__47DBAE45">
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="1" />
+    <End Role="tbl_Emergency" Type="Self.tbl_Emergency" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Patient">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Emergency">
+        <PropertyRef Name="Patient_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Login__Medic__6477ECF3">
+    <End Role="tbl_MedicalStaff" Type="Self.tbl_MedicalStaff" Multiplicity="1" />
+    <End Role="tbl_Login" Type="Self.tbl_Login" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_MedicalStaff">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Login">
+        <PropertyRef Name="Medical_staff" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Visit__Recor__412EB0B6">
+    <End Role="tbl_MedicalStaff" Type="Self.tbl_MedicalStaff" Multiplicity="1" />
+    <End Role="tbl_Visit" Type="Self.tbl_Visit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_MedicalStaff">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Visit">
+        <PropertyRef Name="Recordstaff_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Vital__Nurse__46E78A0C">
+    <End Role="tbl_MedicalStaff" Type="Self.tbl_MedicalStaff" Multiplicity="1" />
+    <End Role="tbl_VitalSigns" Type="Self.tbl_VitalSigns" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_MedicalStaff">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_VitalSigns">
+        <PropertyRef Name="Nurse_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Patie__NextO__4CA06362">
+    <End Role="tbl_NextOfKin" Type="Self.tbl_NextOfKin" Multiplicity="1" />
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_NextOfKin">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Patient">
+        <PropertyRef Name="Next_of_kin" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Staff__Patie__37A5467C">
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="1" />
+    <End Role="tbl_Staff_Patient" Type="Self.tbl_Staff_Patient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Patient">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Staff_Patient">
+        <PropertyRef Name="Patient_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Stude__Patie__4E88ABD4">
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="1" />
+    <End Role="tbl_Student_Patient" Type="Self.tbl_Student_Patient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Patient">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Student_Patient">
+        <PropertyRef Name="Patient_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Visit__Patie__5070F446">
+    <End Role="tbl_Patient" Type="Self.tbl_Patient" Multiplicity="1" />
+    <End Role="tbl_Visit" Type="Self.tbl_Visit" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Patient">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_Visit">
+        <PropertyRef Name="Patient_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__tbl_Vital__Visit__534D60F1">
+    <End Role="tbl_Visit" Type="Self.tbl_Visit" Multiplicity="1" />
+    <End Role="tbl_VitalSigns" Type="Self.tbl_VitalSigns" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_Visit">
+        <PropertyRef Name="ItbId" />
+      </Principal>
+      <Dependent Role="tbl_VitalSigns">
+        <PropertyRef Name="Visit_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="UNILAG_MCEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="tbl_Admin" EntityType="Self.tbl_Admin" />
+    <EntitySet Name="tbl_Clinic" EntityType="Self.tbl_Clinic" />
+    <EntitySet Name="tbl_ClinicOpenSchedule" EntityType="Self.tbl_ClinicOpenSchedule" />
+    <EntitySet Name="tbl_Department" EntityType="Self.tbl_Department" />
+    <EntitySet Name="tbl_Dependent" EntityType="Self.tbl_Dependent" />
+    <EntitySet Name="tbl_Diagnosis" EntityType="Self.tbl_Diagnosis" />
+    <EntitySet Name="tbl_Doctor" EntityType="Self.tbl_Doctor" />
+    <EntitySet Name="tbl_Emergency" EntityType="Self.tbl_Emergency" />
+    <EntitySet Name="tbl_Faculty" EntityType="Self.tbl_Faculty" />
+    <EntitySet Name="tbl_Login" EntityType="Self.tbl_Login" />
+    <EntitySet Name="tbl_MedicalStaff" EntityType="Self.tbl_MedicalStaff" />
+    <EntitySet Name="tbl_NextOfKin" EntityType="Self.tbl_NextOfKin" />
+    <EntitySet Name="tbl_Patient" EntityType="Self.tbl_Patient" />
+    <EntitySet Name="tbl_Staff_Patient" EntityType="Self.tbl_Staff_Patient" />
+    <EntitySet Name="tbl_Student_Patient" EntityType="Self.tbl_Student_Patient" />
+    <EntitySet Name="tbl_Visit" EntityType="Self.tbl_Visit" />
+    <EntitySet Name="tbl_VitalSigns" EntityType="Self.tbl_VitalSigns" />
+    <AssociationSet Name="FK__tbl_Admin__MedSt__60A75C0F" Association="Self.FK__tbl_Admin__MedSt__60A75C0F">
+      <End Role="tbl_MedicalStaff" EntitySet="tbl_MedicalStaff" />
+      <End Role="tbl_Admin" EntitySet="tbl_Admin" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Login__UserI__49C3F6B7" Association="Self.FK__tbl_Login__UserI__49C3F6B7">
+      <End Role="tbl_Admin" EntitySet="tbl_Admin" />
+      <End Role="tbl_Login" EntitySet="tbl_Login" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Clini__clini__412EB0B6" Association="Self.FK__tbl_Clini__clini__412EB0B6">
+      <End Role="tbl_ClinicOpenSchedule" EntitySet="tbl_ClinicOpenSchedule" />
+      <End Role="tbl_Clinic" EntitySet="tbl_Clinic" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Visit__Clini__4F7CD00D" Association="Self.FK__tbl_Visit__Clini__4F7CD00D">
+      <End Role="tbl_Clinic" EntitySet="tbl_Clinic" />
+      <End Role="tbl_Visit" EntitySet="tbl_Visit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Depar__Facul__4222D4EF" Association="Self.FK__tbl_Depar__Facul__4222D4EF">
+      <End Role="tbl_Faculty" EntitySet="tbl_Faculty" />
+      <End Role="tbl_Department" EntitySet="tbl_Department" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Patie__Depar__4AB81AF0" Association="Self.FK__tbl_Patie__Depar__4AB81AF0">
+      <End Role="tbl_Department" EntitySet="tbl_Department" />
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Depen__Guard__3B75D760" Association="Self.FK__tbl_Depen__Guard__3B75D760">
+      <End Role="tbl_Staff_Patient" EntitySet="tbl_Staff_Patient" />
+      <End Role="tbl_Dependent" EntitySet="tbl_Dependent" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Patie__Depen__4BAC3F29" Association="Self.FK__tbl_Patie__Depen__4BAC3F29">
+      <End Role="tbl_Dependent" EntitySet="tbl_Dependent" />
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Diagn__Docto__440B1D61" Association="Self.FK__tbl_Diagn__Docto__440B1D61">
+      <End Role="tbl_Doctor" EntitySet="tbl_Doctor" />
+      <End Role="tbl_Diagnosis" EntitySet="tbl_Diagnosis" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Diagn__Visit__44FF419A" Association="Self.FK__tbl_Diagn__Visit__44FF419A">
+      <End Role="tbl_Visit" EntitySet="tbl_Visit" />
+      <End Role="tbl_Diagnosis" EntitySet="tbl_Diagnosis" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Diagn__Vital__45F365D3" Association="Self.FK__tbl_Diagn__Vital__45F365D3">
+      <End Role="tbl_VitalSigns" EntitySet="tbl_VitalSigns" />
+      <End Role="tbl_Diagnosis" EntitySet="tbl_Diagnosis" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Docto__Staff__2A4B4B5E" Association="Self.FK__tbl_Docto__Staff__2A4B4B5E">
+      <End Role="tbl_MedicalStaff" EntitySet="tbl_MedicalStaff" />
+      <End Role="tbl_Doctor" EntitySet="tbl_Doctor" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Emerg__Patie__47DBAE45" Association="Self.FK__tbl_Emerg__Patie__47DBAE45">
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+      <End Role="tbl_Emergency" EntitySet="tbl_Emergency" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Login__Medic__6477ECF3" Association="Self.FK__tbl_Login__Medic__6477ECF3">
+      <End Role="tbl_MedicalStaff" EntitySet="tbl_MedicalStaff" />
+      <End Role="tbl_Login" EntitySet="tbl_Login" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Visit__Recor__412EB0B6" Association="Self.FK__tbl_Visit__Recor__412EB0B6">
+      <End Role="tbl_MedicalStaff" EntitySet="tbl_MedicalStaff" />
+      <End Role="tbl_Visit" EntitySet="tbl_Visit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Vital__Nurse__46E78A0C" Association="Self.FK__tbl_Vital__Nurse__46E78A0C">
+      <End Role="tbl_MedicalStaff" EntitySet="tbl_MedicalStaff" />
+      <End Role="tbl_VitalSigns" EntitySet="tbl_VitalSigns" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Patie__NextO__4CA06362" Association="Self.FK__tbl_Patie__NextO__4CA06362">
+      <End Role="tbl_NextOfKin" EntitySet="tbl_NextOfKin" />
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Staff__Patie__37A5467C" Association="Self.FK__tbl_Staff__Patie__37A5467C">
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+      <End Role="tbl_Staff_Patient" EntitySet="tbl_Staff_Patient" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Stude__Patie__4E88ABD4" Association="Self.FK__tbl_Stude__Patie__4E88ABD4">
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+      <End Role="tbl_Student_Patient" EntitySet="tbl_Student_Patient" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Visit__Patie__5070F446" Association="Self.FK__tbl_Visit__Patie__5070F446">
+      <End Role="tbl_Patient" EntitySet="tbl_Patient" />
+      <End Role="tbl_Visit" EntitySet="tbl_Visit" />
+    </AssociationSet>
+    <AssociationSet Name="FK__tbl_Vital__Visit__534D60F1" Association="Self.FK__tbl_Vital__Visit__534D60F1">
+      <End Role="tbl_Visit" EntitySet="tbl_Visit" />
+      <End Role="tbl_VitalSigns" EntitySet="tbl_VitalSigns" />
+    </AssociationSet>
+    <FunctionImport Name="GET_tbl_Admin" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Admin_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Clinic" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Clinic_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_ClinicOpenSchedule" ReturnType="Collection(UNILAG_MCModel.GET_tbl_ClinicOpenSchedule_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Department" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Department_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Dependent" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Dependent_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Diagnosis" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Diagnosis_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Doctor" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Doctor_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Emergency" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Emergency_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Faculty" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Faculty_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Login" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Login_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_MedicalStaff" ReturnType="Collection(UNILAG_MCModel.GET_tbl_MedicalStaff_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_NextOfKin" ReturnType="Collection(UNILAG_MCModel.GET_tbl_NextOfKin_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Patient" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Patient_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Staff_Patient" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Staff_Patient_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Student_Patient" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Student_Patient_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_Visit" ReturnType="Collection(UNILAG_MCModel.GET_tbl_Visit_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="GET_tbl_VitalSigns" ReturnType="Collection(UNILAG_MCModel.GET_tbl_VitalSigns_Result)">
+      <Parameter Name="itbid" Mode="In" Type="Int64" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Admin">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Medstaff_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Clinic">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Clinic_name" Mode="In" Type="String" />
+      <Parameter Name="Clinic_type" Mode="In" Type="String" />
+      <Parameter Name="Clinic_description" Mode="In" Type="String" />
+      <Parameter Name="clinic_open_schedule" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_ClinicOpenSchedule">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Clinic_day" Mode="In" Type="String" />
+      <Parameter Name="Clinic_time" Mode="In" Type="Time" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Department">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Department_title" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Faculty_id" Mode="In" Type="Int32" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Dependent">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Relationship" Mode="In" Type="String" />
+      <Parameter Name="Guardian_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Diagnosis">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Diagnosis" Mode="In" Type="String" />
+      <Parameter Name="Examination" Mode="In" Type="String" />
+      <Parameter Name="Prescription" Mode="In" Type="String" />
+      <Parameter Name="Visit_id" Mode="In" Type="Int32" />
+      <Parameter Name="Vital_id" Mode="In" Type="Int32" />
+      <Parameter Name="Doctor_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Doctor">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Specialization" Mode="In" Type="String" />
+      <Parameter Name="Staff_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Emergency">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Emergency_case_number" Mode="In" Type="String" />
+      <Parameter Name="Patient_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Faculty">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Faculty_title" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Login">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Username" Mode="In" Type="String" />
+      <Parameter Name="Password" Mode="In" Type="String" />
+      <Parameter Name="User_type" Mode="In" Type="String" />
+      <Parameter Name="Medical_staff" Mode="In" Type="Int32" />
+      <Parameter Name="UserID" Mode="In" Type="Int32" />
+      <Parameter Name="status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_MedicalStaff">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Staff_code" Mode="In" Type="String" />
+      <Parameter Name="First_name" Mode="In" Type="String" />
+      <Parameter Name="Last_name" Mode="In" Type="String" />
+      <Parameter Name="Other_name" Mode="In" Type="String" />
+      <Parameter Name="Gender" Mode="In" Type="String" />
+      <Parameter Name="Position" Mode="In" Type="String" />
+      <Parameter Name="Phone_num" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Nationality" Mode="In" Type="String" />
+      <Parameter Name="Staff_type" Mode="In" Type="String" />
+      <Parameter Name="Role" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_NextOfKin">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Last_name" Mode="In" Type="String" />
+      <Parameter Name="First_name" Mode="In" Type="String" />
+      <Parameter Name="Other_names" Mode="In" Type="String" />
+      <Parameter Name="Phone_number" Mode="In" Type="String" />
+      <Parameter Name="Gender" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Relationship" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Patient">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Last_name" Mode="In" Type="String" />
+      <Parameter Name="First_name" Mode="In" Type="String" />
+      <Parameter Name="Other_names" Mode="In" Type="String" />
+      <Parameter Name="Phone_number" Mode="In" Type="String" />
+      <Parameter Name="Gender" Mode="In" Type="String" />
+      <Parameter Name="Hospital_number" Mode="In" Type="String" />
+      <Parameter Name="Date_of_birth" Mode="In" Type="DateTime" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Marital_status" Mode="In" Type="String" />
+      <Parameter Name="Nationality" Mode="In" Type="String" />
+      <Parameter Name="Patient_type" Mode="In" Type="String" />
+      <Parameter Name="Next_of_kin" Mode="In" Type="Int32" />
+      <Parameter Name="Department" Mode="In" Type="Int32" />
+      <Parameter Name="Dependent_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Staff_Patient">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Staff_code" Mode="In" Type="String" />
+      <Parameter Name="No_of_dependent" Mode="In" Type="Int32" />
+      <Parameter Name="Date_of_employment" Mode="In" Type="Int32" />
+      <Parameter Name="Patient_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Student_Patient">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Matric_number" Mode="In" Type="String" />
+      <Parameter Name="Year_of_admission" Mode="In" Type="DateTime" />
+      <Parameter Name="Patient_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="Createdby" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_Visit">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Visit_datetime" Mode="In" Type="DateTime" />
+      <Parameter Name="Patient_id" Mode="In" Type="Int32" />
+      <Parameter Name="Recordstaff_id" Mode="In" Type="Int32" />
+      <Parameter Name="Clinic_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="POST_tbl_VitalSigns">
+      <Parameter Name="ItbId" Mode="In" Type="Int32" />
+      <Parameter Name="Blood_pressure" Mode="In" Type="String" />
+      <Parameter Name="Temperature" Mode="In" Type="String" />
+      <Parameter Name="Pulse" Mode="In" Type="Decimal" />
+      <Parameter Name="Respiratory" Mode="In" Type="String" />
+      <Parameter Name="Visit_id" Mode="In" Type="Int32" />
+      <Parameter Name="Nurse_id" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="String" />
+      <Parameter Name="CreatedBy" Mode="In" Type="String" />
+      <Parameter Name="CreateDate" Mode="In" Type="DateTime" />
+      <Parameter Name="taskid" Mode="In" Type="Int32" />
+      <Parameter Name="retVal" Mode="InOut" Type="Int32" />
+      <Parameter Name="retMsg" Mode="InOut" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="GET_tbl_Admin_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="Int32" Name="Medstaff_id" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Clinic_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Clinic_name" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Clinic_type" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Clinic_description" Nullable="true" MaxLength="Max" />
+    <Property Type="Int32" Name="clinic_open_schedule" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_ClinicOpenSchedule_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Clinic_day" Nullable="true" MaxLength="20" />
+    <Property Type="Time" Name="Clinic_time" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Department_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Department_title" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Faculty_id" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Dependent_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Relationship" Nullable="true" MaxLength="20" />
+    <Property Type="Int32" Name="Guardian_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Diagnosis_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Diagnosis" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="Examination" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="Prescription" Nullable="true" MaxLength="Max" />
+    <Property Type="Int32" Name="Visit_id" Nullable="false" />
+    <Property Type="Int32" Name="Vital_id" Nullable="false" />
+    <Property Type="Int32" Name="Doctor_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Doctor_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Specialization" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Staff_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Emergency_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Emergency_case_number" Nullable="true" MaxLength="20" />
+    <Property Type="Int32" Name="Patient_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Faculty_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Faculty_title" Nullable="true" MaxLength="150" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Login_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Username" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Password" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="User_type" Nullable="true" MaxLength="40" />
+    <Property Type="Int32" Name="Medical_staff" Nullable="false" />
+    <Property Type="Int32" Name="UserID" Nullable="false" />
+    <Property Type="String" Name="status" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_MedicalStaff_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Staff_code" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="First_name" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Last_name" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Other_name" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Position" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Phone_num" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="Nationality" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Staff_type" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Role" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_NextOfKin_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Last_name" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="First_name" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Other_names" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Phone_number" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="Relationship" Nullable="true" MaxLength="300" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="30" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Patient_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Last_name" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="First_name" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Other_names" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Phone_number" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Gender" Nullable="true" MaxLength="10" />
+    <Property Type="String" Name="Hospital_number" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="Date_of_birth" Nullable="true" Precision="23" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="Max" />
+    <Property Type="String" Name="Marital_status" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Nationality" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Patient_type" Nullable="true" MaxLength="30" />
+    <Property Type="Int32" Name="Next_of_kin" Nullable="false" />
+    <Property Type="Int32" Name="Department" Nullable="false" />
+    <Property Type="Int32" Name="Dependent_id" Nullable="true" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Staff_Patient_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Staff_code" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="No_of_dependent" Nullable="true" />
+    <Property Type="Int32" Name="Date_of_employment" Nullable="true" />
+    <Property Type="Int32" Name="Patient_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Student_Patient_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Matric_number" Nullable="true" MaxLength="15" />
+    <Property Type="DateTime" Name="Year_of_admission" Nullable="true" />
+    <Property Type="Int32" Name="Patient_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="20" />
+    <Property Type="String" Name="Createdby" Nullable="true" MaxLength="20" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_Visit_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="DateTime" Name="Visit_datetime" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="Patient_id" Nullable="false" />
+    <Property Type="Int32" Name="Recordstaff_id" Nullable="false" />
+    <Property Type="Int32" Name="Clinic_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="GET_tbl_VitalSigns_Result">
+    <Property Type="Int32" Name="ItbId" Nullable="false" />
+    <Property Type="String" Name="Blood_pressure" Nullable="true" MaxLength="30" />
+    <Property Type="String" Name="Temperature" Nullable="true" MaxLength="20" />
+    <Property Type="Decimal" Name="Pulse" Nullable="true" Precision="18" Scale="2" />
+    <Property Type="String" Name="Respiratory" Nullable="true" MaxLength="20" />
+    <Property Type="Int32" Name="Visit_id" Nullable="false" />
+    <Property Type="Int32" Name="Nurse_id" Nullable="false" />
+    <Property Type="String" Name="Status" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="CreatedBy" Nullable="true" MaxLength="50" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" Precision="23" />
+  </ComplexType>
+</Schema>
