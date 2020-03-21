@@ -13,11 +13,7 @@ namespace Unilag_Medic.Controllers
     public class LabTestController : Controller
     {
         //Begin GET method for Lab Tests
-<<<<<<< HEAD
        //[Authorize]
-=======
-
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
        [Route("GetToxicology")]
        [HttpGet]
        public string GetToxicology()

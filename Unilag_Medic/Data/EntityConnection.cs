@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MySql.Data.MySqlClient;
-=======
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,27 +8,17 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
-<<<<<<< HEAD
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Unilag_Medic.ViewModel;
-=======
-using System.Text;
-using System.Threading.Tasks;
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
 
 namespace Unilag_Medic.Data
 {
     public class EntityConnection
     {
-<<<<<<< HEAD
         public string ConnectionString = "server=localhost;port=3306;database=unilag_medic;user=root;password=ellnerd22";
         private MySqlConnection connection;
-=======
-        public string ConnectionString = "Server=DESKTOP-FL7SFF4;Database=Unilag_Medic;User ID=sa;Password=ellnerd22;Trusted_Connection=True;";
-        private SqlConnection connection;
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         private string tableName;
         private int defaultSelectLength;
         private Dictionary<string, string> tableSchema;
@@ -61,19 +47,11 @@ namespace Unilag_Medic.Data
         
       
 
-<<<<<<< HEAD
         internal MySqlConnection loadConnection()
         {
             if(this.connection == null)
             {
                 this.connection = new MySqlConnection(this.ConnectionString);
-=======
-        internal SqlConnection loadConnection()
-        {
-            if(this.connection == null)
-            {
-                this.connection = new SqlConnection(this.ConnectionString);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             }
             else
             {
@@ -88,11 +66,7 @@ namespace Unilag_Medic.Data
 
             string query = "select column_name, data_type from information_schema.columns where table_name='" + this.tableName + "'";
             this.connection.Open();
-<<<<<<< HEAD
             MySqlCommand command = new MySqlCommand(query, this.connection);
-=======
-            SqlCommand command = new SqlCommand(query, this.connection);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
 
             List<Dictionary<string, object>> tempResult = BaseSelect(query); //changed object to string for dict
             for (int i = 0; i < tempResult.Count; i++)
@@ -123,13 +97,8 @@ namespace Unilag_Medic.Data
                 this.connection.Open();
 
             }
-<<<<<<< HEAD
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
-=======
-            SqlCommand command = new SqlCommand(query, this.connection);
-            SqlDataReader reader = command.ExecuteReader();
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             List<Dictionary<string, object>> result = new List<Dictionary<string, object>>(); //changed object to string for dict
             while (reader.Read())
             {
@@ -199,29 +168,19 @@ namespace Unilag_Medic.Data
             string placeholder = GetPlaceholder(keys);
             string query = " insert into " + this.tableName + "(" + implode(keys) + ") values (" + placeholder + ")";
 
-<<<<<<< HEAD
             MySqlCommand command = new MySqlCommand(query, this.connection);
-=======
-            SqlCommand command = new SqlCommand(query, this.connection);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             for (int i = 0; i < keys.Length; i++)
             {
                 string currentParam = "@" + keys[i];
                 string currentValue = content[keys[i]].ToString();
-<<<<<<< HEAD
                 MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
                 MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
-=======
-                SqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
-                SqlParameter tempParam = new SqlParameter(currentParam, dbType);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
                 tempParam.Value = wrapValue(currentValue, dbType);
                 command.Parameters.Add(tempParam);
             }
             int n = command.ExecuteNonQuery();
             this.connection.Close();
             return n > 0;
-<<<<<<< HEAD
            
         }
 
@@ -229,25 +188,11 @@ namespace Unilag_Medic.Data
         private object wrapValue(string currentValue, MySqlDbType dbType)
         {
             if (dbType == MySqlDbType.DateTime)
-=======
-            //connection.Open();
-            //string query="insert into "+this.tableName
-
-        }
-
-        private object wrapValue(string currentValue, SqlDbType dbType)
-        {
-            if (dbType == SqlDbType.DateTime)
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             {
                 DateTime datetime = DateTime.Parse(currentValue);
                 return datetime;
             }
-<<<<<<< HEAD
             if (dbType == MySqlDbType.Time)
-=======
-            if (dbType == SqlDbType.Time)
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             {
                 TimeSpan datetime = TimeSpan.Parse(currentValue);
                 return datetime;
@@ -257,17 +202,12 @@ namespace Unilag_Medic.Data
         }
 
 
-<<<<<<< HEAD
         private MySqlDbType getColumnType(string v)
-=======
-        private SqlDbType getColumnType(string v)
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         {
             v = v.ToLower();
             switch (v)
             {
                 case "int":
-<<<<<<< HEAD
                     return MySqlDbType.Int32;
                 case "varchar":
                     return MySqlDbType.VarChar;
@@ -283,23 +223,6 @@ namespace Unilag_Medic.Data
                     return MySqlDbType.LongText;
                 default:
                     return MySqlDbType.JSON;
-=======
-                    return SqlDbType.Int;
-                case "varchar":
-                    return SqlDbType.VarChar;
-                case "datetime":
-                    return SqlDbType.DateTime;
-                case "time":
-                    return SqlDbType.Time;
-                case "decimal":
-                    return SqlDbType.Decimal;
-                case "text":
-                    return SqlDbType.Text;
-                case "nvarchar":
-                    return SqlDbType.NVarChar;
-                default:
-                    return SqlDbType.Udt;
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             }
         }
 
@@ -352,35 +275,22 @@ namespace Unilag_Medic.Data
             string[] keys = content.Keys.ToArray<string>();
             string placeholder = GetPlaceholder(keys);
             string query = " update  " + this.tableName + " set ";
-<<<<<<< HEAD
             MySqlCommand command = new MySqlCommand();
-=======
-            SqlCommand command = new SqlCommand();
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             for (int i = 0; i < keys.Length; i++)
             {
                 string currentKey = keys[i];
                 query += (i > 0 && keys.Length > 0 ? "," : "") + " " + currentKey + " = @" + currentKey;
                 string currentParam = "@" + keys[i];
                 string currentValue = content[keys[i]];
-<<<<<<< HEAD
                 MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
                 MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
-=======
-                SqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
-                SqlParameter tempParam = new SqlParameter(currentParam, dbType);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
                 tempParam.Value = wrapValue(currentValue, dbType);
                 command.Parameters.Add(tempParam);
             }
             string query2 = " where itbId =@itbId";
 
             command.CommandText = query + query2;
-<<<<<<< HEAD
             MySqlParameter parameter = new MySqlParameter("@itbId", MySqlDbType.Int32);
-=======
-            SqlParameter parameter = new SqlParameter("@itbId", SqlDbType.Int);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             parameter.Value = id;
             command.Parameters.Add(parameter);
             command.Connection = this.connection;
@@ -406,17 +316,12 @@ namespace Unilag_Medic.Data
                 param += (currentKey + " = " + valueString);
             }
             query += param;
-<<<<<<< HEAD
             MySqlCommand command = new MySqlCommand(query, this.connection);
-=======
-            SqlCommand command = new SqlCommand(query, this.connection);
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             int n = command.ExecuteNonQuery();
             this.connection.Close();
             return n > 0;
         }
 
-<<<<<<< HEAD
         public bool AddUser(UnilagMedLogin unilag)
         {
             this.connection.Open();
@@ -458,8 +363,6 @@ namespace Unilag_Medic.Data
             return hasRows;
         }
 
-=======
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
 
 
     }

@@ -10,10 +10,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-<<<<<<< HEAD
     <PackageReference Include="MySql.Data" Version="8.0.19" />
-=======
->>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
   </ItemGroup>
 
 </Project>
