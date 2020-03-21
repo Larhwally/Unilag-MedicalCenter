@@ -2,6 +2,7 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.2": {
+<<<<<<< HEAD
       "BouncyCastle.NetCore/1.8.3": {
         "type": "package",
         "dependencies": {
@@ -28,6 +29,8 @@
           "lib/netstandard1.0/Google.Protobuf.dll": {}
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "type": "package",
         "dependencies": {
@@ -2725,7 +2728,11 @@
           "Microsoft.NETCore.DotNetAppHost": "2.2.0"
         }
       },
+<<<<<<< HEAD
       "Microsoft.NETCore.Platforms/3.0.0": {
+=======
+      "Microsoft.NETCore.Platforms/2.2.0": {
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "type": "package",
         "compile": {
           "lib/netstandard1.0/_._": {}
@@ -2870,6 +2877,7 @@
           }
         }
       },
+<<<<<<< HEAD
       "MySql.Data/8.0.19": {
         "type": "package",
         "dependencies": {
@@ -2889,6 +2897,8 @@
           "lib/netstandard2.0/Ubiety.Dns.Core.dll": {}
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
@@ -3166,6 +3176,7 @@
           }
         }
       },
+<<<<<<< HEAD
       "SSH.NET/2016.1.0": {
         "type": "package",
         "dependencies": {
@@ -3212,6 +3223,8 @@
           "lib/netstandard1.3/SshNet.Security.Cryptography.dll": {}
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.AppContext/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3432,6 +3445,7 @@
           "lib/netstandard1.0/System.Composition.TypedParts.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Configuration.ConfigurationManager/4.4.1": {
         "type": "package",
         "dependencies": {
@@ -3444,6 +3458,8 @@
           "lib/netstandard2.0/System.Configuration.ConfigurationManager.dll": {}
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.Console/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3567,6 +3583,7 @@
           "ref/netstandard1.0/System.Diagnostics.Tools.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Diagnostics.TraceSource/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -3594,6 +3611,8 @@
           }
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.Diagnostics.Tracing/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3920,6 +3939,7 @@
           }
         }
       },
+<<<<<<< HEAD
       "System.Net.NameResolution/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -3952,6 +3972,8 @@
           }
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.Net.Primitives/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -3964,6 +3986,7 @@
           "ref/netstandard1.3/System.Net.Primitives.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Net.Sockets/4.1.0": {
         "type": "package",
         "dependencies": {
@@ -3978,6 +4001,8 @@
           "ref/netstandard1.3/System.Net.Sockets.dll": {}
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.Net.WebSockets.WebSocketProtocol/4.5.1": {
         "type": "package",
         "compile": {
@@ -4292,11 +4317,19 @@
           "lib/netstandard1.3/System.Runtime.Serialization.Xml.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Security.AccessControl/4.6.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.0.0",
           "System.Security.Principal.Windows": "4.6.0"
+=======
+      "System.Security.AccessControl/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0",
+          "System.Security.Principal.Windows": "4.5.0"
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         },
         "compile": {
           "ref/netstandard2.0/System.Security.AccessControl.dll": {}
@@ -4507,6 +4540,7 @@
           "lib/netstandard1.3/System.Security.Cryptography.Primitives.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Security.Cryptography.ProtectedData/4.4.0": {
         "type": "package",
         "compile": {
@@ -4522,6 +4556,8 @@
           }
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.Security.Cryptography.X509Certificates/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -4578,10 +4614,17 @@
           "lib/netstandard2.0/System.Security.Cryptography.Xml.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Security.Permissions/4.6.0": {
         "type": "package",
         "dependencies": {
           "System.Security.AccessControl": "4.6.0"
+=======
+      "System.Security.Permissions/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Security.AccessControl": "4.5.0"
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         },
         "compile": {
           "ref/netstandard2.0/System.Security.Permissions.dll": {}
@@ -4602,10 +4645,17 @@
           "lib/netstandard1.0/System.Security.Principal.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Security.Principal.Windows/4.6.0": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.Platforms": "3.0.0"
+=======
+      "System.Security.Principal.Windows/4.5.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0"
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         },
         "compile": {
           "ref/netstandard2.0/System.Security.Principal.Windows.dll": {}
@@ -4614,11 +4664,19 @@
           "lib/netstandard2.0/System.Security.Principal.Windows.dll": {}
         },
         "runtimeTargets": {
+<<<<<<< HEAD
           "runtimes/unix/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
             "assetType": "runtime",
             "rid": "unix"
           },
           "runtimes/win/lib/netcoreapp2.1/System.Security.Principal.Windows.dll": {
+=======
+          "runtimes/unix/lib/netcoreapp2.0/System.Security.Principal.Windows.dll": {
+            "assetType": "runtime",
+            "rid": "unix"
+          },
+          "runtimes/win/lib/netcoreapp2.0/System.Security.Principal.Windows.dll": {
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
             "assetType": "runtime",
             "rid": "win"
           }
@@ -4642,7 +4700,11 @@
           "System.Runtime.CompilerServices.Unsafe": "4.5.0"
         },
         "compile": {
+<<<<<<< HEAD
           "ref/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
+=======
+          "ref/netstandard2.0/_._": {}
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         },
         "runtime": {
           "lib/netstandard2.0/System.Text.Encoding.CodePages.dll": {}
@@ -4754,12 +4816,17 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
+<<<<<<< HEAD
           "ref/netstandard1.3/System.Threading.Thread.dll": {}
+=======
+          "ref/netstandard1.3/_._": {}
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         },
         "runtime": {
           "lib/netstandard1.3/System.Threading.Thread.dll": {}
         }
       },
+<<<<<<< HEAD
       "System.Threading.ThreadPool/4.0.10": {
         "type": "package",
         "dependencies": {
@@ -4784,6 +4851,8 @@
           "ref/netstandard1.2/System.Threading.Timer.dll": {}
         }
       },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "System.ValueTuple/4.3.0": {
         "type": "package",
         "dependencies": {
@@ -4910,7 +4979,11 @@
           "System.Xml.ReaderWriter": "4.3.0"
         },
         "compile": {
+<<<<<<< HEAD
           "ref/netstandard1.3/System.Xml.XPath.dll": {}
+=======
+          "ref/netstandard1.3/_._": {}
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.dll": {}
@@ -4935,6 +5008,7 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
         }
+<<<<<<< HEAD
       },
       "System.Xml.XPath.XmlDocument/4.0.1": {
         "type": "package",
@@ -4956,10 +5030,13 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       }
     }
   },
   "libraries": {
+<<<<<<< HEAD
     "BouncyCastle.NetCore/1.8.3": {
       "sha512": "jAy3uHN1U9DpoT/TgLqDTEhlccn/4doOVxhSmmNsnoSsGfHT9Lwr634ac9D0YFujAhNw61nWF4UIpHyzv0aQww==",
       "type": "package",
@@ -5002,6 +5079,8 @@
         "lib/netstandard1.0/Google.Protobuf.xml"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
       "sha512": "owAlEIUZXWSnkK8Z1c+zR47A0X6ykF4XjbPok4lQKNuciUfHLGPd6QnI+rt/8KlQ17PmF+I4S3f+m+Qe4IvViw==",
       "type": "package",
@@ -7728,17 +7807,28 @@
         "runtime.json"
       ]
     },
+<<<<<<< HEAD
     "Microsoft.NETCore.Platforms/3.0.0": {
       "sha512": "TsETIgVJb/AKoYfSP+iCxkuly5d3inZjTdx/ItZLk2CxY85v8083OBS3uai84kK3/baLnS5/b5XGs6zR7SuuHQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/3.0.0",
+=======
+    "Microsoft.NETCore.Platforms/2.2.0": {
+      "sha512": "T/J+XZo+YheFTJh8/4uoeJDdz5qOmOMkjg6/VL8mHJ9AnP8+fmV/kcbxeXsob0irRNiChf+V0ig1MCRLp/+Kog==",
+      "type": "package",
+      "path": "microsoft.netcore.platforms/2.2.0",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netstandard1.0/_._",
+<<<<<<< HEAD
         "microsoft.netcore.platforms.3.0.0.nupkg.sha512",
+=======
+        "microsoft.netcore.platforms.2.2.0.nupkg.sha512",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "microsoft.netcore.platforms.nuspec",
         "runtime.json",
         "useSharedDesignerContext.txt",
@@ -8188,6 +8278,7 @@
         "version.txt"
       ]
     },
+<<<<<<< HEAD
     "MySql.Data/8.0.19": {
       "sha512": "zPFSg8rW3PcFIn27d0lEHQ/XWQhBzGIgKYQYFZN8aHLlpen5D6nz3/wb54V9ZRH3zkWlIWQ7FfxqbQdl3vizjQ==",
       "type": "package",
@@ -8211,6 +8302,8 @@
         "mysql.data.nuspec"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "NETStandard.Library/2.0.3": {
       "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
@@ -8691,6 +8784,7 @@
         "version.txt"
       ]
     },
+<<<<<<< HEAD
     "SSH.NET/2016.1.0": {
       "sha512": "b0fcFFOE044KNRhq1uGujmK04ab+OzA9xARdeVCoZrY6I4D1IIaR6dn6qBIa+er4bJapGBhznDitwcRQpSRC0w==",
       "type": "package",
@@ -8751,6 +8845,8 @@
         "sshnet.security.cryptography.nuspec"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.AppContext/4.3.0": {
       "sha512": "fKC+rmaLfeIzUhagxY17Q9siv/sPrjjKcfNg1Ic8IlQkZLipo8ljcaZQu4VtI4Jqbzjc2VTjzGLF6WmsRXAEgA==",
       "type": "package",
@@ -9239,6 +9335,7 @@
         "system.composition.typedparts.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Configuration.ConfigurationManager/4.4.1": {
       "sha512": "jz3TWKMAeuDEyrPCK5Jyt4bzQcmzUIMcY9Ud6PkElFxTfnsihV+9N/UCqvxe1z5gc7jMYAnj7V1COMS9QKIuHQ==",
       "type": "package",
@@ -9260,6 +9357,8 @@
         "version.txt"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.Console/4.3.0": {
       "sha512": "DHDrIxiqk1h03m6khKWV2X8p/uvN79rgSqpilL6uzpmSfxfU5ng8VcPtW4qsDsQDHiTv6IPV9TmD5M/vElPNLg==",
       "type": "package",
@@ -9658,6 +9757,7 @@
         "system.diagnostics.tools.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Diagnostics.TraceSource/4.0.0": {
       "sha512": "6WVCczFZKXwpWpzd/iJkYnsmWTSFFiU24Xx/YdHXBcu+nFI/ehTgeqdJQFbtRPzbrO3KtRNjvkhtj4t5/WwWsA==",
       "type": "package",
@@ -9699,6 +9799,8 @@
         "system.diagnostics.tracesource.nuspec"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.Diagnostics.Tracing/4.3.0": {
       "sha512": "rswfv0f/Cqkh78rA5S8eN8Neocz234+emGCtTF3lxPY96F+mmmUen6tbn0glN6PMvlKQb9bPAY5e9u7fgPTkKw==",
       "type": "package",
@@ -10671,6 +10773,7 @@
         "system.net.http.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Net.NameResolution/4.0.0": {
       "sha512": "JdqRdM1Qym3YehqdKIi5LHrpypP4JMfxKQSNCJ2z4WawkG0il+N3XfNeJOxll2XrTnG7WgYYPoeiu/KOwg0DQw==",
       "type": "package",
@@ -10713,6 +10816,8 @@
         "system.net.nameresolution.nuspec"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.Net.Primitives/4.3.0": {
       "sha512": "qOu+hDwFwoZPbzPvwut2qATe3ygjeQBDQj91xlsaqGFQUI5i4ZnZb8yyQuLGpDGivEPIt8EJkd1BVzVoP31FXA==",
       "type": "package",
@@ -10791,6 +10896,7 @@
         "system.net.primitives.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Net.Sockets/4.1.0": {
       "sha512": "xAz0N3dAV/aR/9g8r0Y5oEqU1JRsz29F5EGb/WVHmX3jVSLqi2/92M5hTad2aNWovruXrJpJtgZ9fccPMG9uSw==",
       "type": "package",
@@ -10828,6 +10934,8 @@
         "system.net.sockets.nuspec"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.Net.WebSockets.WebSocketProtocol/4.5.1": {
       "sha512": "FquLjdb/0CeMqb15u9Px6TwnyFl306WztKWu6sKKc5kWPYMdpi5BFEkdxzGoieYFp9UksyGwJnCw4KKAUfJjrw==",
       "type": "package",
@@ -11983,10 +12091,17 @@
         "system.runtime.serialization.xml.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Security.AccessControl/4.6.0": {
       "sha512": "gmlk6khICtVhiUnVBBtlsH0H/5QFDqhTZgtpp3AX14wWE6OIE+BX95NLD+X4AolXnIy/oXpNNmXYnsNfW1KuDQ==",
       "type": "package",
       "path": "system.security.accesscontrol/4.6.0",
+=======
+    "System.Security.AccessControl/4.5.0": {
+      "sha512": "vW8Eoq0TMyz5vAG/6ce483x/CP83fgm4SJe5P8Tb1tZaobcvPrbMEL7rhH1DRdrYbbb6F0vq3OlzmK0Pkwks5A==",
+      "type": "package",
+      "path": "system.security.accesscontrol/4.5.0",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -11994,10 +12109,15 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net46/System.Security.AccessControl.dll",
         "lib/net461/System.Security.AccessControl.dll",
+<<<<<<< HEAD
         "lib/net461/System.Security.AccessControl.xml",
         "lib/netstandard1.3/System.Security.AccessControl.dll",
         "lib/netstandard2.0/System.Security.AccessControl.dll",
         "lib/netstandard2.0/System.Security.AccessControl.xml",
+=======
+        "lib/netstandard1.3/System.Security.AccessControl.dll",
+        "lib/netstandard2.0/System.Security.AccessControl.dll",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "lib/uap10.0.16299/_._",
         "ref/net46/System.Security.AccessControl.dll",
         "ref/net461/System.Security.AccessControl.dll",
@@ -12018,12 +12138,19 @@
         "ref/uap10.0.16299/_._",
         "runtimes/win/lib/net46/System.Security.AccessControl.dll",
         "runtimes/win/lib/net461/System.Security.AccessControl.dll",
+<<<<<<< HEAD
         "runtimes/win/lib/net461/System.Security.AccessControl.xml",
         "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll",
         "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.xml",
         "runtimes/win/lib/netstandard1.3/System.Security.AccessControl.dll",
         "runtimes/win/lib/uap10.0.16299/_._",
         "system.security.accesscontrol.4.6.0.nupkg.sha512",
+=======
+        "runtimes/win/lib/netcoreapp2.0/System.Security.AccessControl.dll",
+        "runtimes/win/lib/netstandard1.3/System.Security.AccessControl.dll",
+        "runtimes/win/lib/uap10.0.16299/_._",
+        "system.security.accesscontrol.4.5.0.nupkg.sha512",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "system.security.accesscontrol.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -12318,6 +12445,7 @@
         "system.security.cryptography.primitives.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Security.Cryptography.ProtectedData/4.4.0": {
       "sha512": "cJV7ScGW7EhatRsjehfvvYVBvtiSMKgN8bOVI0bQhnF5bU7vnHVIsH49Kva7i7GWaWYvmEzkYVk1TC+gZYBEog==",
       "type": "package",
@@ -12359,6 +12487,8 @@
         "version.txt"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.Security.Cryptography.X509Certificates/4.3.0": {
       "sha512": "t2Tmu6Y2NtJ2um0RtcuhP7ZdNNxXEgUm2JeoA/0NvlMjAhKCnM1NX07TDl3244mVp3QU6LPEhT3HTtH1uF7IYw==",
       "type": "package",
@@ -12435,16 +12565,24 @@
         "version.txt"
       ]
     },
+<<<<<<< HEAD
     "System.Security.Permissions/4.6.0": {
       "sha512": "W3Uxog9KCZAmGYsOFHgJnb7L2q+SDbxS3vGnFHmErUnXuIjWYpIh1KVTlua7qmPdrlRCkAcTF9dImv+jciBPOQ==",
       "type": "package",
       "path": "system.security.permissions/4.6.0",
+=======
+    "System.Security.Permissions/4.5.0": {
+      "sha512": "9gdyuARhUR7H+p5CjyUB/zPk7/Xut3wUSP8NJQB6iZr8L3XUXTMdoLeVAg9N4rqF8oIpE7MpdqHdDHQ7XgJe0g==",
+      "type": "package",
+      "path": "system.security.permissions/4.5.0",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net461/System.Security.Permissions.dll",
+<<<<<<< HEAD
         "lib/net461/System.Security.Permissions.xml",
         "lib/netcoreapp3.0/System.Security.Permissions.dll",
         "lib/netcoreapp3.0/System.Security.Permissions.xml",
@@ -12457,6 +12595,14 @@
         "ref/netstandard2.0/System.Security.Permissions.dll",
         "ref/netstandard2.0/System.Security.Permissions.xml",
         "system.security.permissions.4.6.0.nupkg.sha512",
+=======
+        "lib/netstandard2.0/System.Security.Permissions.dll",
+        "ref/net461/System.Security.Permissions.dll",
+        "ref/net461/System.Security.Permissions.xml",
+        "ref/netstandard2.0/System.Security.Permissions.dll",
+        "ref/netstandard2.0/System.Security.Permissions.xml",
+        "system.security.permissions.4.5.0.nupkg.sha512",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "system.security.permissions.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -12521,10 +12667,17 @@
         "system.security.principal.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Security.Principal.Windows/4.6.0": {
       "sha512": "Mdukseovp0YIGaz16FMH6nbfgZkrCFOJbtXQptv0aeBO9h775Ilb9+TDwLVTKikoW7y7CY7lpoXl9zmZ5G3ndA==",
       "type": "package",
       "path": "system.security.principal.windows/4.6.0",
+=======
+    "System.Security.Principal.Windows/4.5.0": {
+      "sha512": "U77HfRXlZlOeIXd//Yoj6Jnk8AXlbeisf1oq1os+hxOGVnuG+lGSfGqTwTZBoORFF6j/0q7HXIl8cqwQ9aUGqQ==",
+      "type": "package",
+      "path": "system.security.principal.windows/4.5.0",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -12532,16 +12685,24 @@
         "THIRD-PARTY-NOTICES.TXT",
         "lib/net46/System.Security.Principal.Windows.dll",
         "lib/net461/System.Security.Principal.Windows.dll",
+<<<<<<< HEAD
         "lib/net461/System.Security.Principal.Windows.xml",
         "lib/netstandard1.3/System.Security.Principal.Windows.dll",
         "lib/netstandard2.0/System.Security.Principal.Windows.dll",
         "lib/netstandard2.0/System.Security.Principal.Windows.xml",
+=======
+        "lib/netstandard1.3/System.Security.Principal.Windows.dll",
+        "lib/netstandard2.0/System.Security.Principal.Windows.dll",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "lib/uap10.0.16299/_._",
         "ref/net46/System.Security.Principal.Windows.dll",
         "ref/net461/System.Security.Principal.Windows.dll",
         "ref/net461/System.Security.Principal.Windows.xml",
+<<<<<<< HEAD
         "ref/netcoreapp3.0/System.Security.Principal.Windows.dll",
         "ref/netcoreapp3.0/System.Security.Principal.Windows.xml",
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "ref/netstandard1.3/System.Security.Principal.Windows.dll",
         "ref/netstandard1.3/System.Security.Principal.Windows.xml",
         "ref/netstandard1.3/de/System.Security.Principal.Windows.xml",
@@ -12557,6 +12718,7 @@
         "ref/netstandard2.0/System.Security.Principal.Windows.xml",
         "ref/uap10.0.16299/_._",
         "runtimes/unix/lib/netcoreapp2.0/System.Security.Principal.Windows.dll",
+<<<<<<< HEAD
         "runtimes/unix/lib/netcoreapp2.0/System.Security.Principal.Windows.xml",
         "runtimes/unix/lib/netcoreapp2.1/System.Security.Principal.Windows.dll",
         "runtimes/unix/lib/netcoreapp2.1/System.Security.Principal.Windows.xml",
@@ -12570,6 +12732,14 @@
         "runtimes/win/lib/netstandard1.3/System.Security.Principal.Windows.dll",
         "runtimes/win/lib/uap10.0.16299/_._",
         "system.security.principal.windows.4.6.0.nupkg.sha512",
+=======
+        "runtimes/win/lib/net46/System.Security.Principal.Windows.dll",
+        "runtimes/win/lib/net461/System.Security.Principal.Windows.dll",
+        "runtimes/win/lib/netcoreapp2.0/System.Security.Principal.Windows.dll",
+        "runtimes/win/lib/netstandard1.3/System.Security.Principal.Windows.dll",
+        "runtimes/win/lib/uap10.0.16299/_._",
+        "system.security.principal.windows.4.5.0.nupkg.sha512",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
         "system.security.principal.windows.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -13151,6 +13321,7 @@
         "system.threading.thread.nuspec"
       ]
     },
+<<<<<<< HEAD
     "System.Threading.ThreadPool/4.0.10": {
       "sha512": "IMXgB5Vf/5Qw1kpoVgJMOvUO1l32aC+qC3OaIZjWJOjvcxuxNWOK2ZTWWYXfij22NHxT2j1yWX5vlAeQWld9vA==",
       "type": "package",
@@ -13245,6 +13416,8 @@
         "system.threading.timer.nuspec"
       ]
     },
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     "System.ValueTuple/4.3.0": {
       "sha512": "cNLEvBX3d6MMQRZe3SMFNukVbitDAEpVZO17qa0/2FHxZ7Y7PpFRpr6m2615XYM/tYYYf0B+WyHNujqIw8Luwg==",
       "type": "package",
@@ -13584,6 +13757,7 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+<<<<<<< HEAD
     },
     "System.Xml.XPath.XmlDocument/4.0.1": {
       "sha512": "Zm2BdeanuncYs3NhCj4c9e1x3EXFzFBVv2wPEc/Dj4ZbI9R8ecLSR5frAsx4zJCPBtKQreQ7Q/KxJEohJZbfzA==",
@@ -13621,6 +13795,8 @@
         "system.xml.xpath.xmldocument.4.0.1.nupkg.sha512",
         "system.xml.xpath.xmldocument.nuspec"
       ]
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     }
   },
   "projectFileDependencyGroups": {
@@ -13628,8 +13804,12 @@
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
+<<<<<<< HEAD
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.3",
       "MySql.Data >= 8.0.19"
+=======
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.3"
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
     ]
   },
   "packageFolders": {
@@ -13639,11 +13819,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\UniMedic_Solution\\Unilag_Medic\\Unilag_Medic.csproj",
       "projectName": "Unilag_Medic",
       "projectPath": "C:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\UniMedic_Solution\\Unilag_Medic\\Unilag_Medic.csproj",
       "packagesPath": "C:\\Users\\lawal\\.nuget\\packages\\",
       "outputPath": "C:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\UniMedic_Solution\\Unilag_Medic\\obj\\",
+=======
+      "projectUniqueName": "C:\\MYPROJECTS\\.NET Core Tut\\UniMedic_Solution\\Unilag_Medic\\Unilag_Medic.csproj",
+      "projectName": "Unilag_Medic",
+      "projectPath": "C:\\MYPROJECTS\\.NET Core Tut\\UniMedic_Solution\\Unilag_Medic\\Unilag_Medic.csproj",
+      "packagesPath": "C:\\Users\\lawal\\.nuget\\packages\\",
+      "outputPath": "C:\\MYPROJECTS\\.NET Core Tut\\UniMedic_Solution\\Unilag_Medic\\obj\\",
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13693,10 +13881,13 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[2.2.3, )"
+<<<<<<< HEAD
           },
           "MySql.Data": {
             "target": "Package",
             "version": "[8.0.19, )"
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
           }
         },
         "imports": [

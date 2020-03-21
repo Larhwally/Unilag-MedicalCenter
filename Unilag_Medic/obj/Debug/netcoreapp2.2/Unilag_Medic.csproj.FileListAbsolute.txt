@@ -12,6 +12,7 @@ C:\MYPROJECTS\.NET Core Tut\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2
 C:\MYPROJECTS\.NET Core Tut\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.RazorTargetAssemblyInfo.cache
 C:\MYPROJECTS\.NET Core Tut\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.dll
 C:\MYPROJECTS\.NET Core Tut\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.pdb
+<<<<<<< HEAD
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\bin\Debug\netcoreapp2.2\Unilag_Medic.deps.json
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\bin\Debug\netcoreapp2.2\Unilag_Medic.runtimeconfig.json
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\bin\Debug\netcoreapp2.2\Unilag_Medic.runtimeconfig.dev.json
@@ -26,3 +27,5 @@ C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\obj\D
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.RazorTargetAssemblyInfo.cache
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.dll
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\UniMedic_Solution\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.pdb
+=======
+>>>>>>> 96f04cc51e2c16fc308e11a56920f8ef785501e6
