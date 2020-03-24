@@ -60,6 +60,7 @@ namespace Unilag_Medic.Data
             return this.connection;
         }
 
+      
         private Dictionary<string, string> GetTableSchema()
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -349,9 +350,9 @@ namespace Unilag_Medic.Data
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
+                prf: KeyDerivationPrf.HMACSHA512,
                 iterationCount: 1000,
-                numBytesRequested: 256 / 8
+                numBytesRequested: 50
                 ));
             password = hashed;
             

@@ -18,7 +18,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetMedStaff()
         {
-            EntityConnection con = new EntityConnection("tbl_MedicalStaff");
+            EntityConnection con = new EntityConnection("tbl_medicalstaff");
             string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -27,7 +27,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetMedStaffbyId(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_MedicalStaff");
+            EntityConnection con = new EntityConnection("tbl_medicalstaff");
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("itbId", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dict)) + "}";
@@ -38,7 +38,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string Post([FromBody] Dictionary<string, string> param )
         {
-            EntityConnection con = new EntityConnection("tbl_MedicalStaff");
+            EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (param != null)
             {
                 con.Insert(param);
@@ -57,7 +57,7 @@ namespace Unilag_Medic.Controllers
         [HttpPut("{id}")]
         public string Put(int id, Dictionary<string, string> content)
         {
-            EntityConnection con = new EntityConnection("tbl_MedicalStaff");
+            EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (id != 0)
             {
                 con.Update(id, content);
@@ -74,7 +74,7 @@ namespace Unilag_Medic.Controllers
         [HttpDelete("{id}")]
         public string Delete(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_MedicalStaff");
+            EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (id!= 0)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();

@@ -17,7 +17,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetInventory()
         {
-            EntityConnection con = new EntityConnection("tbl_Inventory");
+            EntityConnection con = new EntityConnection("tbl_inventory");
             string result = "'statau': true, 'data':" + EntityConnection.ToJson(con.Select());
             return result;
         }
@@ -26,7 +26,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetDispense()
         {
-            EntityConnection con = new EntityConnection("tbl_StoreDispense");
+            EntityConnection con = new EntityConnection("tbl_storedispense");
             string result = "'statau': true, 'data':" + EntityConnection.ToJson(con.Select());
             return result;
         }
@@ -37,7 +37,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostItem([FromBody] Dictionary<string, string> rec)
         {
-            EntityConnection con = new EntityConnection("tbl_Inventory");
+            EntityConnection con = new EntityConnection("tbl_inventory");
             if (rec != null)
             {
                 con.Insert(rec);
@@ -55,7 +55,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostDispense([FromBody] Dictionary<string, string> rec)
         {
-            EntityConnection con = new EntityConnection("tbl_StoreDispense");
+            EntityConnection con = new EntityConnection("tbl_storedispense");
             if (rec != null)
             {
                 con.Insert(rec);
@@ -75,7 +75,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetItemById(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Inventory");
+            EntityConnection con = new EntityConnection("tbl_inventory");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
@@ -87,7 +87,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetRecById(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_StoreDispense");
+            EntityConnection con = new EntityConnection("tbl_storedispense");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";

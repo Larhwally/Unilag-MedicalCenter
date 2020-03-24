@@ -16,7 +16,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetState()
         {
-            EntityConnection con = new EntityConnection("tbl_State");
+            EntityConnection con = new EntityConnection("tbl_state");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -25,7 +25,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetNational()
         {
-            EntityConnection con = new EntityConnection("tbl_Nationality");
+            EntityConnection con = new EntityConnection("tbl_nationality");
             string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -34,7 +34,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetNationalityById(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Nationality");
+            EntityConnection con = new EntityConnection("tbl_nationality");
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("Nationality_id", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(param)) + "}";
@@ -46,7 +46,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostHMO([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_HMO");
+            EntityConnection con = new EntityConnection("tbl_hmo");
             if (param != null)
             {
                 con.Insert(param);
@@ -65,7 +65,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostPatienttype([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_PatientType");
+            EntityConnection con = new EntityConnection("tbl_patienttype");
             if (param != null)
             {
                 con.Insert(param);
@@ -84,7 +84,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostDepartment([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Department");
+            EntityConnection con = new EntityConnection("tbl_department");
             if (param != null)
             {
                 con.Insert(param);
@@ -103,7 +103,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostFaculty([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Faculty");
+            EntityConnection con = new EntityConnection("tbl_faculty");
             if (param != null)
             {
                 con.Insert(param);
@@ -122,7 +122,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostPatient([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_ClinicOpenSchedule");
+            EntityConnection con = new EntityConnection("tbl_clinicopenschedule");
             if (param != null)
             {
                 con.Insert(param);
@@ -142,7 +142,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostSpecialization([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Specialization");
+            EntityConnection con = new EntityConnection("tbl_specialization");
             if (param != null)
             {
                 con.Insert(param);
@@ -163,7 +163,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostClinic([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Clinic");
+            EntityConnection con = new EntityConnection("tbl_clinic");
             if (param != null)
             {
                 con.Insert(param);
@@ -178,6 +178,14 @@ namespace Unilag_Medic.Controllers
             return param.ToString();
         }
 
+        [Route("GetClinic")]
+        [HttpGet]
+        public string GetClinic()
+        {
+            EntityConnection con = new EntityConnection("tbl_clinic");
+            string rec = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
+            return rec;
+        }
 
 
 

@@ -16,7 +16,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string Getstaff()
         {
-            EntityConnection con = new EntityConnection("tbl_Staff_Patient");
+            EntityConnection con = new EntityConnection("tbl_staff_patient");
             string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -25,7 +25,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetStudent()
         {
-            EntityConnection con = new EntityConnection("tbl_Student_Patient");
+            EntityConnection con = new EntityConnection("tbl_student_patient");
             string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -34,7 +34,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetDependent()
         {
-            EntityConnection con = new EntityConnection("tbl_Dependent");
+            EntityConnection con = new EntityConnection("tbl_dependent");
             string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -46,7 +46,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostStaff([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Staff_Patient");
+            EntityConnection con = new EntityConnection("tbl_staff_patient");
             if (values != null)
             {
                 con.Insert(values);
@@ -64,7 +64,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostStudent([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Student_Patient");
+            EntityConnection con = new EntityConnection("tbl_student_patient");
             if (values != null)
             {
                 con.Insert(values);
@@ -82,7 +82,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostDependent([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Dependent");
+            EntityConnection con = new EntityConnection("tbl_dependent");
             if (values != null)
             {
                 con.Insert(values);
@@ -102,7 +102,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetDepById(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Dependent");
+            EntityConnection con = new EntityConnection("tbl_dependent");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
@@ -113,7 +113,7 @@ namespace Unilag_Medic.Controllers
         [HttpPut("{id}")]
         public string UpdateDependent(int id, Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Dependent");
+            EntityConnection con = new EntityConnection("tbl_dependent");
             if (id != 0)
             {
                 con.Update(id, param);

@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "f2a9a5759e60909dd97e2a7ba461e881b1f24395"
+    "signature": "5636b805a70b17e32e1478b67721d5ee43c5d27b"
   },
   "compilationOptions": {
     "defines": [
@@ -28,7 +28,8 @@
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.2.3",
-          "MySql.Data": "8.0.19"
+          "MySql.Data": "8.0.19",
+          "PrivateSetterContractResolver": "2.1.0"
         },
         "runtime": {
           "Unilag_Medic.dll": {}
@@ -259,6 +260,20 @@
         },
         "compile": {
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
+        }
+      },
+      "PrivateSetterContractResolver/2.1.0": {
+        "dependencies": {
+          "Newtonsoft.Json": "11.0.2"
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.0.0"
+          }
+        },
+        "compile": {
+          "lib/netcoreapp2.0/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll": {}
         }
       },
       "SSH.NET/2016.1.0": {
@@ -3918,6 +3933,13 @@
       "sha512": "sha512-qbXaB76XYUVLocLBs8Z9TS/ERGK2wm797feO+0JEPFvT7o7MRadOR77mqaSD4J1k8G+DlZQyq+MlkCuxrkr3ag==",
       "path": "nuget.frameworks/4.7.0",
       "hashPath": "nuget.frameworks.4.7.0.nupkg.sha512"
+    },
+    "PrivateSetterContractResolver/2.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6qf/uN19qP0RsNiJVczzFxO13OB+hiphCT194a1BOUB3mN6AkBifQ4S8vwO9TLSre/VXMGbwV4QQKEaXJdUg/g==",
+      "path": "privatesettercontractresolver/2.1.0",
+      "hashPath": "privatesettercontractresolver.2.1.0.nupkg.sha512"
     },
     "SSH.NET/2016.1.0": {
       "type": "package",

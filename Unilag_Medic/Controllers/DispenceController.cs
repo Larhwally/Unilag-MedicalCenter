@@ -17,7 +17,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetDrugType()
         {
-            EntityConnection con = new EntityConnection("tbl_DrugType");
+            EntityConnection con = new EntityConnection("tbl_drugtype");
             string rec = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return rec;
         }
@@ -26,7 +26,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetDrugDispense()
         {
-            EntityConnection con = new EntityConnection("tbl_PharmDispense");
+            EntityConnection con = new EntityConnection("tbl_pharmdispense");
             string rec = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             return rec;
         }
@@ -38,7 +38,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostDrugType([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_DrugType");
+            EntityConnection con = new EntityConnection("tbl_drugtype");
             if (values != null)
             {
                 con.Insert(values);
@@ -56,7 +56,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostDrugDispense([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_PharmDispense");
+            EntityConnection con = new EntityConnection("tbl_pharmdispense");
             if (values != null)
             {
                 con.Insert(values);
@@ -76,7 +76,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetRecById(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_PharmDispense");
+            EntityConnection con = new EntityConnection("tbl_pharmdispense");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";

@@ -18,7 +18,7 @@ namespace Unilag_Medic.Controllers
        [HttpGet]
        public string GetToxicology()
         {
-            EntityConnection con = new EntityConnection("tbl_Toxicology");
+            EntityConnection con = new EntityConnection("tbl_toxicology");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -27,7 +27,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetUrinalysis()
         {
-            EntityConnection con = new EntityConnection("tbl_Urinalysis");
+            EntityConnection con = new EntityConnection("tbl_urinalysis");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -36,7 +36,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetMicrotest()
         {
-            EntityConnection con = new EntityConnection("tbl_MicrobiologyTest");
+            EntityConnection con = new EntityConnection("tbl_microbiologytest");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -45,7 +45,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetHaematology()
         {
-            EntityConnection con = new EntityConnection("tbl_Haematology");
+            EntityConnection con = new EntityConnection("tbl_haematology");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -54,7 +54,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetChemTest()
         {
-            EntityConnection con = new EntityConnection("tbl_ChemistryTest");
+            EntityConnection con = new EntityConnection("tbl_chemistrytest");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -63,7 +63,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetStooltest()
         {
-            EntityConnection con = new EntityConnection("tbl_StoolTest");
+            EntityConnection con = new EntityConnection("tbl_stooltest");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -72,7 +72,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetSeminal()
         {
-            EntityConnection con = new EntityConnection("tbl_Seminal_Analysis");
+            EntityConnection con = new EntityConnection("tbl_seminal_analysis");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -84,7 +84,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostToxicology([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Toxicology");
+            EntityConnection con = new EntityConnection("tbl_toxicology");
             if (values != null)
             {
                 con.Insert(values);
@@ -102,7 +102,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostUrinalysis([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Urinalysis");
+            EntityConnection con = new EntityConnection("tbl_urinalysis");
             if (values != null)
             {
                 con.Insert(values);
@@ -120,7 +120,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostMicrobiology([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_MicrobiologyTest");
+            EntityConnection con = new EntityConnection("tbl_microbiologytest");
             if (values != null)
             {
                 con.Insert(values);
@@ -138,7 +138,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostHaematology([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Haematology");
+            EntityConnection con = new EntityConnection("tbl_haematology");
             if (values != null)
             {
                 con.Insert(values);
@@ -156,7 +156,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostChemistry([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_ChemistryTest");
+            EntityConnection con = new EntityConnection("tbl_chemistrytest");
             if (values != null)
             {
                 con.Insert(values);
@@ -174,7 +174,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string PostSeminal([FromBody] Dictionary<string, string> values)
         {
-            EntityConnection con = new EntityConnection("tbl_Seminal_Analysis");
+            EntityConnection con = new EntityConnection("tbl_seminal_analysis");
             if (values != null)
             {
                 con.Insert(values);

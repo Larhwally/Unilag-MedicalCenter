@@ -2938,6 +2938,18 @@
           "lib/netstandard1.6/NuGet.Frameworks.dll": {}
         }
       },
+      "PrivateSetterContractResolver/2.1.0": {
+        "type": "package",
+        "dependencies": {
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/netcoreapp2.0/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll": {}
+        }
+      },
       "Remotion.Linq/2.2.0": {
         "type": "package",
         "dependencies": {
@@ -8401,6 +8413,20 @@
         "nuget.frameworks.nuspec"
       ]
     },
+    "PrivateSetterContractResolver/2.1.0": {
+      "sha512": "6qf/uN19qP0RsNiJVczzFxO13OB+hiphCT194a1BOUB3mN6AkBifQ4S8vwO9TLSre/VXMGbwV4QQKEaXJdUg/g==",
+      "type": "package",
+      "path": "privatesettercontractresolver/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll",
+        "lib/netcoreapp2.0/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.Serialization.PrivateSetterContractResolver.dll",
+        "privatesettercontractresolver.2.1.0.nupkg.sha512",
+        "privatesettercontractresolver.nuspec"
+      ]
+    },
     "Remotion.Linq/2.2.0": {
       "sha512": "fK/76UmpC0FXBlGDFVPLJHQlDLYnGC+XY3eoDgCgbtrhi0vzbXDQ3n/IYHhqSKqXQfGw/u04A1drWs7rFVkRjw==",
       "type": "package",
@@ -13629,7 +13655,8 @@
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
       "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 2.2.3",
-      "MySql.Data >= 8.0.19"
+      "MySql.Data >= 8.0.19",
+      "PrivateSetterContractResolver >= 2.1.0"
     ]
   },
   "packageFolders": {
@@ -13697,6 +13724,10 @@
           "MySql.Data": {
             "target": "Package",
             "version": "[8.0.19, )"
+          },
+          "PrivateSetterContractResolver": {
+            "target": "Package",
+            "version": "[2.1.0, )"
           }
         },
         "imports": [

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using Unilag_Medic.Data;
 using Unilag_Medic.Models;
 using Unilag_Medic.ViewModel;
@@ -36,7 +37,7 @@ namespace Unilag_Medic.Controllers
                 email = model.email,
                 password = model.password,
                 createBy = model.createBy,
-                createDate  = model.createDate
+                createDate  = DateTime.Now
             };
 
             string password = model.password;
@@ -45,9 +46,9 @@ namespace Unilag_Medic.Controllers
             string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,
-                prf: KeyDerivationPrf.HMACSHA1,
+                prf: KeyDerivationPrf.HMACSHA512,
                 iterationCount: 1000,
-                numBytesRequested: 256 / 8
+                numBytesRequested: 50
                 ));
 
             if (user != null)
@@ -56,8 +57,9 @@ namespace Unilag_Medic.Controllers
                 con.AddUser(user);
                 //string result = con.AddUser(user);
             }
-            
-            return model.email;
+            var res = new { user.email, user.createBy, user.createDate };
+            var result = "{'status':true, 'data':" + Newtonsoft.Json.JsonConvert.SerializeObject(res) + "}";
+            return result;
         }
 
         [Route("LoginUser")]
@@ -67,6 +69,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection connection = new EntityConnection("tbl_userlogin");
             string email = model.email;
             string pass = model.password;
+            DateTime logindate = DateTime.Now;
 
            
                 if (connection.CheckUser(email, pass) == true && model != null)
@@ -86,9 +89,12 @@ namespace Unilag_Medic.Controllers
                     expires: DateTime.UtcNow.AddMinutes(Expireminutes),
                     signingCredentials: new SigningCredentials(signingkey, SecurityAlgorithms.HmacSha256));
 
-                var result = new JwtSecurityTokenHandler().WriteToken(token);
-                    
-                return result;
+                var res = new { model.email, logindate };
+                var tokenval = new JwtSecurityTokenHandler().WriteToken(token);
+                var output = Newtonsoft.Json.JsonConvert.SerializeObject(res);
+                var result = Newtonsoft.Json.JsonConvert.SerializeObject(tokenval);
+
+                return "{'status':true,'data':" +  result + output + "}";
 
             }
 

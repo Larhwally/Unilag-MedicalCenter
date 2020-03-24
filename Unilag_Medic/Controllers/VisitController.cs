@@ -18,7 +18,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetVisit()
         {
-            EntityConnection con = new EntityConnection("tbl_Visit");
+            EntityConnection con = new EntityConnection("tbl_visit");
             string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -27,7 +27,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetVisitById(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Visit");
+            EntityConnection con = new EntityConnection("tbl_visit");
             Dictionary<string, string> dicts = new Dictionary<string, string>();
             dicts.Add("itbId", id + "");
             string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dicts)) + "}";
@@ -38,7 +38,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string Post([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Visit");
+            EntityConnection con = new EntityConnection("tbl_visit");
             if (param != null)
             {
                 con.Insert(param);
@@ -56,7 +56,7 @@ namespace Unilag_Medic.Controllers
         [HttpPut("{id}")]
         public string Put(int id, Dictionary<string, string> content)
         {
-            EntityConnection con = new EntityConnection("tbl_Visit");
+            EntityConnection con = new EntityConnection("tbl_visit");
             if (id != 0)
             {
                 con.Update(id, content);
@@ -73,7 +73,7 @@ namespace Unilag_Medic.Controllers
         [HttpDelete("{id}")]
         public string Delete(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Visit");
+            EntityConnection con = new EntityConnection("tbl_visit");
             if (id != 0)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();

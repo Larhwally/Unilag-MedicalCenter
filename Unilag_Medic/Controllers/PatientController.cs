@@ -19,7 +19,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public string GetPatient()
         {
-            EntityConnection con = new EntityConnection("tbl_Patient");
+            EntityConnection con = new EntityConnection("tbl_patient");
             string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
@@ -28,7 +28,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{id}")]
         public string GetPatientbyId(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Patient");
+            EntityConnection con = new EntityConnection("tbl_patient");
             Dictionary<string, string> pairs = new Dictionary<string, string>
             {
                 { "itbId", id + "" }
@@ -41,7 +41,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public string Post([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_Patient");
+            EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
                 con.Insert(param);
@@ -54,19 +54,14 @@ namespace Unilag_Medic.Controllers
                 return resp + "";
             }
 
-            // foreach (var item in param)
-            //{
-            //    var i = param.Values;
-            //    return i + "";
-            //}
-            //return
+          
         }
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
         public string Put(int id, Dictionary<string, string> content)
         {
-            EntityConnection con = new EntityConnection("tbl_Patient");
+            EntityConnection con = new EntityConnection("tbl_patient");
             if (id != 0)
             {
                 con.Update(id, content);
@@ -83,7 +78,7 @@ namespace Unilag_Medic.Controllers
         [HttpDelete("{id}")]
         public string Delete(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_Patient");
+            EntityConnection con = new EntityConnection("tbl_patient");
             if (id != 0)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();
