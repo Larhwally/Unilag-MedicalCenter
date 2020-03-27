@@ -37,6 +37,8 @@ namespace Unilag_Medic.Controllers
             {
                 email = model.email,
                 password = model.password,
+                roleId = model.roleId,
+                medstaffId = model.medstaffId,
                 createBy = model.createBy,
                 createDate  = DateTime.Now
             };
@@ -79,8 +81,9 @@ namespace Unilag_Medic.Controllers
                 {
                 var claim = new[]
                     {
+                        new Claim(ClaimTypes.NameIdentifier, model.roleId.ToString()),
                         new Claim(JwtRegisteredClaimNames.Sub, model.email),//gotta add role as a sub for claim
-                        //new Claim(JwtRegisteredClaimNames.Sub, model.roleId)
+                       
                     };
                 var signingkey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));

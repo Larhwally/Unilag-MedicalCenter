@@ -226,7 +226,7 @@ namespace Unilag_Medic.Data
                     return MySqlDbType.JSON;
             }
         }
-
+       
         //to connect two joins into a single string
         private static string implode(string[] array)
         {
@@ -316,10 +316,12 @@ namespace Unilag_Medic.Data
         public bool AddUser(UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "INSERT INTO tbl_userlogin(email, password, createBy, createDate) VALUES(@email,@password,@createBy,@createDate)";
+            string query = "INSERT INTO tbl_userlogin(email, password, roleId, medstaffId, createBy, createDate) VALUES(@email,@password,@roleId,@medstaffId,@createBy,@createDate)";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@email", unilag.email);
             cmd.Parameters.AddWithValue("@password", unilag.password);
+            cmd.Parameters.AddWithValue("@roleId", unilag.roleId);
+            cmd.Parameters.AddWithValue("@medstaffId", unilag.medstaffId);
             cmd.Parameters.AddWithValue("@createBy", unilag.createBy);
             cmd.Parameters.AddWithValue("@createDate", unilag.createDate);
             int n = cmd.ExecuteNonQuery();
