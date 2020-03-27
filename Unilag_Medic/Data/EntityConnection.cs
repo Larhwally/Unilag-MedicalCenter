@@ -17,7 +17,7 @@ namespace Unilag_Medic.Data
 {
     public class EntityConnection
     {
-        public string ConnectionString = "server=localhost;port=3306;database=unilag_medic;user=lawal;password=password00";
+        public string ConnectionString = "server=localhost;port=3306;database=unilagmedicdb;user=lawal;password=password00";
         private MySqlConnection connection;
         private string tableName;
         private int defaultSelectLength;
@@ -130,12 +130,12 @@ namespace Unilag_Medic.Data
             return tempResult.Values.ToString();
         }
 
-        public List<Dictionary<string, object>> Select(int start, int length) //changed object to string for dict
+        public List<Dictionary<string, object>> Select(int start, int length) 
         {
             string query = "select * from " + this.tableName + "  limit " + start + "," + length;
             return this.BaseSelect(query);
         }
-        public List<Dictionary<string, object>> Select(int start) //changed object to string for dict
+        public List<Dictionary<string, object>> Select(int start) 
         {
             int length = this.defaultSelectLength;
             string query = "select * from " + this.tableName + "  limit " + start + "," + length;
@@ -239,20 +239,7 @@ namespace Unilag_Medic.Data
             return result;
         }
 
-        //public string ResponseMsg(bool resp)
-        //{
-        //    if (resp == true)
-        //    {
-        //        string result = "Record successfully created!";
-        //    }
-        //    else
-        //    {
-        //        string result = "Error in saving record!";
-        //    }
-
-        //    return resp.ToString();
-        //}
-
+        
         //Select by parameter
         public List<Dictionary<string, object>> SelectByColumn(Dictionary<string, string> queryParam)
         {
@@ -269,7 +256,10 @@ namespace Unilag_Medic.Data
             return this.BaseSelect(query + param);
         }
 
-        //Update by ID 
+        /*Update by ID 
+         This  is a general method for all  tables, I  would need to write  a method like this that uses hospitalnumber as the search parameter
+         for tables who have hospitalnumber as a common key (tbl_patient,  tbl_visit, tbl_vital, and other lab form tables)
+             */
         public bool Update(int id, Dictionary<string, string> content)
         {
             this.connection.Open();
@@ -337,6 +327,38 @@ namespace Unilag_Medic.Data
             return n > 0;
         }
 
+        public bool UpdateUser(int id, UnilagMedLogin unilag)
+        {
+            this.connection.Open();
+            string query = "UPDATE tbl_userlogin SET password = @password, createBy = @createBy, createDate = @createDate WHERE itbId = @itbId";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlParameter parameter = new MySqlParameter("@itbId", MySqlDbType.Int32);
+            byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
+            //using (var rng = RandomNumberGenerator.Create())
+            //{
+            //    rng.GetBytes(salt);
+            //}
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: unilag.password,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA512,
+                iterationCount: 1000,
+                numBytesRequested: 50
+                ));
+            unilag.password = hashed;
+            parameter.Value = id;
+            command.Parameters.Add(parameter);
+            command.Parameters.AddWithValue("@password", unilag.password);
+            command.Parameters.AddWithValue("@createBy", unilag.createBy);
+            command.Parameters.AddWithValue("@createDate", unilag.createDate);
+            int n = command.ExecuteNonQuery();
+            this.connection.Close();
+            return n > 0;
+        }
+
+
+
         public bool CheckUser(string email, string password)
         {
             this.connection.Open();
@@ -359,7 +381,7 @@ namespace Unilag_Medic.Data
             password = hashed;
             
             cmd.Parameters.AddWithValue("@email", email);
-            cmd.Parameters.AddWithValue("@password", password);
+            cmd.Parameters.AddWithValue("@password", password);//I need to be passing login datetime here 
             MySqlDataReader dataReader = cmd.ExecuteReader();
             hasRows = dataReader.HasRows;
             this.connection.Close();

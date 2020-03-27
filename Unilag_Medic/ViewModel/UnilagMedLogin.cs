@@ -10,6 +10,8 @@ namespace Unilag_Medic.ViewModel
     {
         public string email { get; set; }
         public string password { get; set; }
+        public int roleId { get; set; }
+        public int medstaffId { get; set; }
         public string createBy { get; set; }
         public DateTime createDate { get; set; }
     }

@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -26,7 +27,7 @@ namespace Unilag_Medic.Controllers
             _configuration = configuration;
         }
 
-        [Route("RegisterUser")]
+       [Route("RegisterUser")]
        [HttpPost]
        public string RegUser([FromBody] UnilagMedLogin model)
         {
@@ -62,6 +63,8 @@ namespace Unilag_Medic.Controllers
             return result;
         }
 
+
+
         [Route("LoginUser")]
         [HttpPost]
         public string Loginuser([FromBody] UnilagMedLogin model)
@@ -75,8 +78,9 @@ namespace Unilag_Medic.Controllers
                 if (connection.CheckUser(email, pass) == true && model != null)
                 {
                 var claim = new[]
-               {
-                        new Claim(JwtRegisteredClaimNames.Sub, model.email)
+                    {
+                        new Claim(JwtRegisteredClaimNames.Sub, model.email),//gotta add role as a sub for claim
+                        //new Claim(JwtRegisteredClaimNames.Sub, model.roleId)
                     };
                 var signingkey = new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
