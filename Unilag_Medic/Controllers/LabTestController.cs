@@ -87,6 +87,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_toxicology");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record saved successfully");
             }
@@ -105,6 +106,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_urinalysis");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record saved successfully");
             }
@@ -123,6 +125,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_microbiologytest");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record saved successfully");
             }
@@ -141,6 +144,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_haematology");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record saved successfully");
             }
@@ -159,6 +163,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_chemistrytest");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record saved successfully");
             }
@@ -177,6 +182,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_seminal_analysis");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record saved successfully");
             }

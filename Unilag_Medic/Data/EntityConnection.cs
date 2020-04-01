@@ -17,7 +17,7 @@ namespace Unilag_Medic.Data
 {
     public class EntityConnection
     {
-        public string ConnectionString = "server=localhost;port=3306;database=unilagmedicdb;user=lawal;password=password00";
+        public string ConnectionString = "server=localhost;port=3306;database=unilag_medic;user=root;password=ellnerd22";
         private MySqlConnection connection;
         private string tableName;
         private int defaultSelectLength;
@@ -91,7 +91,10 @@ namespace Unilag_Medic.Data
             string query = "select * from " + this.tableName + " ";
             return this.BaseSelect(query);
         }
-        private List<Dictionary<string, object>> BaseSelect(string query) //changed object to string for dict
+
+
+        //BaseSelect method
+        private List<Dictionary<string, object>> BaseSelect(string query) 
         {
             if (this.connection.State == ConnectionState.Closed)
             {
@@ -100,7 +103,7 @@ namespace Unilag_Medic.Data
             }
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
-            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>(); //changed object to string for dict
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>(); 
             while (reader.Read())
             {
                 Dictionary<string, object> tempResult = new Dictionary<string, object>(); // changed object to string for dict
@@ -152,14 +155,7 @@ namespace Unilag_Medic.Data
             }
             return result;
         }
-        ////add new column to tables
-        //public bool AddColumn(string newColumn)
-        //{
-        //    this.connection.Open();
-        //    string query = "alter table " + this.tableName + " add column_name, data_type from information.schema " + newColumn;
-        //    SqlCommand command = new SqlCommand(query, this.connection);
-            
-        //}
+        
 
         //insert method
         public bool Insert(Dictionary<string, string> content)
@@ -240,7 +236,7 @@ namespace Unilag_Medic.Data
         }
 
         
-        //Select by parameter
+        //Select by ID parameter
         public List<Dictionary<string, object>> SelectByColumn(Dictionary<string, string> queryParam)
         {
             string query = "select * from " + this.tableName + " ";
@@ -255,6 +251,24 @@ namespace Unilag_Medic.Data
             }
             return this.BaseSelect(query + param);
         }
+
+        //select by hospitalNumber parameter
+        public List<Dictionary<string, object>> SelectByParam(Dictionary<string, string> queryvalues)
+        {
+            this.connection.Open();
+            string query = "select * from " + this.tableName + " ";
+            string parameter = "";
+            string[] keys = queryvalues.Keys.ToArray<string>();
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentKey = keys[i];
+                string valueString = queryvalues[currentKey];
+                parameter += string.IsNullOrWhiteSpace(parameter) ? " where " : " and ";
+                parameter += (currentKey + " = " + "\"" + valueString + "\"");
+            }
+            return this.BaseSelect(query + parameter);
+        }
+
 
         /*Update by ID 
          This  is a general method for all  tables, I  would need to write  a method like this that uses hospitalnumber as the search parameter
@@ -383,12 +397,67 @@ namespace Unilag_Medic.Data
             password = hashed;
             
             cmd.Parameters.AddWithValue("@email", email);
-            cmd.Parameters.AddWithValue("@password", password);//I need to be passing login datetime here 
+            cmd.Parameters.AddWithValue("@password", password);
             MySqlDataReader dataReader = cmd.ExecuteReader();
             hasRows = dataReader.HasRows;
             this.connection.Close();
             return hasRows;
         }
+
+        //Use this method to get the roleId of the currently logged in user email 
+        public string SelectRole(int role, string email)
+        {
+            this.connection.Open();
+            string query = "SELECT roleId FROM tbl_userlogin WHERE email = @email";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@email", email);
+            cmd.Parameters.AddWithValue("@roleId", role);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            bool hasrow = reader.HasRows;
+            if (reader.Read())
+            {
+                role = Convert.ToInt32(reader["roleId"].ToString());
+            }
+            reader.Close();
+            this.connection.Close();
+            return role +"";
+        }
+
+        //Use this method to join userlogin & role to get roletitle
+        public List<Dictionary<string, object>> DisplayRoles(string email)
+        {
+            this.connection.Open();
+            string query = "SELECT email, roleId, tbl_role.itbId, roleTitle FROM tbl_userlogin INNER JOIN tbl_role ON tbl_userlogin.roleId = tbl_role.itbId WHERE email = @email";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@email", email);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> tempresult = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    tempresult.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                result.Add(tempresult);
+            }
+            reader.Close();
+            this.connection.Close();
+            return result;
+        }
+
+        //public List<Dictionary<string, object>> DisplayVisitValues()
+        //{
+        //    this.connection.Open();
+        //    string query = "SELECT ";
+        //}
+
+
+
+
+       
+
+
 
 
 

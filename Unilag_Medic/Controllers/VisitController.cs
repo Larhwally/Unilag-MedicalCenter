@@ -41,6 +41,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_visit");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Appointment created successfully");
             }

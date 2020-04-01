@@ -41,6 +41,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 return param.Values.FirstOrDefault();
                 //Response.WriteAsync("Record saves successfully!");

@@ -49,6 +49,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_staff_patient");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record successfully saved!");
             }
@@ -67,6 +68,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_student_patient");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record successfully saved!");
             }
@@ -85,6 +87,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_dependent");
             if (values != null)
             {
+                values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
                 Response.WriteAsync("Record successfully saved!");
             }

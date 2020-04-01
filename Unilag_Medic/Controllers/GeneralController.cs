@@ -6,19 +6,51 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Unilag_Medic.Data;
+using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Controllers
 {
     [Authorize]
+    //[Produces("application/json")]
     public class GeneralController : Controller
     {
+        
         //Begin  GET requests
+        [Route("GetPatByHospnum")]
+        [HttpGet("{hospitalNumber}")]
+        public string GetPatByHospnum(string hospNum)
+        {
+            EntityConnection con = new EntityConnection("tbl_patient");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "hospitalNumber", hospNum}
+            };
+            
+            string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
+            return rec;
+        }
+
+        [Route("GetVitByVisit")]
+        [HttpGet("{visitId}")]
+        public string GetVitByVisit(string visitId)
+        {
+            EntityConnection con = new EntityConnection("tbl_vitalsigns");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "visitId", visitId}
+            };
+
+            string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
+            return rec;
+        }
+
+
         [Route("GetClinic")]
         [HttpGet]
         public string GetClinic()
         {
             EntityConnection con = new EntityConnection("tbl_clinic");
-            string rec = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
+            string rec = EntityConnection.ToJson(con.Select());
             return rec;
         }
 
@@ -92,7 +124,7 @@ namespace Unilag_Medic.Controllers
         public string GetDepartment()
         {
             EntityConnection con = new EntityConnection("tbl_department");
-            string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            string result = "{'status':true, 'data':}" + EntityConnection.ToJson(con.Select()) + "}";
             return result;
         }
 
@@ -131,8 +163,12 @@ namespace Unilag_Medic.Controllers
         public string PostHMO([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_hmo");
+           
+            
             if (param != null)
             {
+                //param.Add("createBy", model.email);
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saves successfully!");
             }
@@ -152,6 +188,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_patienttype");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saves successfully!");
             }
@@ -171,6 +208,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_department");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saves successfully!");
             }
@@ -190,6 +228,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_faculty");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saves successfully!");
             }
@@ -209,6 +248,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_clinicopenschedule");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saved successfully!");
             }
@@ -229,6 +269,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_doctor");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saves successfully!");
             }
@@ -248,6 +289,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_specialization");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saved successfully!");
             }
@@ -269,6 +311,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_clinic");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 Response.WriteAsync("Record saved successfully!");
             }
@@ -291,6 +334,7 @@ namespace Unilag_Medic.Controllers
             {
                 if (param != null)
                 {
+                    param.Add("createDate", DateTime.Now.ToString());
                     con.Insert(param);
                     Response.WriteAsync("Record saved successfully!");
                 }
@@ -314,6 +358,7 @@ namespace Unilag_Medic.Controllers
             {
                 if (param != null)
                 {
+                    param.Add("createDate", DateTime.Now.ToString());
                     con.Insert(param);
                     Response.WriteAsync("Record saved successfully!");
                 }

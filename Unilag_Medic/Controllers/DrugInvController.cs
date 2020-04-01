@@ -41,6 +41,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_druginventory");
             if (value != null)
             {
+                value.Add("createDate", DateTime.Now.ToString());
                 con.Insert(value);
                 Response.WriteAsync("Record saves successfully!");
             }

@@ -37,6 +37,21 @@ namespace Unilag_Medic.Controllers
             return record;
         }
 
+
+        //[HttpGet("{hospitalNumber}")]
+        //public string GetPatientbynosp(string hosp)
+        //{
+        //    EntityConnection con = new EntityConnection("tbl_patient");
+        //    Dictionary<string, string> pairs = new Dictionary<string, string>
+        //    {
+        //        { "hospitalNumber", hosp + "" }
+        //    };
+        //    string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(pairs)) + "}";
+        //    return record;
+        //}
+
+
+
         // POST: api/Patient
         [HttpPost]
         public string Post([FromBody] Dictionary<string, string> param)
@@ -44,6 +59,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
+                param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 return param.Values.FirstOrDefault();
                 //Response.WriteAsync("Record saves successfully!");

@@ -40,6 +40,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_inventory");
             if (rec != null)
             {
+                rec.Add("createDate", DateTime.Now.ToString());
                 con.Insert(rec);
                 Response.WriteAsync("Record successfully saved!");
             }
@@ -58,6 +59,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_storedispense");
             if (rec != null)
             {
+                rec.Add("createDate", DateTime.Now.ToString());
                 con.Insert(rec);
                 Response.WriteAsync("Record successfully saved!");
             }

@@ -61,7 +61,7 @@ namespace Unilag_Medic.Controllers
                 //string result = con.AddUser(user);
             }
             var res = new { user.email, user.createBy, user.createDate };
-            var result = "{'status':true, 'data':" + Newtonsoft.Json.JsonConvert.SerializeObject(res) + "}";
+            var result = "{'status':true, 'data':" + JsonConvert.SerializeObject(res) + "}";
             return result;
         }
 
@@ -76,7 +76,8 @@ namespace Unilag_Medic.Controllers
             string pass = model.password;
             DateTime logindate = DateTime.Now;
 
-           
+
+
                 if (connection.CheckUser(email, pass) == true && model != null)
                 {
                 var claim = new[]
@@ -96,12 +97,15 @@ namespace Unilag_Medic.Controllers
                     expires: DateTime.UtcNow.AddMinutes(Expireminutes),
                     signingCredentials: new SigningCredentials(signingkey, SecurityAlgorithms.HmacSha256));
 
-                var res = new { model.email, logindate };
                 var tokenval = new JwtSecurityTokenHandler().WriteToken(token);
-                var output = Newtonsoft.Json.JsonConvert.SerializeObject(res);
-                var result = Newtonsoft.Json.JsonConvert.SerializeObject(tokenval);
+                //var rol = connection.SelectRole(roleid, email);
+                string tempres = EntityConnection.ToJson(connection.DisplayRoles(email));
 
-                return "{'status':true,'data':" +  result + output + "}";
+                var res = new { tempres, logindate, tokenval };
+                var output = JsonConvert.SerializeObject(res);
+                //var result = JsonConvert.SerializeObject(tokenval);
+
+                return output;
 
             }
 
@@ -109,7 +113,7 @@ namespace Unilag_Medic.Controllers
         }
 
 
-
+        
 
     }
 }

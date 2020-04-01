@@ -40,6 +40,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_userlogin");
             if (id != 0)
             {
+                unilag.createDate = DateTime.Now;
                 con.UpdateUser(id, unilag);
                 Response.WriteAsync("Password successfully updated!");
             }
