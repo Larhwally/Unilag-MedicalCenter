@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Controllers
 {
+    [Authorize]
     public class AuthenController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -66,7 +68,7 @@ namespace Unilag_Medic.Controllers
         }
 
 
-
+        [AllowAnonymous]
         [Route("LoginUser")]
         [HttpPost]
         public string Loginuser([FromBody] UnilagMedLogin model)

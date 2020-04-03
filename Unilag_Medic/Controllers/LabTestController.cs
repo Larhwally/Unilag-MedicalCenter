@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
@@ -82,116 +83,218 @@ namespace Unilag_Medic.Controllers
         //Begin POST Lab test
         [Route("PostToxicology")]
         [HttpPost]
-        public string PostToxicology([FromBody] Dictionary<string, string> values)
+        public string PostToxicology([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_toxicology");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record saved successfully");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values +"";
         }
 
         [Route("PostUrinalysis")]
         [HttpPost]
-        public string PostUrinalysis([FromBody] Dictionary<string, string> values)
+        public string PostUrinalysis([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_urinalysis");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record saved successfully");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
         }
 
         [Route("PostMicrobiology")]
         [HttpPost]
-        public string PostMicrobiology([FromBody] Dictionary<string, string> values)
+        public string PostMicrobiology([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_microbiologytest");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record saved successfully");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
         }
 
         [Route("PostHaematology")]
         [HttpPost]
-        public string PostHaematology([FromBody] Dictionary<string, string> values)
+        public string PostHaematology([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_haematology");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record saved successfully");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
         }
 
         [Route("PostChemistry")]
         [HttpPost]
-        public string PostChemistry([FromBody] Dictionary<string, string> values)
+        public string PostChemistry([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_chemistrytest");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record saved successfully");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
         }
 
         [Route("PostSeminal")]
         [HttpPost]
-        public string PostSeminal([FromBody] Dictionary<string, string> values)
+        public string PostSeminal([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_seminal_analysis");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record saved successfully");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
         }
 
 

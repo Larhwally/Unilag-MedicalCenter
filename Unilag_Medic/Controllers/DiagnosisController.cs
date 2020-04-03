@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
@@ -43,14 +44,32 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                Response.WriteAsync("Record saves successfully!");
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Error in creating record");
                 return resp + "";
             }
-            return param + "";
+            
         }
 
         // PUT: api/Diagnosis/5

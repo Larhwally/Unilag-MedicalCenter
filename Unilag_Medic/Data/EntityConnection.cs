@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -446,16 +447,88 @@ namespace Unilag_Medic.Data
             return result;
         }
 
-        //public List<Dictionary<string, object>> DisplayVisitValues()
-        //{
-        //    this.connection.Open();
-        //    string query = "SELECT ";
-        //}
+        //Use this  method to get a  patient visit record with  hospital number as parameter
+        public List<Dictionary<string, object>> DisplayVisitValues(string hospitalNumber)
+        {
+            this.connection.Open();
+            string query = "SELECT hospitalNumber, patientTypeName, visitTypeName, visitDateTime, clinicName, staffCode, position FROM tbl_visit " +
+                            "INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId " +
+                            "INNER JOIN tbl_patienttype ON tbl_visit.patientType = tbl_patienttype.itbId " +
+                            "INNER JOIN tbl_visittype ON tbl_visit.visitTypeId = tbl_visittype.itbId " +
+                            "INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId " +
+                            "INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId WHERE hospitalNumber = @hospitalNumber";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@hospitalNumber", hospitalNumber);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> tempdata = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    tempdata.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(tempdata);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
+        //Use this method to get VItal signs with hospital number as search parameter
+        public List<Dictionary<string, object>> DisplayVitalValues(string hospnum)
+        {
+            this.connection.Open();
+            string query = "SELECT  hospitalNumber, tbl_patient.surname, tbl_patient.gender, bloodPressure, temperature, pulse, bmiStatus, visitDateTime, staffCode, position, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
+                            "INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId  " +
+                            "INNER  JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId " +
+                            "INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId  =  tbl_medicalstaff.itbId WHERE hospitalNumber = @hospitalNumber ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@hospitalNumber", hospnum);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
-       
+        public List<Dictionary<string, object>> DisplayDiagnosis(string hospnum)
+        {
+            this.connection.Open();
+            string query = "SELECT hospitalNumber, tbl_patient.surname, complaints, examination, diagnosis, prescription, tbl_visit.visitDateTime, " +
+                            "bloodPressure, temperature, pulse FROM tbl_diagnosis " +
+                            "INNER JOIN tbl_patient ON tbl_diagnosis.patientId = tbl_patient.itbId " +
+                            "INNER JOIN tbl_visit ON tbl_diagnosis.visitId  = tbl_visit.itbId " +
+                            "INNER JOIN tbl_vitalsigns  ON  tbl_diagnosis.vitalId = tbl_vitalsigns.itbId WHERE hospitalNumber = @hospitalNumber";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@hospitalNumber", hospnum);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+        
 
 
 

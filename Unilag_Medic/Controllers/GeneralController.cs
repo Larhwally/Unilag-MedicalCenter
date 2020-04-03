@@ -45,6 +45,49 @@ namespace Unilag_Medic.Controllers
         }
 
 
+        [Route("GetVitByHospnum")]
+        [HttpGet("{hospitalNumber}")]
+        public string GetVitByHospnum(string hospnum)
+        {
+            EntityConnection con = new EntityConnection("tbl_vitalsigns");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "hospitalNumber", hospnum}
+            };
+
+            string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
+            return rec;
+        }
+
+
+        [Route("GetVisitByHospnum")]
+        [HttpGet("{hospitalNumber}")]
+        public string GetVisitByHospnum(string hospnum)
+        {
+            EntityConnection con = new EntityConnection("tbl_visit");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"hospitalNumber", hospnum }
+            };
+            string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
+            return res;
+        }
+
+
+        [Route("GetDiagByHospnum")]
+        [HttpGet("{hospitalNumber}")]
+        public string GetDiagByHospnum(string hospnum)
+        {
+            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"hospitalNumber", hospnum }
+            };
+            string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
+            return res;
+        }
+
+
         [Route("GetClinic")]
         [HttpGet]
         public string GetClinic()
