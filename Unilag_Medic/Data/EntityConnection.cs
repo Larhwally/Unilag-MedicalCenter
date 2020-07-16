@@ -253,7 +253,7 @@ namespace Unilag_Medic.Data
             return this.BaseSelect(query + param);
         }
 
-        //select by hospitalNumber parameter
+        //select by hospitalNumber parameter from tables  where  hospital  number exists as columns
         public List<Dictionary<string, object>> SelectByParam(Dictionary<string, string> queryvalues)
         {
             this.connection.Open();
@@ -502,7 +502,7 @@ namespace Unilag_Medic.Data
             return values;
         }
 
-
+        //Use this method for searching vital signs with hospital  number
         public List<Dictionary<string, object>> DisplayDiagnosis(string hospnum)
         {
             this.connection.Open();
@@ -529,6 +529,29 @@ namespace Unilag_Medic.Data
             return values;
         }
         
+        //Use this method to search through student patients using matric number as search parameter
+        public  List<Dictionary<string, object>> StudentPatient(string matricNum)
+        {
+            this.connection.Open();
+            string query = "SELECT matricNumber, hospitalNumber, surname, firstName, nhisNumber, gender, phoneNumber, tbl_patient.status FROM tbl_student_patient " +
+                            "INNER JOIN tbl_patient ON tbl_student_patient.patientId = tbl_patient.itbId WHERE matricNumber = @matricNumber";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@matricNumber", matricNum);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
 

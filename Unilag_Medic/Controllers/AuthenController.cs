@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -31,7 +32,7 @@ namespace Unilag_Medic.Controllers
 
        [Route("RegisterUser")]
        [HttpPost]
-       public string RegUser([FromBody] UnilagMedLogin model)
+       public IActionResult RegUser([FromBody] UnilagMedLogin model)
         {
             //DbAccessLayer db = new DbAccessLayer();
             EntityConnection con = new EntityConnection("tbl_userlogin");
@@ -62,16 +63,20 @@ namespace Unilag_Medic.Controllers
                 con.AddUser(user);
                 //string result = con.AddUser(user);
             }
+            else
+            {
+                return BadRequest("check user details and try again");
+            }
             var res = new { user.email, user.createBy, user.createDate };
-            var result = "{'status':true, 'data':" + JsonConvert.SerializeObject(res) + "}";
-            return result;
+            //var result = res;
+            return Ok(res);
         }
 
 
         [AllowAnonymous]
         [Route("LoginUser")]
         [HttpPost]
-        public string Loginuser([FromBody] UnilagMedLogin model)
+        public IActionResult Loginuser([FromBody] UnilagMedLogin model)
         {
             EntityConnection connection = new EntityConnection("tbl_userlogin");
             string email = model.email;
@@ -101,17 +106,17 @@ namespace Unilag_Medic.Controllers
 
                 var tokenval = new JwtSecurityTokenHandler().WriteToken(token);
                 //var rol = connection.SelectRole(roleid, email);
-                string tempres = EntityConnection.ToJson(connection.DisplayRoles(email));
-
-                var res = new { tempres, logindate, tokenval };
-                var output = JsonConvert.SerializeObject(res);
+                var tempres = connection.DisplayRoles(email);
+                var role = Ok(tempres);
+                var res = new { role, logindate, tokenval };
+                //var output = JsonConvert.SerializeObject(res);
                 //var result = JsonConvert.SerializeObject(tokenval);
-
-                return output;
+                
+                return Ok(res);
 
             }
 
-            return Unauthorized().ToString();
+            return Unauthorized();
         }
 
 

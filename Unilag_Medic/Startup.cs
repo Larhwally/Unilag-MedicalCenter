@@ -34,8 +34,19 @@ namespace Unilag_Medic
         {
             //services.AddSingleton<IConfiguration>();
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("default", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
             services.AddDbContext<ApplicationDbContext>(
                 option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddIdentity<IdentityUser, IdentityRole>(
                 option =>
@@ -84,10 +95,11 @@ namespace Unilag_Medic
                 app.UseHsts();
             }
 
+            app.UseCors("default");
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
-            app.UseCors();
+           
         }
     }
 }

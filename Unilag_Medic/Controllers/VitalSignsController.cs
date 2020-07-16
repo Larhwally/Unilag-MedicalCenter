@@ -69,7 +69,7 @@ namespace Unilag_Medic.Controllers
                 var resp = Response.WriteAsync("Error in creating record");
                 return resp + "";
             }
-            return param + "";
+            
         }
 
         // PUT: api/VitalSigns/5

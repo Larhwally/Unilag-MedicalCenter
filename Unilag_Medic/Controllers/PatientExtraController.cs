@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
@@ -41,43 +42,93 @@ namespace Unilag_Medic.Controllers
 
         //End of GET method
 
+        [Route("GetStudentByMatric")]
+        [HttpGet("{matricNumber}")]
+        public string GetStudentByMatric(string matricnum)
+        {
+            EntityConnection con = new EntityConnection("tbl_student_patient");
+            Dictionary<string, object> pairs = new Dictionary<string, object>
+            {
+                {"matricNumber", matricnum }
+            };
+            string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
+            return result;
+        }
+
+
+
         //Begin POST method
         [Route("PostStaffPatient")]
         [HttpPost]
-        public string PostStaff([FromBody] Dictionary<string, string> values)
+        public string PostStaff([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_staff_patient");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record successfully saved!");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
         }
 
         [Route("PostStudentPatient")]
         [HttpPost]
-        public string PostStudent([FromBody] Dictionary<string, string> values)
+        public string PostStudent([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_student_patient");
-            if (values != null)
+            if (param != null)
             {
-                values.Add("createDate", DateTime.Now.ToString());
-                con.Insert(values);
-                Response.WriteAsync("Record successfully saved!");
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                List<string> keylst = new List<string>();
+                List<string> vallst = new List<string>();
+                List<string> valkeys = new List<string>();
+                foreach (var key in param.Keys)
+                {
+                    keylst.Add(key);
+                }
+                string[] vals = param.Values.ToArray();
+                for (int i = 0; i < vals.Length; i++)
+                {
+                    vallst.Add(vals[i]);
+                }
+
+                foreach (var key in param.Keys)
+                {
+                    valkeys.Add(key + ": " + param[key]);
+                }
+                var output = JsonConvert.SerializeObject(valkeys);
+                return output;
             }
             else
             {
                 var resp = Response.WriteAsync("Failed to save test");
                 return resp + "";
             }
-            return values + "";
+           
         }
 
         [Route("PostDependent")]
