@@ -27,16 +27,15 @@ namespace Unilag_Medic.Controllers
             };
 
             //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
-            List<Dictionary<string, object>> rec = con.SelectByColumn(pairs);
-
-            if (con.SelectByColumn(pairs).Count > 0)
+            if (con.SelectByParam(pairs).Count > 0)
             {
-                return Ok(rec);
+                return Ok(con.SelectByParam(pairs)); 
             }
             else
             {
-                return NotFound();
+                return NotFound(hospNum + " does not exist!");
             }
+           
             
         }
 
@@ -50,17 +49,16 @@ namespace Unilag_Medic.Controllers
                 { "visitId", visitId}
             };
 
-            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
-            List<Dictionary<string, object>> rec = con.SelectByColumn(pairs);
-
-            if (con.SelectByColumn(pairs).Count > 0)
+            if (con.SelectByParam(pairs).Count > 0)
             {
-                return Ok(rec);
+                return Ok(con.SelectByParam(pairs));
             }
             else
             {
-                return NotFound();
+                return NotFound(visitId + " does not exist in the record!");
             }
+            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
+           
         }
 
 
@@ -74,17 +72,16 @@ namespace Unilag_Medic.Controllers
                 { "hospitalNumber", hospnum}
             };
 
-            //string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
-            List<Dictionary<string, object>> rec = con.SelectByColumn(pairs);
-
-            if (con.SelectByColumn(pairs).Count > 0)
+            if (con.DisplayVitalValues(hospnum).Count > 0)
             {
-                return Ok(rec);
+                return Ok(con.DisplayVitalValues(hospnum));
             }
             else
             {
-                return NotFound();
+                return NotFound(hospnum + " does not have a vital record");
             }
+            //string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
+           
         }
 
 
@@ -97,17 +94,17 @@ namespace Unilag_Medic.Controllers
             {
                 {"hospitalNumber", hospnum }
             };
-            //string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
-            List<Dictionary<string, object>> rec = con.SelectByColumn(pairs);
 
-            if (con.SelectByColumn(pairs).Count > 0)
+            if (con.DisplayVisitValues(hospnum).Count > 0)
             {
-                return Ok(rec);
+                return Ok(con.DisplayVisitValues(hospnum));
             }
             else
             {
-                return NotFound();
+                return NotFound(hospnum + " does not have a visit record");
             }
+            //string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
+           
         }
 
 
@@ -120,17 +117,17 @@ namespace Unilag_Medic.Controllers
             {
                 {"hospitalNumber", hospnum }
             };
-            //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
-            List<Dictionary<string, object>> rec = con.SelectByColumn(pairs);
 
-            if (con.SelectByColumn(pairs).Count > 0)
+            if (con.DisplayDiagnosis(hospnum).Count > 0)
             {
-                return Ok(rec);
+                return Ok(con.DisplayDiagnosis(hospnum));
             }
             else
             {
-                return NotFound();
+                return NotFound(hospnum + " does not have a diagnosis record");
             }
+            //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
+            
         }
 
 

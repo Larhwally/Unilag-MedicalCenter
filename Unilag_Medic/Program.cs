@@ -19,7 +19,7 @@ namespace Unilag_Medic
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                //.UseUrls("localhost://3000")
+                //.UseUrls("http://localhost:*")
                 .UseStartup<Startup>();
     }
 }
