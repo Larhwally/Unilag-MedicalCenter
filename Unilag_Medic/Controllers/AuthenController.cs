@@ -105,14 +105,15 @@ namespace Unilag_Medic.Controllers
                     signingCredentials: new SigningCredentials(signingkey, SecurityAlgorithms.HmacSha256));
 
                 var tokenval = new JwtSecurityTokenHandler().WriteToken(token);
-                //var rol = connection.SelectRole(roleid, email);
-                var tempres = connection.DisplayRoles(email);
-                var role = Ok(tempres);
-                var res = new { role, logindate, tokenval };
+
                 //var output = JsonConvert.SerializeObject(res);
                 //var result = JsonConvert.SerializeObject(tokenval);
-                
-                return Ok(res);
+
+
+                var role = connection.DisplayRoles(email);
+                var tempresult = new { logindate, tokenval };
+               
+                return Ok(new {role, tempresult });
 
             }
 

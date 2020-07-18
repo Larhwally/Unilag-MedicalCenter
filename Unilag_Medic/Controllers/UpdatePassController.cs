@@ -35,7 +35,7 @@ namespace Unilag_Medic.Controllers
 
         // PUT: api/UpdatePass/5
         [HttpPut("{id}")]
-        public string UpdateUser(int id, UnilagMedLogin unilag)
+        public IActionResult UpdateUser(int id, UnilagMedLogin unilag)
         {
             EntityConnection con = new EntityConnection("tbl_userlogin");
             if (id != 0)
@@ -46,10 +46,10 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in updating password!") + "";
+                return BadRequest("Error in updating password!");
             }
 
-            return unilag + "";
+            return Ok(unilag);
         }
 
 

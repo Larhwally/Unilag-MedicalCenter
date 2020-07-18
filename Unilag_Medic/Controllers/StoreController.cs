@@ -15,27 +15,29 @@ namespace Unilag_Medic.Controllers
         //Begin GET method
         [Route("GetInventory")]
         [HttpGet]
-        public string GetInventory()
+        public IActionResult GetInventory()
         {
             EntityConnection con = new EntityConnection("tbl_inventory");
-            string result = "'statau': true, 'data':" + EntityConnection.ToJson(con.Select());
-            return result;
+            //string result = "'statau': true, 'data':" + EntityConnection.ToJson(con.Select());
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
         }
 
         [Route("GetDispense")]
         [HttpGet]
-        public string GetDispense()
+        public IActionResult GetDispense()
         {
             EntityConnection con = new EntityConnection("tbl_storedispense");
-            string result = "'statau': true, 'data':" + EntityConnection.ToJson(con.Select());
-            return result;
+            //string result = "'statau': true, 'data':" + EntityConnection.ToJson(con.Select());
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
         }
 
 
         //Begin POST method
         [Route("PostItem")]
         [HttpPost]
-        public string PostItem([FromBody] Dictionary<string, string> rec)
+        public IActionResult PostItem([FromBody] Dictionary<string, string> rec)
         {
             EntityConnection con = new EntityConnection("tbl_inventory");
             if (rec != null)
@@ -46,15 +48,15 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                var resp = Response.WriteAsync("Failed to save test");
-                return resp + "";
+                //var resp = Response.WriteAsync("Failed to save test");
+                return BadRequest("Failed to save item");
             }
-            return rec + "";
+            return Ok(rec);
         }
 
         [Route("PostDispense")]
         [HttpPost]
-        public string PostDispense([FromBody] Dictionary<string, string> rec)
+        public IActionResult PostDispense([FromBody] Dictionary<string, string> rec)
         {
             EntityConnection con = new EntityConnection("tbl_storedispense");
             if (rec != null)
@@ -65,35 +67,55 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                var resp = Response.WriteAsync("Failed to save test");
-                return resp + "";
+                //var resp = Response.WriteAsync("Failed to save test");
+                return BadRequest("Failed to save record");
             }
-            return rec + "";
+            return Ok(rec);
         }
 
 
         //Begin SELECT by ID
         [Route("SearchItem")]
         [HttpGet("{id}")]
-        public string GetItemById(int id)
+        public IActionResult GetItemById(int id)
         {
             EntityConnection con = new EntityConnection("tbl_inventory");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
-            string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            return record;
+            //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
+            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+
+            if (con.SelectByColumn(dic).Count > 0)
+            {
+                return Ok(record);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
 
         [Route("SearchDispense")]
         [HttpGet("{id}")]
-        public string GetRecById(int id)
+        public IActionResult GetRecById(int id)
         {
             EntityConnection con = new EntityConnection("tbl_storedispense");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
-            string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            return record;
+            //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
+            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+
+            if (con.SelectByColumn(dic).Count > 0)
+            {
+                return Ok(record);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
 

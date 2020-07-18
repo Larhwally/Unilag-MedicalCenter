@@ -18,30 +18,38 @@ namespace Unilag_Medic.Controllers
         
         // GET: api/Patient
         [HttpGet]
-        public string GetPatient()
+        public IActionResult GetPatient()
         {
             EntityConnection con = new EntityConnection("tbl_patient");
-            string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            return result;
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
         }
 
         // GET: api/Patient/5
         [HttpGet("{id}")]
-        public string GetPatientbyId(int id)
+        public IActionResult GetPatientbyId(int id)
         {
             EntityConnection con = new EntityConnection("tbl_patient");
             Dictionary<string, string> pairs = new Dictionary<string, string>
             {
                 { "itbId", id + "" }
             };
-            string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(pairs)) + "}";
-            return record;
+            //string record = EntityConnection.ToJson(con.SelectByColumn(pairs));
+            if (con.SelectByColumn(pairs).Count > 0)
+            {
+                return Ok(con.SelectByColumn(pairs));
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
 
         // POST: api/Patient
         [HttpPost]
-        public string Post([FromBody] Dictionary<string, string> param)
+        public IActionResult Post([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
@@ -65,13 +73,14 @@ namespace Unilag_Medic.Controllers
                 {
                     valkeys.Add(key + ": " + param[key]);
                 }
-                var output = JsonConvert.SerializeObject(valkeys);
-                return output;
+                //var output = JsonConvert.SerializeObject(valkeys);
+                return Ok(valkeys);
             }
             else
             {
-                var resp = Response.WriteAsync("Error in creating record");
-                return resp + "";
+                //var resp = Response.WriteAsync("Error in creating record");
+                //return resp + "";
+                return BadRequest("Error in creating record");
             }
 
           
@@ -79,7 +88,7 @@ namespace Unilag_Medic.Controllers
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
-        public string Put(int id, Dictionary<string, string> content)
+        public IActionResult Put(int id, Dictionary<string, string> content)
         {
             EntityConnection con = new EntityConnection("tbl_patient");
             if (id != 0)
@@ -89,14 +98,15 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in updating record!") +"";
+                return BadRequest("Error in updating record!");
             }
-            return content + "";
+            //return content + "";
+            return Ok(content);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public string Delete(int id)
+        public IActionResult Delete(int id)
         {
             EntityConnection con = new EntityConnection("tbl_patient");
             if (id != 0)
@@ -108,10 +118,10 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound().ToString();
+                return NotFound();
             }
 
-            return "Record was deleted successfully";
+            return Ok("Record was deleted successfully");
         }
 
 

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Unilag_Medic.Data;
+using Unilag_Medic.Services;
 
 namespace Unilag_Medic.Controllers
 {
@@ -15,52 +16,91 @@ namespace Unilag_Medic.Controllers
     {
         [Route("GetStaffPatient")]
         [HttpGet]
-        public string Getstaff()
+        public IActionResult Getstaff()
         {
             EntityConnection con = new EntityConnection("tbl_staff_patient");
-            string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            return result;
+            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
         }
 
         [Route("GetStudentPatient")]
         [HttpGet]
-        public string GetStudent()
+        public IActionResult GetStudent()
         {
             EntityConnection con = new EntityConnection("tbl_student_patient");
-            string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            return result;
+            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
         }
 
         [Route("GetDependentPatient")]
         [HttpGet]
-        public string GetDependent()
+        public IActionResult GetDependent()
         {
             EntityConnection con = new EntityConnection("tbl_dependent");
-            string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            return result;
+            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
         }
 
         //End of GET method
 
         [Route("GetStudentByMatric")]
         [HttpGet("{matricNumber}")]
-        public string GetStudentByMatric(string matricnum)
+        public IActionResult GetStudentByMatric(string matricnum)
         {
             EntityConnection con = new EntityConnection("tbl_student_patient");
             Dictionary<string, object> pairs = new Dictionary<string, object>
             {
                 {"matricNumber", matricnum }
             };
-            string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
-            return result;
+            //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
+            List<Dictionary<string, object>> result = con.StudentPatient(matricnum);
+
+            if (con.StudentPatient(matricnum).Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
+
+
+        [Route("GetStaffByStaffcode")]
+        [HttpGet("{staffCode}")]
+        public IActionResult GetStaffByStaffcode(string staffcode)
+        {
+            EntityConnection con = new EntityConnection("tbl_staff_patient");
+            Dictionary<string, object> pairs = new Dictionary<string, object>
+            {
+                {"staffCode", staffcode }
+            };
+            //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
+            List<Dictionary<string, object>> result = con.StaffPatient(staffcode);
+
+            if (con.StaffPatient(staffcode).Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+
 
 
 
         //Begin POST method
         [Route("PostStaffPatient")]
         [HttpPost]
-        public string PostStaff([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStaff([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_staff_patient");
             if (param != null)
@@ -84,19 +124,19 @@ namespace Unilag_Medic.Controllers
                 {
                     valkeys.Add(key + ": " + param[key]);
                 }
-                var output = JsonConvert.SerializeObject(valkeys);
-                return output;
+                //var output = JsonConvert.SerializeObject(valkeys);
+                return Ok(valkeys);
             }
             else
             {
-                var resp = Response.WriteAsync("Failed to save test");
-                return resp + "";
+                //var resp = Response.WriteAsync("Failed to save test");
+                return BadRequest("Failed to save record");
             }
         }
 
         [Route("PostStudentPatient")]
         [HttpPost]
-        public string PostStudent([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStudent([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_student_patient");
             if (param != null)
@@ -120,20 +160,20 @@ namespace Unilag_Medic.Controllers
                 {
                     valkeys.Add(key + ": " + param[key]);
                 }
-                var output = JsonConvert.SerializeObject(valkeys);
-                return output;
+                //var output = JsonConvert.SerializeObject(valkeys);
+                return Ok(valkeys);
             }
             else
             {
-                var resp = Response.WriteAsync("Failed to save test");
-                return resp + "";
+                //var resp = Response.WriteAsync("Failed to save test");
+                return BadRequest("Error in creating record");
             }
-           
+
         }
 
         [Route("PostDependent")]
         [HttpPost]
-        public string PostDependent([FromBody] Dictionary<string, string> values)
+        public IActionResult PostDependent([FromBody] Dictionary<string, string> values)
         {
             EntityConnection con = new EntityConnection("tbl_dependent");
             if (values != null)
@@ -144,28 +184,41 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                var resp = Response.WriteAsync("Failed to save test");
-                return resp + "";
+                //var resp = Response.WriteAsync("Failed to save test");
+                return BadRequest("Failed to save record");
             }
-            return values + "";
+            return Ok(values);
         }
+
+
+
         //End of POST method
 
         //Begin Select by ID
         [Route("SearchDependent")]
         [HttpGet("{id}")]
-        public string GetDepById(int id)
+        public IActionResult GetDepById(int id)
         {
             EntityConnection con = new EntityConnection("tbl_dependent");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
-            string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            return record;
+            //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
+            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+
+            if (con.SelectByColumn(dic).Count > 0)
+            {
+                return Ok(record);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
 
         [Route("UpdateDependent")]
         [HttpPut("{id}")]
-        public string UpdateDependent(int id, Dictionary<string, string> param)
+        public IActionResult UpdateDependent(int id, Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_dependent");
             if (id != 0)
@@ -175,9 +228,9 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in updating record!") + "";
+                return BadRequest("Error in updating record!");
             }
-            return param + "";
+            return Ok(param);
         }
 
 

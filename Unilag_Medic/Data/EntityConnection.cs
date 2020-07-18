@@ -18,7 +18,7 @@ namespace Unilag_Medic.Data
 {
     public class EntityConnection
     {
-        public string ConnectionString = "server=localhost;port=3306;database=unilagmedicdb;user=lawal;password=password00";
+        public string ConnectionString = "server=localhost;port=3306;database=unilag_medic;user=root;password=ellnerd22";
         private MySqlConnection connection;
         private string tableName;
         private int defaultSelectLength;
@@ -551,6 +551,52 @@ namespace Unilag_Medic.Data
             reader.Close();
             this.connection.Close();
             return values;
+        }
+
+
+        public List<Dictionary<string, object>> StaffPatient(string staffCode)
+        {
+            this.connection.Open();
+            string query = "SELECT staffCode, hospitalNumber, surname, firstName, nhisNumber, gender, phoneNumber, tbl_patient.status FROM tbl_staff_patient " +
+                            "INNER JOIN tbl_patient ON tbl_staff_patient.patientId = tbl_patient.itbId WHERE staffCode = @staffCode";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@staffCode", staffCode);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+        public static string ConvertToJson(string result)
+        {
+            var JsonResult = JsonConvert.SerializeObject(result);
+            return JsonResult;
+        }
+
+        //Check image unique name on the database
+        public bool CheckImage(string uniquePath)
+        {
+            this.connection.Open();
+            bool hasRows = false;
+            string query = "select * from " + this.tableName + " where imgUniquePath =  @imgUniquePath  ";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("imgUniquePath", uniquePath);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            hasRows = reader.HasRows;
+            this.connection.Close();
+            return hasRows;
+
+
         }
 
 
