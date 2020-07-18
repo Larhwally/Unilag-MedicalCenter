@@ -18,7 +18,7 @@ namespace Unilag_Medic.Data
 {
     public class EntityConnection
     {
-        public string ConnectionString = "server=localhost;port=3306;database=unilag_medic;user=root;password=ellnerd22";
+        public string ConnectionString = "server=localhost;port=3306;database=unilagmedicdb;user=lawal;password=password00";
         private MySqlConnection connection;
         private string tableName;
         private int defaultSelectLength;

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Unilag_Medic.Data;
-using Unilag_Medic.Services;
 
 namespace Unilag_Medic.Controllers
 {
