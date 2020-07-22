@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.2",
-    "signature": "5636b805a70b17e32e1478b67721d5ee43c5d27b"
+    "signature": "f9dd09bb491e4fe23ee79914b73fb6b89c556b3d"
   },
   "compilationOptions": {
     "defines": [
@@ -24,6 +24,7 @@
     ".NETCoreApp,Version=v2.2": {
       "Unilag_Medic/1.0.0": {
         "dependencies": {
+          "Json.Net": "1.0.23",
           "Microsoft.AspNetCore.App": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
@@ -66,6 +67,17 @@
         },
         "compile": {
           "lib/netstandard1.0/Google.Protobuf.dll": {}
+        }
+      },
+      "Json.Net/1.0.23": {
+        "runtime": {
+          "lib/netstandard2.0/Json.Net.dll": {
+            "assemblyVersion": "1.0.23.1",
+            "fileVersion": "1.0.23.1"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Json.Net.dll": {}
         }
       },
       "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
@@ -3842,6 +3854,13 @@
       "sha512": "sha512-741fGeDQjixBJaU2j+0CbrmZXsNJkTn/hWbOh4fLVXndHsCclJmWznCPWrJmPoZKvajBvAz3e8ECJOUvRtwjNQ==",
       "path": "google.protobuf/3.6.1",
       "hashPath": "google.protobuf.3.6.1.nupkg.sha512"
+    },
+    "Json.Net/1.0.23": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gokTwC3OVatrIFwQBaooj6EV3+08ryFIqdfR6RP4K61x5uSschPmKHl5XppvgdD/lmfY9IYZIoBt8V5Y0SU0nQ==",
+      "path": "json.net/1.0.23",
+      "hashPath": "json.net.1.0.23.nupkg.sha512"
     },
     "Microsoft.CodeAnalysis.CSharp.Workspaces/2.8.0": {
       "type": "package",

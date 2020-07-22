@@ -24,8 +24,9 @@ namespace Unilag_Medic.Data
         private int defaultSelectLength;
         private Dictionary<string, string> tableSchema;
 
-        public static string ToJson(List<Dictionary<string, object>> list) //changed object to string for dict
+        public static string ToJson(string list) //changed object to string for dict
         {
+           
             //string result = "";
             //DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Dictionary<string, object>>)); //changed object to string for dict
 
@@ -34,8 +35,9 @@ namespace Unilag_Medic.Data
             //    serializer.WriteObject(ms, list);
             //    result = Encoding.Default.GetString(ms.ToArray());
             //}
-            var JsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(list);
-            return JsonResult;
+            JsonConvert.SerializeObject(list);
+            return list;
+
         }
 
         public EntityConnection(string tableName)

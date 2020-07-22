@@ -101,7 +101,7 @@ namespace Unilag_Medic.Controllers
                 var token = new JwtSecurityToken(
                     issuer: _configuration["Jwt:Site"],
                     audience: _configuration["Jwt:Site"],
-                    expires: DateTime.UtcNow.AddMinutes(Expireminutes),
+                    expires: DateTime.Today.AddDays(2),
                     signingCredentials: new SigningCredentials(signingkey, SecurityAlgorithms.HmacSha256));
 
                 var tokenval = new JwtSecurityTokenHandler().WriteToken(token);

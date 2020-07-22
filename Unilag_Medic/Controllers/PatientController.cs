@@ -22,6 +22,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_patient");
             List<Dictionary<string, object>> result = con.Select();
+
             return Ok(result);
         }
 

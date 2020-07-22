@@ -99,7 +99,7 @@ namespace Unilag_Medic.Controllers
             return Ok(content);
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/MedStaff/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

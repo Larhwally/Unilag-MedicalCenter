@@ -28,6 +28,15 @@
           "lib/netstandard1.0/Google.Protobuf.dll": {}
         }
       },
+      "Json.Net/1.0.23": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Json.Net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Json.Net.dll": {}
+        }
+      },
       "Microsoft.AspNet.WebApi.Client/5.2.6": {
         "type": "package",
         "dependencies": {
@@ -5012,6 +5021,18 @@
         "lib/net45/Google.Protobuf.xml",
         "lib/netstandard1.0/Google.Protobuf.dll",
         "lib/netstandard1.0/Google.Protobuf.xml"
+      ]
+    },
+    "Json.Net/1.0.23": {
+      "sha512": "gokTwC3OVatrIFwQBaooj6EV3+08ryFIqdfR6RP4K61x5uSschPmKHl5XppvgdD/lmfY9IYZIoBt8V5Y0SU0nQ==",
+      "type": "package",
+      "path": "json.net/1.0.23",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "json.net.1.0.23.nupkg.sha512",
+        "json.net.nuspec",
+        "lib/netstandard2.0/Json.Net.dll"
       ]
     },
     "Microsoft.AspNet.WebApi.Client/5.2.6": {
@@ -13651,6 +13672,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.2": [
+      "Json.Net >= 1.0.23",
       "Microsoft.AspNetCore.App >= 2.2.0",
       "Microsoft.AspNetCore.Razor.Design >= 2.2.0",
       "Microsoft.NETCore.App >= 2.2.0",
@@ -13700,6 +13722,10 @@
     "frameworks": {
       "netcoreapp2.2": {
         "dependencies": {
+          "Json.Net": {
+            "target": "Package",
+            "version": "[1.0.23, )"
+          },
           "Microsoft.AspNetCore.App": {
             "suppressParent": "All",
             "target": "Package",

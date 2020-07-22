@@ -51,14 +51,15 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                Response.WriteAsync("Record saves successfully!");
+                //Response.WriteAsync("Record saves successfully!");
+                return Created("New role added", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
                 return BadRequest("Error in adding record");
             }
-            return Ok(param);
+            //return Ok(param);
         }
 
         // PUT: api/UserRole/5
@@ -68,8 +69,10 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_role");
             if (id != 0)
             {
+                content.Add("createDate", DateTime.Now.ToString());
                 con.Update(id, content);
-                Response.WriteAsync("Record updated successfully!");
+                //Response.WriteAsync("Record updated successfully!");
+                
             }
             else
             {
@@ -88,6 +91,7 @@ namespace Unilag_Medic.Controllers
                 Dictionary<string, string> param = new Dictionary<string, string>();
                 param.Add("itbId", id + "");
                 con.Delete(param);
+                //return Delete(id); 
             }
             else
             {
