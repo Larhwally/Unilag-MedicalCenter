@@ -430,7 +430,9 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT email, roleId, tbl_role.itbId, roleTitle FROM tbl_userlogin INNER JOIN tbl_role ON tbl_userlogin.roleId = tbl_role.itbId WHERE email = @email";
+            string query = "SELECT tbl_userlogin.email, tbl_userlogin.roleId, tbl_role.itbId, roleTitle, medstaffId, staffCode, surname, position FROM tbl_userlogin " +
+                            "INNER JOIN tbl_role ON tbl_userlogin.roleId = tbl_role.itbId " +
+                            "INNER JOIN tbl_medicalstaff ON tbl_userlogin.medstaffId = tbl_medicalstaff.itbId WHERE tbl_userlogin.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
             MySqlDataReader reader = command.ExecuteReader();
@@ -579,6 +581,7 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+       
         public static string ConvertToJson(string result)
         {
             var JsonResult = JsonConvert.SerializeObject(result);

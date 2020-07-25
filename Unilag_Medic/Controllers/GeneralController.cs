@@ -249,7 +249,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public IActionResult PostNationality([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_state");
+            EntityConnection con = new EntityConnection("tbl_nationality");
 
             if (param != null)
             {

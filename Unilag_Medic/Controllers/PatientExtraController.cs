@@ -13,7 +13,7 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     public class PatientExtraController : Controller
     {
-        [Route("GetStaffPatient")]
+        [Route("Staffs")]
         [HttpGet]
         public IActionResult Getstaff()
         {
@@ -23,53 +23,7 @@ namespace Unilag_Medic.Controllers
             return Ok(result);
         }
 
-        [Route("GetStudentPatient")]
-        [HttpGet]
-        public IActionResult GetStudent()
-        {
-            EntityConnection con = new EntityConnection("tbl_student_patient");
-            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
-        }
-
-        [Route("GetDependentPatient")]
-        [HttpGet]
-        public IActionResult GetDependent()
-        {
-            EntityConnection con = new EntityConnection("tbl_dependent");
-            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
-        }
-
-        //End of GET method
-
-        [Route("GetStudentByMatric")]
-        [HttpGet("{matricNumber}")]
-        public IActionResult GetStudentByMatric(string matricnum)
-        {
-            EntityConnection con = new EntityConnection("tbl_student_patient");
-            Dictionary<string, object> pairs = new Dictionary<string, object>
-            {
-                {"matricNumber", matricnum }
-            };
-            //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
-            List<Dictionary<string, object>> result = con.StudentPatient(matricnum);
-
-            if (con.StudentPatient(matricnum).Count > 0)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                return NotFound();
-            }
-
-        }
-
-
-        [Route("GetStaffByStaffcode")]
+        [Route("Staffs")]
         [HttpGet("{staffCode}")]
         public IActionResult GetStaffByStaffcode(string staffcode)
         {
@@ -94,10 +48,7 @@ namespace Unilag_Medic.Controllers
 
 
 
-
-
-        //Begin POST method
-        [Route("PostStaffPatient")]
+        [Route("Staffs")]
         [HttpPost]
         public IActionResult PostStaff([FromBody] Dictionary<string, string> param)
         {
@@ -124,7 +75,7 @@ namespace Unilag_Medic.Controllers
                     valkeys.Add(key + ": " + param[key]);
                 }
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Created("", valkeys);
             }
             else
             {
@@ -133,7 +84,41 @@ namespace Unilag_Medic.Controllers
             }
         }
 
-        [Route("PostStudentPatient")]
+        [Route("Students")]
+        [HttpGet]
+        public IActionResult GetStudent()
+        {
+            EntityConnection con = new EntityConnection("tbl_student_patient");
+            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
+        }
+
+        [Route("Students")]
+        [HttpGet("{matricNumber}")]
+        public IActionResult GetStudentByMatric(string matricnum)
+        {
+            EntityConnection con = new EntityConnection("tbl_student_patient");
+            Dictionary<string, object> pairs = new Dictionary<string, object>
+            {
+                {"matricNumber", matricnum }
+            };
+            //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
+            List<Dictionary<string, object>> result = con.StudentPatient(matricnum);
+
+            if (con.StudentPatient(matricnum).Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
+
+        }
+
+
+        [Route("Students")]
         [HttpPost]
         public IActionResult PostStudent([FromBody] Dictionary<string, string> param)
         {
@@ -160,7 +145,7 @@ namespace Unilag_Medic.Controllers
                     valkeys.Add(key + ": " + param[key]);
                 }
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Created("", valkeys);
             }
             else
             {
@@ -170,7 +155,17 @@ namespace Unilag_Medic.Controllers
 
         }
 
-        [Route("PostDependent")]
+        [Route("Dependents")]
+        [HttpGet]
+        public IActionResult GetDependent()
+        {
+            EntityConnection con = new EntityConnection("tbl_dependent");
+            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
+        }
+
+        [Route("Dependents")]
         [HttpPost]
         public IActionResult PostDependent([FromBody] Dictionary<string, string> values)
         {
@@ -186,9 +181,26 @@ namespace Unilag_Medic.Controllers
                 //var resp = Response.WriteAsync("Failed to save test");
                 return BadRequest("Failed to save record");
             }
-            return Ok(values);
+            return Created("", values);
         }
 
+
+        //End of GET method
+
+       
+
+
+       
+
+
+
+
+        //Begin POST method
+        
+
+        
+
+        
 
 
         //End of POST method

@@ -75,7 +75,7 @@ namespace Unilag_Medic.Controllers
                     valkeys.Add(key + ": " + param[key]);
                 }
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Created("", valkeys);
             }
             else
             {
