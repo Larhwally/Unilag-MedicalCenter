@@ -606,7 +606,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> SelectAllVisit()
         {
             this.connection.Open();
-            string query = "SELECT hospitalNumber, tbl_patient.surname, tbl_patient.otherName, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, clinicType, visitDateTime  FROM tbl_visit" +
+            string query = "SELECT hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
+                            "clinicType, visitDateTime, recordStaffId, tbl_visit.status, tbl_visit.createDate  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
