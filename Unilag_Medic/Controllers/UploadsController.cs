@@ -35,7 +35,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_upload");
             if (con.CheckImage(uniquePath) == true)
             {
-                string path = Path.Combine(_environment.ContentRootPath, "wwwroot/" + uniquePath);
+                string path = "/home/unimed/wwwroot/" + uniquePath;
                 using (var stream = new FileStream(path, FileMode.Open))
                 {
                     return PhysicalFile(path, "image/jpg");
@@ -69,9 +69,9 @@ namespace Unilag_Medic.Controllers
             }
             if (file.Length < 1024 * 1024 * 2)
             {
-                string path = Path.Combine(_environment.ContentRootPath, "wwwroot/" + uniqueName);
+                string path = Path.Combine("/home/unimed/wwwroot", uniqueName);
 
-                using (var stream = new FileStream(path, FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                 {
                     await file.CopyToAsync(stream);
                 }
