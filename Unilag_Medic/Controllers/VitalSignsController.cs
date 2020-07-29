@@ -21,7 +21,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_vitalsigns");
             //string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> result = con.Select();
+            List<Dictionary<string, object>> result = con.SelectAllVitalsigns();
             return Ok(result);
         }
 
