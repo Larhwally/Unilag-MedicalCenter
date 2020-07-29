@@ -377,7 +377,6 @@ namespace Unilag_Medic.Data
         }
 
 
-
         public bool CheckUser(string email, string password)
         {
             this.connection.Open();
@@ -593,15 +592,40 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             bool hasRows = false;
-            string query = "select * from " + this.tableName + " where imgUniquePath =  @imgUniquePath  ";
+            string query = "select * from " + this.tableName + " where uniquePath =  @uniquePath  ";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
-            cmd.Parameters.AddWithValue("imgUniquePath", uniquePath);
+            cmd.Parameters.AddWithValue("uniquePath", uniquePath);
             MySqlDataReader reader = cmd.ExecuteReader();
             hasRows = reader.HasRows;
             this.connection.Close();
             return hasRows;
 
 
+        }
+
+        public List<Dictionary<string, object>> SelectAllVisit()
+        {
+            this.connection.Open();
+            string query = "SELECT hospitalNumber, tbl_patient.surname, tbl_patient.otherName, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, clinicType, visitDateTime  FROM tbl_visit" +
+                            " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
+                            " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
+                            " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
         }
 
 

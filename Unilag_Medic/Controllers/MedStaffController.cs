@@ -113,6 +113,7 @@ namespace Unilag_Medic.Controllers
             else
             {
                 return NotFound();
+                
             }
             return Ok("Record deleted successfully");
         }

@@ -15,6 +15,7 @@ namespace Unilag_Medic.Controllers
     public class UploadsController : ControllerBase
     {
         public static IHostingEnvironment _environment;
+        public object objs = new object();
         
         public UploadsController(IHostingEnvironment environment)
         {
@@ -28,10 +29,24 @@ namespace Unilag_Medic.Controllers
         //}
 
         // GET: api/Uploads/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{uniquePath}")]
+        public IActionResult Get(string uniquePath)
         {
-            return "value";
+            EntityConnection con = new EntityConnection("tbl_upload");
+            if (con.CheckImage(uniquePath) == true)
+            {
+                string path = Path.Combine(_environment.ContentRootPath, "wwwroot/" + uniquePath);
+                using (var stream = new FileStream(path, FileMode.Open))
+                {
+                    return PhysicalFile(path, "image/jpg");
+                }
+
+            }
+            else
+            {
+                objs = new { message = "Image does not exist" };
+                return BadRequest(objs);
+            }
         }
 
         // POST: api/Uploads
@@ -44,17 +59,17 @@ namespace Unilag_Medic.Controllers
 
             if (!file.ContentType.StartsWith("image/"))
             {
-                object obj = new { message = "not an image file" };
-                return BadRequest(obj);
+                 objs = new { message = "not an image file" };
+                return BadRequest(objs);
             }
             if (!file.FileName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))
             {
-                object obj = new { message = "image is not in jpg format" };
-                return BadRequest(obj);
+                objs = new { message = "image is not in jpg format" };
+                return BadRequest(objs);
             }
             if (file.Length < 1024 * 1024 * 2)
             {
-                string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniqueName);
+                string path = Path.Combine(_environment.ContentRootPath, "wwwroot/" + uniqueName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
@@ -62,19 +77,20 @@ namespace Unilag_Medic.Controllers
                 }
 
                 //save image details to the databse
-                EntityConnection con = new EntityConnection("tbl_images");
+                EntityConnection con = new EntityConnection("tbl_upload");
                 Dictionary<string, string> param = new Dictionary<string, string>();
-                param.Add("imgPath", path);
-                param.Add("imgUniquePath", uniqueName);
-                param.Add("uploadBy", "admin");
-                param.Add("uplpoadDateTime", DateTime.Now.ToShortDateString());
+                param.Add("fullPath", path);
+                param.Add("uniquePath", uniqueName);
+                param.Add("createBy", "admin");
+                param.Add("createDate", DateTime.Now.ToShortDateString());
                 con.Insert(param);
-                return Ok(uniqueName);
+                objs = new { uniqueName };
+                return Ok(objs);
             }
             else
             {
-                object obj = new { message = "File too large" };
-                return BadRequest(obj);
+                objs = new { message = "File too large" };
+                return BadRequest(objs);
             }
 
         }
