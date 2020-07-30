@@ -454,10 +454,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> DisplayVisitValues(string hospitalNumber)
         {
             this.connection.Open();
-            string query = "SELECT hospitalNumber, patientTypeName, visitTypeName, visitDateTime, clinicName, staffCode, position FROM tbl_visit " +
+            string query = "SELECT hospitalNumber, tbl_patient.otherNames, tbl_patient.gender, visitDateTime, clinicName, staffCode, tbl_medicalstaff.surname, position, tbl_visit.createDate FROM tbl_visit " +
                             "INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId " +
-                            "INNER JOIN tbl_patienttype ON tbl_visit.patientType = tbl_patienttype.itbId " +
-                            "INNER JOIN tbl_visittype ON tbl_visit.visitTypeId = tbl_visittype.itbId " +
                             "INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId " +
                             "INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId WHERE hospitalNumber = @hospitalNumber";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
@@ -483,7 +481,7 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> DisplayVitalValues(string hospnum)
         {
             this.connection.Open();
-            string query = "SELECT  hospitalNumber, tbl_patient.surname, tbl_patient.gender, bloodPressure, temperature, pulse, bmiStatus, visitDateTime, staffCode, position, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
+            string query = "SELECT  hospitalNumber, tbl_patient.surname, tbl_patient.gender, bloodPressure, temperature, pulse, bmiStatus, visitDateTime, staffCode, tbl_medicalstaff.otherNames, position, assignedTo, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
                             "INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId  " +
                             "INNER  JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId " +
                             "INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId  =  tbl_medicalstaff.itbId WHERE hospitalNumber = @hospitalNumber ";
@@ -608,7 +606,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicType, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate  FROM tbl_visit" +
+                            "clinicName, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
