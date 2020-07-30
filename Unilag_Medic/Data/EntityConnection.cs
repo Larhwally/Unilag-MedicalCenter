@@ -330,6 +330,7 @@ namespace Unilag_Medic.Data
             return n > 0;
         }
 
+        //Create a user login credentials
         public bool AddUser(UnilagMedLogin unilag)
         {
             this.connection.Open();
@@ -346,6 +347,7 @@ namespace Unilag_Medic.Data
             return n > 0;
         }
 
+        //Update user default password to desired password
         public bool UpdateUser(int id, UnilagMedLogin unilag)
         {
             this.connection.Open();
@@ -376,7 +378,7 @@ namespace Unilag_Medic.Data
             return n > 0;
         }
 
-
+        //checking user credentials against the database
         public bool CheckUser(string email, string password)
         {
             this.connection.Open();
@@ -556,7 +558,7 @@ namespace Unilag_Medic.Data
             return values;
         }
 
-
+        //Use this method to search through staff patients using staff code as search parameter
         public List<Dictionary<string, object>> StaffPatient(string staffCode)
         {
             this.connection.Open();
@@ -630,6 +632,7 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        //Select all vitalsign records specifying the listed fields
         public List<Dictionary<string, object>> SelectAllVitalsigns()
         {
             this.connection.Open();

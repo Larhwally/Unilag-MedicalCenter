@@ -71,7 +71,7 @@ namespace Unilag_Medic.Controllers
             {
                 string path = Path.Combine(_environment.ContentRootPath, "wwwroot/" + uniqueName);
 
-                using (var stream = new FileStream(path, FileMode.Create))
+                using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                 {
                     await file.CopyToAsync(stream);
                 }

@@ -11,7 +11,33 @@ namespace Unilag_Medic.Controllers
     //[Produces("application/json")]
     public class GeneralController : Controller
     {
+        public object obj = new object();
+
+        [Route("VitalUnits")]
+        [HttpPost]
+        public IActionResult PostUnit([FromBody] Dictionary<string, string> details)
+        {
+            EntityConnection con = new EntityConnection("tbl_vitalunits");
+            if (details != null)
+            {
+                con.Insert(details);
+                return Ok(details);
+            }
+            else
+            {
+                obj = new { message = "error in creating record" };
+                return BadRequest(obj);
+            }
+        }
         
+        [Route("VitalUnits")]
+        [HttpGet]
+        public IActionResult GetUnit()
+        {
+            EntityConnection con = new EntityConnection("tbl_vitalunits");
+            List<Dictionary<string, object>> rec = con.Select();
+            return Ok(rec);
+        }
         //Begin  GET requests
         [Route("Patients")]
         [HttpGet("{hospitalNumber}")]
@@ -30,7 +56,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound(EntityConnection.ToJson(hospitalNumber + "does not exist"));
+                obj = new { message = hospitalNumber + "does not exist" };
+                return NotFound(obj);
             }
             
         }
@@ -51,7 +78,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound(hospitalNumber + " does not have a visit record");
+                obj = new { message = hospitalNumber + "does not have a visit record" };
+                return NotFound(obj);
             }
             //string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
 
@@ -74,7 +102,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound(visitId + " does not exist in the record!");
+                obj = new { message = visitId + "does not exist" };
+                return NotFound(obj);
             }
             //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
            
@@ -97,7 +126,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound(hospitalNumber + " does not have a vital record");
+                obj = new { message = hospitalNumber + "does not have a vital sign record yet" };
+                return NotFound(obj);
             }
             //string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
            
@@ -120,7 +150,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound(hospitalNumber + " does not have a diagnosis record");
+                obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
+                return NotFound(obj);
             }
             //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
             
@@ -145,7 +176,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record, check details and try again!");
-                return BadRequest("Error in creating record, check details and try again!");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
 
             //return Ok(param);
@@ -181,7 +213,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record, check details and try again!");
-                return BadRequest("Error in creating record, check details and try again!");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
 
         }
@@ -225,7 +258,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
         }
         
@@ -259,7 +293,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
         }
         
@@ -293,7 +328,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
         }
         
@@ -327,7 +363,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
             //return Ok(param);
         }
@@ -364,7 +401,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
         }
         
@@ -398,7 +436,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
         }
         
@@ -431,7 +470,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
             //return Ok(param);
         }
@@ -465,7 +505,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
 
         }
@@ -498,7 +539,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record, check details and try again!");
-                return BadRequest("Error in creating record, check details and try again!");
+                obj = new { message = "Error in creating record, check details and try again!" };
+                return BadRequest(obj);
             }
 
             //return Ok(param);
