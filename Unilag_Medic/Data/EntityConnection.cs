@@ -91,7 +91,7 @@ namespace Unilag_Medic.Data
         //select all
         public List<Dictionary<string, object>> Select() 
         {
-            string query = "select * from " + this.tableName + " ";
+            string query = "select * from " + this.tableName + " ORDER BY itbId DESC LIMIT 20 ";
             return this.BaseSelect(query);
         }
 
@@ -562,7 +562,7 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> StaffPatient(string staffCode)
         {
             this.connection.Open();
-            string query = "SELECT staffCode, hospitalNumber, surname, firstName, nhisNumber, gender, phoneNumber, tbl_patient.status FROM tbl_staff_patient " +
+            string query = "SELECT staffCode, hospitalNumber, surname, otherNames, nhisNumber, gender, phoneNumber, tbl_patient.status FROM tbl_staff_patient " +
                             "INNER JOIN tbl_patient ON tbl_staff_patient.patientId = tbl_patient.itbId WHERE staffCode = @staffCode";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@staffCode", staffCode);
@@ -659,6 +659,31 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        //Method for last appointment details
+        public List<Dictionary<string, object>> LastVisit(int patientId)
+        {
+            this.connection.Open();
+            //bool hasRows = false;
+            string query = "SELECT visitDateTime, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames, clinicName FROM tbl_visit INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId" +
+            " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId where patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@patientId", patientId);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
 

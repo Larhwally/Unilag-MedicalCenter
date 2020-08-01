@@ -265,8 +265,6 @@ namespace Unilag_Medic.Controllers
         
         //End of State POST and GET
     
-
-
         //Nationality GET and POST method
 
         [Route("Nationalities")]
@@ -300,7 +298,6 @@ namespace Unilag_Medic.Controllers
         
         //End of Nationality
 
-        
         //Begin Patient type GET and POST
 
         [Route("PatientTypes")]
@@ -548,28 +545,6 @@ namespace Unilag_Medic.Controllers
 
         //End of specialization GET and POST method
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [Route("Stafftypes")]
         [HttpPost]
         public IActionResult Poststafftype([FromBody] Dictionary<string, string> param)
@@ -589,6 +564,28 @@ namespace Unilag_Medic.Controllers
             }
             //return Ok(param);
         }
+
+        [Route("LastVisits")]
+        [HttpGet("{id}")]
+        public IActionResult GetLastVisit(int patientId)
+        {
+            EntityConnection con = new EntityConnection("tbl_visit");
+            Dictionary<string, string> result = new Dictionary<string, string>()
+            {
+                {"patientId", patientId + ""}
+            };
+            if (con.LastVisit(patientId).Count > 0)
+            {
+                return Ok(con.LastVisit(patientId));
+            }
+            else
+            {
+                obj = new { message = patientId + " does not have a previous appointment record yet" };
+                return NotFound(obj);
+            }
+
+        }
+
         //End of POST requests
 
 

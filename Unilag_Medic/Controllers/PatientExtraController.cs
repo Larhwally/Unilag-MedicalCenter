@@ -13,6 +13,8 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     public class PatientExtraController : Controller
     {
+
+        public object obj = new object();
         [Route("Staffs")]
         [HttpGet]
         public IActionResult Getstaff()
@@ -23,7 +25,7 @@ namespace Unilag_Medic.Controllers
             return Ok(result);
         }
 
-        [Route("Staffs")]
+        [Route("SearchStaffs")]
         [HttpGet("{staffCode}")]
         public IActionResult GetStaffByStaffcode(string staffcode)
         {
@@ -41,7 +43,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound();
+                obj = new { message = staffcode + " does not exist!" };
+                return NotFound(obj);
             }
 
         }
@@ -80,7 +83,8 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Failed to save record");
+                obj = new { message = "Failed to save record" };
+                return BadRequest(obj);
             }
         }
 
@@ -112,7 +116,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound();
+                obj = new {message = matricnum + " does not exist!" };
+                return NotFound(obj);
             }
 
         }
@@ -162,7 +167,15 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_dependent");
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count != 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = "No records to in the database!" };
+                return BadRequest(obj);
+            }
         }
 
         [Route("Dependents")]
@@ -174,35 +187,21 @@ namespace Unilag_Medic.Controllers
             {
                 values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
-                Response.WriteAsync("Record successfully saved!");
+                return Ok(values);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
                 return BadRequest("Failed to save record");
             }
-            return Created("", values);
+            
         }
 
-
         //End of GET method
-
-       
-
-
-       
-
-
 
 
         //Begin POST method
         
-
-        
-
-        
-
-
         //End of POST method
 
         //Begin Select by ID
