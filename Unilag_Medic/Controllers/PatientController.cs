@@ -15,7 +15,7 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
-        
+	public object obj = new object();
         // GET: api/Patient
         [HttpGet]
         public IActionResult GetPatient()
@@ -57,31 +57,31 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
+                //List<string> keylst = new List<string>();
+                //List<string> vallst = new List<string>();
+                //List<string> valkeys = new List<string>();
+                //foreach (var key in param.Keys)
+                //{
+                 //   keylst.Add(key);
+                //}
+                //string[] vals = param.Values.ToArray();
+                //for (int i = 0; i < vals.Length; i++)
+                //{
+                  //  vallst.Add(vals[i]);
+                //}
 
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
+                //foreach (var key in param.Keys)
+                //{
+                  //  valkeys.Add(key + ": " + param[key]);
+                //}
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Created("", valkeys);
+                return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
                 //return resp + "";
-                return BadRequest("Error in creating record");
+                return BadRequest();
             }
 
           
@@ -121,8 +121,8 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-
-            return Ok("Record was deleted successfully");
+	    obj = new {message = "Record was deleted successfully"};
+            return Ok(obj);
         }
 
 

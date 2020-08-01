@@ -13,6 +13,7 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     public class PatientExtraController : Controller
     {
+	public Object obj = new Object();
         [Route("Staffs")]
         [HttpGet]
         public IActionResult Getstaff()
@@ -20,10 +21,18 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_staff_patient");
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count != 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    obj = new { message = "No records to in the database!" };
+                    return BadRequest(obj);
+                }
         }
 
-        [Route("Staffs")]
+        [Route("SearchStaffs")]
         [HttpGet("{staffCode}")]
         public IActionResult GetStaffByStaffcode(string staffcode)
         {
@@ -41,7 +50,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound();
+		obj = new {message = staffcode + " does not exist!"};
+                return NotFound(obj);
             }
 
         }
@@ -57,30 +67,14 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Created("", valkeys);
+                
+                return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Failed to save record");
+		obj = new {message = "Failed to save record"};
+                return BadRequest(obj);
             }
         }
 
@@ -91,10 +85,18 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_student_patient");
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count != 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    obj = new { message = "No records to in the database!" };
+                    return BadRequest(obj);
+                }
         }
 
-        [Route("Students")]
+        [Route("SearchStudents")]
         [HttpGet("{matricNumber}")]
         public IActionResult GetStudentByMatric(string matricnum)
         {
@@ -112,7 +114,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return NotFound();
+		obj = new {message = matricnum + " record not found"};
+                return NotFound(obj);
             }
 
         }
@@ -127,30 +130,14 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Created("", valkeys);
+                
+                return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+		obj = new {message = "Failed to create record check details and try again!"};
+                return BadRequest(obj);
             }
 
         }
@@ -162,7 +149,15 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_dependent");
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count != 0)
+                {
+                    return Ok(result);
+                }
+                else
+                {
+                    obj = new { message = "No records to in the database!" };
+                    return BadRequest(obj);
+                }
         }
 
         [Route("Dependents")]
@@ -174,14 +169,16 @@ namespace Unilag_Medic.Controllers
             {
                 values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
-                Response.WriteAsync("Record successfully saved!");
+		return Created("", values);
+                //Response.WriteAsync("Record successfully saved!");
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Failed to save record");
+		obj = new {message = "Failed to save record, check details and try again!"};
+                return BadRequest(obj);
             }
-            return Created("", values);
+            //return Created("", values);
         }
 
 
