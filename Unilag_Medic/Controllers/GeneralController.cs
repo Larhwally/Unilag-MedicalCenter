@@ -591,26 +591,26 @@ namespace Unilag_Medic.Controllers
         }
         //End of POST requests
 
-	[Route("LastVisits")]
-        [HttpGet("{id:int}")]
-        public IActionResult GetLastVisit(int patientId)
-        {
-            EntityConnection con = new EntityConnection("tbl_visit");
-            Dictionary<string, string> result = new Dictionary<string, string>()
-            {
-                {"patientId", patientId + ""}
-            };
-            if (con.LastVisit(patientId).Count > 0)
-            {
-                return Ok(con.LastVisit(patientId));
-            }
-            else
-            {
-                obj = new { message = patientId + " does not have a previous appointment record yet" };
-                return NotFound(obj);
-            }
+	//[Route("LastVisits")]
+        //[HttpGet("{id:int}")]
+        //public IActionResult GetLastVisit(int patientId)
+        //{
+            //EntityConnection con = new EntityConnection("tbl_visit");
+            //Dictionary<string, string> result = new Dictionary<string, string>()
+            //{
+                //{"patientId", patientId + ""}
+            //};
+            //if (con.LastVisit(patientId).Count > 0)
+            //{
+               // return Ok(con.LastVisit(patientId));
+            //}
+            //else
+            //{
+              //  obj = new { message = patientId + " does not have a previous appointment record yet" };
+                //return NotFound(obj);
+            //}
 
-        }
+        //}
 	
 
 
