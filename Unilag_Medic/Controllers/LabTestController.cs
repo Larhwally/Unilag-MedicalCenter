@@ -13,8 +13,8 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     public class LabTestController : Controller
     {
+        public object obj = new object();
         //Begin GET method for Lab Tests
-       //[Authorize]
        
        //Begin toxicology GET and POST method
 
@@ -37,30 +37,14 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
+                
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Ok(param);
             }
             else
             {
-                //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
             }
         }
         //End toxicology POAT and GET method
@@ -69,18 +53,26 @@ namespace Unilag_Medic.Controllers
         
         //Begin Urinalysis POST and GET method
 
-        [Route("Urinalysis")]
+        [Route("UrinalysisTest")]
         [HttpGet]
         public IActionResult GetUrinalysis()
         {
             EntityConnection con = new EntityConnection("tbl_urinalysis");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count > 0)
+            {
+                return Ok(result); 
+            }
+            else
+            {
+                obj = new { message = "No urinalysis record saved" };
+                return BadRequest(obj);
+            }
         }
 
 
-        [Route("Urinalysis")]
+        [Route("UrinalysisTest")]
         [HttpPost]
         public IActionResult PostUrinalysis([FromBody] Dictionary<string, string> param)
         {
@@ -89,30 +81,13 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
         //End urinalysis POST and GET method
@@ -139,30 +114,15 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
+               
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
 
@@ -171,17 +131,25 @@ namespace Unilag_Medic.Controllers
 
         //Begin Haematology POST and GET method
         
-        [Route("Haematology")]
+        [Route("HaematologyTest")]
         [HttpGet]
         public IActionResult GetHaematology()
         {
             EntityConnection con = new EntityConnection("tbl_haematology");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count > 0)
+            {
+                return Ok(result); 
+            }
+            else
+            {
+                obj = new { message = " No record found" };
+                return BadRequest(obj);
+            }
         }
 
-        [Route("Haematology")]
+        [Route("HaematologyTest")]
         [HttpPost]
         public IActionResult PostHaematology([FromBody] Dictionary<string, string> param)
         {
@@ -190,30 +158,15 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
+                
                 //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
 
@@ -243,30 +196,14 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
 
@@ -294,36 +231,20 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
 
         //End stooltest POST and GET method
 
-        [Route("GetSeminal")]
+        [Route("SeminalTest")]
         [HttpGet]
         public IActionResult GetSeminal()
         {
@@ -333,7 +254,7 @@ namespace Unilag_Medic.Controllers
             return Ok(result);
         }
 
-        [Route("PostSeminal")]
+        [Route("SeminalTest")]
         [HttpPost]
         public IActionResult PostSeminal([FromBody] Dictionary<string, string> param)
         {
@@ -342,32 +263,58 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
+
+        [Route("RadiologicalTest")]
+        [HttpGet]
+        public IActionResult GetRadiological()
+        {
+            EntityConnection con = new EntityConnection("tbl_radiological_examination");
+            //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+
+            if (result.Count > 0)
+            {
+                return Ok(result); 
+            }
+            else
+            {
+                obj = new { message = " No record found" };
+                return BadRequest(obj);
+            }
+        }
+
+        [Route("RadiologicalTest")]
+        [HttpPost]
+        public IActionResult PostRadiology([FromBody] Dictionary<string, string> param)
+        {
+            EntityConnection con = new EntityConnection("tbl_radiological_examination");
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                
+                return Ok(param);
+            }
+            else
+            {
+                //var resp = Response.WriteAsync("Failed to save test");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
+            }
+        }
+
+
+        //[Route()]
         //End of GET Lab Test
 
 

@@ -663,7 +663,6 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> LastVisit(int patientId)
         {
             this.connection.Open();
-            //bool hasRows = false;
             string query = "SELECT visitDateTime, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames, clinicName FROM tbl_visit INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId" +
             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId where patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
 
