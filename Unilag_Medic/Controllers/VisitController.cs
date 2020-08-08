@@ -15,6 +15,7 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class VisitController : ControllerBase
     {
+        public object obj = new object();
         // GET: api/Visit
         [HttpGet]
         public IActionResult GetVisit()
@@ -46,6 +47,7 @@ namespace Unilag_Medic.Controllers
             
         }
 
+       
         // POST: api/Visit
         [HttpPost]
         public IActionResult Post([FromBody] Dictionary<string, string> param)
@@ -56,31 +58,14 @@ namespace Unilag_Medic.Controllers
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
 
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                return Created("", param);
 
             }
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in adding visit record");
+                obj = new { message = "Error in adding visit record" };
+                return BadRequest(obj);
             }
         }
 

@@ -684,6 +684,28 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        public List<Dictionary<string, object>> DailyVisit(string visitDate)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_visit WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@visitDateTime", visitDate);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
 
 
 

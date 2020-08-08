@@ -560,30 +560,50 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record"};
+                return BadRequest(obj);
             }
             //return Ok(param);
         }
 
-        [Route("LastVisits")]
-        [HttpGet("{id}")]
-        public IActionResult GetLastVisit(int patientId)
+        [Route("Stafftypes")]
+        [HttpGet]
+        public IActionResult GetStaffType()
+        {
+            EntityConnection con = new EntityConnection("tbl_stafftype");
+            List<Dictionary<string, object>> rec = con.Select();
+            if (rec.Count > 0)
+            {
+                obj = new { rec };
+                return Ok(obj);
+            }
+            else
+            {
+                obj = new { message = "No record of staff types" };
+                return BadRequest(obj);
+            }
+        }
+
+
+        [Route("Appointments")]
+        [HttpGet("{visitDate}")]
+        public IActionResult GetDailyVisit(string visitDate)
         {
             EntityConnection con = new EntityConnection("tbl_visit");
             Dictionary<string, string> result = new Dictionary<string, string>()
             {
-                {"patientId", patientId + ""}
+                {"visitDateTime", visitDate }
             };
-            if (con.LastVisit(patientId).Count > 0)
+
+            if (con.DailyVisit(visitDate).Count > 0)
             {
-                return Ok(con.LastVisit(patientId));
+                return Ok(con.DailyVisit(visitDate));
             }
             else
             {
-                obj = new { message = patientId + " does not have a previous appointment record yet" };
+                obj = new { message = "No visit for " + visitDate };
                 return NotFound(obj);
             }
-
         }
 
         //End of POST requests

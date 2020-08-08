@@ -1,0 +1,11 @@
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.deps.json
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.json
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.runtimeconfig.dev.json
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\bin\Debug\netcoreapp2.2\ConsoleApp1.pdb
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csprojAssemblyReference.cache
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.csproj.CoreCompileInputs.cache
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfoInputs.cache
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.AssemblyInfo.cs
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\ConsoleApp1\obj\Debug\netcoreapp2.2\ConsoleApp1.pdb
