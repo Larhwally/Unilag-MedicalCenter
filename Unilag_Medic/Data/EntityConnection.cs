@@ -684,6 +684,7 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        //Use this method to get daily appointments by passing date yyyy-mm-dd
         public List<Dictionary<string, object>> DailyVisit(string visitDate)
         {
             this.connection.Open();
