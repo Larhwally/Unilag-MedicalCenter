@@ -216,23 +216,31 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public IActionResult GetStooltest()
         {
-            EntityConnection con = new EntityConnection("tbl_stooltest");
+            EntityConnection con = new EntityConnection("tbl_stooltest_analysis");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = "No Stool test record saved" };
+                return BadRequest(obj);
+            }
         }
 
         [Route("StoolTest")]
         [HttpPost]
         public IActionResult PostStoolTest([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_stooltest");
+            EntityConnection con = new EntityConnection("tbl_stooltest_analysis");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
                 
-                return Ok(param);
+                return Created("", param);
             }
             else
             {

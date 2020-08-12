@@ -480,7 +480,6 @@ namespace Unilag_Medic.Data
             return values;
         }
 
-
         //Use this method to get VItal signs with hospital number as search parameter
         public List<Dictionary<string, object>> DisplayVitalValues(string hospnum)
         {
@@ -581,14 +580,7 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
-
-       
-        public static string ConvertToJson(string result)
-        {
-            var JsonResult = JsonConvert.SerializeObject(result);
-            return JsonResult;
-        }
-
+        
         //Check image unique name on the database
         public bool CheckImage(string uniquePath)
         {
@@ -610,7 +602,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicType, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate  FROM tbl_visit" +
+                            "clinicType, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
@@ -705,6 +697,20 @@ namespace Unilag_Medic.Data
             reader.Close();
             this.connection.Close();
             return values;
+        }
+
+        //Use this method to update vitalsign status on visit table 
+        public bool UpdateVisit(int visitId)
+        {
+            this.connection.Open();
+            bool hasRow = false;
+            string query = "UPDATE tbl_visit SET vitalStatus = 1 WHERE itbId = " + visitId;
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@itbId", visitId);
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+            hasRow = dataReader.HasRows;
+            this.connection.Close();
+            return hasRow;
         }
 
 

@@ -15,6 +15,7 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class VitalSignsController : ControllerBase
     {
+        public object obj = new object();
         // GET: api/VitalSigns
         [HttpGet]
         public IActionResult GetVitalSign()
@@ -37,7 +38,8 @@ namespace Unilag_Medic.Controllers
 
             if (con.SelectByColumn(dic).Count > 0)
             {
-                return Ok(record);
+                obj = new { vitals = record };
+                return Ok(obj);
             }
             else
             {
@@ -55,30 +57,19 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
 
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                string visitId = "";
+                param.TryGetValue("visitId", out visitId);
+
+                con.UpdateVisit(Convert.ToInt32(visitId));
+               
+                return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in adding vital signs record");
+                obj = new { message = "Error in adding vital signs record" };
+                return BadRequest(obj);
             }
             
         }

@@ -584,7 +584,7 @@ namespace Unilag_Medic.Controllers
             }
         }
 
-
+        //Get daily appointments by using date(yyyy-mm-dd) as parameter
         [Route("Appointments")]
         [HttpGet("{visitDate}")]
         public IActionResult GetDailyVisit(string visitDate)
