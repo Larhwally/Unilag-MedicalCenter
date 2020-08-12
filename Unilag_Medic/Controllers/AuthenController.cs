@@ -69,7 +69,7 @@ namespace Unilag_Medic.Controllers
             }
             var res = new { user.email, user.createBy, user.createDate };
             //var result = res;
-            return Ok(res);
+            return Created("", res);
         }
 
 

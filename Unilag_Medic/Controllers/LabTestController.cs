@@ -198,7 +198,15 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_chemistrytest");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if(result.Count > 0)
+	    {
+		return Ok(result);
+            }
+	    else
+	    {
+		obj = new { message = "No chemistry record found"}; 
+		return BadRequest(obj);
+	    }
         }
 
 
@@ -211,30 +219,13 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Created("", param);
             }
             else
             {
-                //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
 
@@ -247,45 +238,36 @@ namespace Unilag_Medic.Controllers
         [HttpGet]
         public IActionResult GetStooltest()
         {
-            EntityConnection con = new EntityConnection("tbl_stooltest");
+            EntityConnection con = new EntityConnection("tbl_stooltest_analysis");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            if(result.Count > 0)
+	    {
+	    	return Ok(result);
+	    }
+	    else
+	    {
+		obj = new {message = "No stoot test record available"};
+		return BadRequest(obj);	
+	    }
         }
 
         [Route("StoolTest")]
         [HttpPost]
         public IActionResult PostStoolTest([FromBody] Dictionary<string, string> param)
         {
-            EntityConnection con = new EntityConnection("tbl_stooltest");
+            EntityConnection con = new EntityConnection("tbl_stooltest_analysis");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Created("", param);
             }
             else
             {
-                //var resp = Response.WriteAsync("Failed to save test");
-                return BadRequest("Error in creating record");
+                obj = new {message = "Error in creating record"};
+                return BadRequest(obj);
             }
         }
 

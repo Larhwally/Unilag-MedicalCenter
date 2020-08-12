@@ -566,23 +566,7 @@ namespace Unilag_Medic.Controllers
 
 
 
-	[Route("Stafftypes")]
-        [HttpGet]
-        public IActionResult GetStaffType()
-        {
-            EntityConnection con = new EntityConnection("tbl_stafftype");
-            List<Dictionary<string, object>> rec = con.Select();
-            if (rec.Count > 0)
-            {
-                obj = new { rec };
-                return Ok(obj);
-            }
-            else
-            {
-                obj = new { message = "No record of staff types" };
-                return BadRequest(obj);
-            }
-        }
+
 
 
 
@@ -607,6 +591,14 @@ namespace Unilag_Medic.Controllers
         }
         //End of POST requests
 
+	//Begin Get staff types
+	[Route("Stafftypes")]
+	[HttpGet]
+	public IActionResult GetStaffTypes()
+	{
+		EntityConnection con = new 
+	}
+
 		[Route("LastVisits")]
         	[HttpGet("{id:int}")]
         	public IActionResult GetLastVisit(int patientId)
@@ -628,29 +620,6 @@ namespace Unilag_Medic.Controllers
 
                }
 	
-	 //Get daily appointments by using date(yyyy-mm-dd) as parameter
-        [Route("Appointments")]
-        [HttpGet("{visitDate}")]
-        public IActionResult GetDailyVisit(string visitDate)
-        {
-            EntityConnection con = new EntityConnection("tbl_visit");
-            Dictionary<string, string> result = new Dictionary<string, string>()
-            {
-                {"visitDateTime", visitDate }
-            };
-
-            if (con.DailyVisit(visitDate).Count > 0)
-            {
-                return Ok(con.DailyVisit(visitDate));
-            }
-            else
-            {
-                obj = new { message = "No visit for " + visitDate };
-                return NotFound(obj);
-            }
-        }
-
-		
 
 
 

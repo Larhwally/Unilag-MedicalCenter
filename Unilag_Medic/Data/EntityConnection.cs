@@ -606,7 +606,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicName, visitDateTime, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate  FROM tbl_visit" +
+                            "clinicName, visitDateTime, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
@@ -681,7 +681,44 @@ namespace Unilag_Medic.Data
         }
 	
 
+	//Use this method to get daily appointments by passing date yyyy-mm-dd
+        public List<Dictionary<string, object>> DailyVisit(string visitDate)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_visit WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@visitDateTime", visitDate);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
+	//Use this method to update vitalsign status on visit table 
+        public bool UpdateVisit(int visitId)
+        {
+            this.connection.Open();
+            bool hasRow = false;
+            string query = "UPDATE tbl_visit SET vitalStatus = 1 WHERE itbId = " + visitId;
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@itbId", visitId);
+            MySqlDataReader dataReader = cmd.ExecuteReader();
+            hasRow = dataReader.HasRows;
+            this.connection.Close();
+            return hasRow;
+        }
+
+	
 
 
 
