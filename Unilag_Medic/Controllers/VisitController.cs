@@ -34,20 +34,23 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dicts = new Dictionary<string, string>();
             dicts.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dicts)) + "}";
-            List<Dictionary<string, object>> record = con.SelectByColumn(dicts);
+            List<Dictionary<string, object>> record = con.SelectVisitById(id);
+            var appointedTo = con.SelectAppointedDetails(id);
+            obj = new { record, appointed = appointedTo };
 
-            if (con.SelectByColumn(dicts).Count > 0)
+
+            if (con.SelectVisitById(id).Count > 0)
             {
-                return Ok(record);
+                return Ok(obj);
             }
             else
             {
                 return NotFound();
             }
-            
+
         }
 
-       
+
         // POST: api/Visit
         [HttpPost]
         public IActionResult Post([FromBody] Dictionary<string, string> param)

@@ -26,7 +26,7 @@ namespace Unilag_Medic.Data
 
         public static string ToJson(string list) //changed object to string for dict
         {
-           
+
             //string result = "";
             //DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<Dictionary<string, object>>)); //changed object to string for dict
 
@@ -47,12 +47,12 @@ namespace Unilag_Medic.Data
             this.loadConnection();
             this.tableSchema = this.GetTableSchema();
         }
-        
-      
+
+
 
         internal MySqlConnection loadConnection()
         {
-            if(this.connection == null)
+            if (this.connection == null)
             {
                 this.connection = new MySqlConnection(this.ConnectionString);
             }
@@ -63,7 +63,7 @@ namespace Unilag_Medic.Data
             return this.connection;
         }
 
-      
+
         private Dictionary<string, string> GetTableSchema()
         {
             Dictionary<string, string> result = new Dictionary<string, string>();
@@ -83,13 +83,13 @@ namespace Unilag_Medic.Data
         }
 
 
-        public EntityConnection(string tableName, int defaultlength):this(tableName)
+        public EntityConnection(string tableName, int defaultlength) : this(tableName)
         {
             this.defaultSelectLength = defaultlength;
         }
 
         //select all
-        public List<Dictionary<string, object>> Select() 
+        public List<Dictionary<string, object>> Select()
         {
             string query = "select * from " + this.tableName + " ORDER BY itbId DESC LIMIT 20 ";
             return this.BaseSelect(query);
@@ -97,7 +97,7 @@ namespace Unilag_Medic.Data
 
 
         //BaseSelect method
-        private List<Dictionary<string, object>> BaseSelect(string query) 
+        private List<Dictionary<string, object>> BaseSelect(string query)
         {
             if (this.connection.State == ConnectionState.Closed)
             {
@@ -106,7 +106,7 @@ namespace Unilag_Medic.Data
             }
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
-            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>(); 
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
             while (reader.Read())
             {
                 Dictionary<string, object> tempResult = new Dictionary<string, object>(); // changed object to string for dict
@@ -114,7 +114,7 @@ namespace Unilag_Medic.Data
                 {
                     tempResult.Add(reader.GetName(i), reader.GetValue(i).ToString());
                 }
-               
+
                 result.Add(tempResult);
             }
             reader.Close();
@@ -136,12 +136,12 @@ namespace Unilag_Medic.Data
             return tempResult.Values.ToString();
         }
 
-        public List<Dictionary<string, object>> Select(int start, int length) 
+        public List<Dictionary<string, object>> Select(int start, int length)
         {
             string query = "select * from " + this.tableName + "  limit " + start + "," + length;
             return this.BaseSelect(query);
         }
-        public List<Dictionary<string, object>> Select(int start) 
+        public List<Dictionary<string, object>> Select(int start)
         {
             int length = this.defaultSelectLength;
             string query = "select * from " + this.tableName + "  limit " + start + "," + length;
@@ -158,7 +158,7 @@ namespace Unilag_Medic.Data
             }
             return result;
         }
-        
+
 
         //insert method
         public bool Insert(Dictionary<string, string> content)
@@ -181,10 +181,10 @@ namespace Unilag_Medic.Data
             int n = command.ExecuteNonQuery();
             this.connection.Close();
             return n > 0;
-           
+
         }
 
-       
+
         private object wrapValue(string currentValue, MySqlDbType dbType)
         {
             if (dbType == MySqlDbType.DateTime)
@@ -197,7 +197,7 @@ namespace Unilag_Medic.Data
                 TimeSpan datetime = TimeSpan.Parse(currentValue);
                 return datetime;
             }
-           
+
             return currentValue;
         }
 
@@ -225,7 +225,7 @@ namespace Unilag_Medic.Data
                     return MySqlDbType.JSON;
             }
         }
-       
+
         //to connect two joins into a single string
         private static string implode(string[] array)
         {
@@ -238,7 +238,7 @@ namespace Unilag_Medic.Data
             return result;
         }
 
-        
+
         //Select by ID parameter
         public List<Dictionary<string, object>> SelectByColumn(Dictionary<string, string> queryParam)
         {
@@ -267,7 +267,7 @@ namespace Unilag_Medic.Data
                 string currentKey = keys[i];
                 string valueString = queryvalues[currentKey];
                 parameter += string.IsNullOrWhiteSpace(parameter) ? " where " : " and ";
-                parameter += (currentKey + " = " + "'"  + valueString + "'");
+                parameter += (currentKey + " = " + "'" + valueString + "'");
             }
             return this.BaseSelect(query + parameter);
         }
@@ -399,7 +399,7 @@ namespace Unilag_Medic.Data
                 numBytesRequested: 50
                 ));
             password = hashed;
-            
+
             cmd.Parameters.AddWithValue("@email", email);
             cmd.Parameters.AddWithValue("@password", password);
             MySqlDataReader dataReader = cmd.ExecuteReader();
@@ -424,7 +424,7 @@ namespace Unilag_Medic.Data
             }
             reader.Close();
             this.connection.Close();
-            return role +"";
+            return role + "";
         }
 
         //Use this method to join userlogin & role to get roletitle
@@ -532,9 +532,9 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
-        
+
         //Use this method to search through student patients using matric number as search parameter
-        public  List<Dictionary<string, object>> StudentPatient(string matricNum)
+        public List<Dictionary<string, object>> StudentPatient(string matricNum)
         {
             this.connection.Open();
             string query = "SELECT matricNumber, hospitalNumber, surname, firstName, nhisNumber, gender, phoneNumber, tbl_patient.status FROM tbl_student_patient " +
@@ -580,7 +580,7 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
-        
+
         //Check image unique name on the database
         public bool CheckImage(string uniquePath)
         {
@@ -605,9 +605,36 @@ namespace Unilag_Medic.Data
                             "clinicType, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
+                            " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId ORDER BY itbId DESC LIMIT 20";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+        //Select visit by ID
+        public List<Dictionary<string, object>> SelectVisitById(int id)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
+                            "clinicType, visitDateTime, tbl_visit.lastVisit, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
+                            " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
+                            " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId  where tbl_visit.itbId = @itbId";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("itbId", id);
             MySqlDataReader reader = command.ExecuteReader();
             List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
             while (reader.Read())
@@ -632,7 +659,7 @@ namespace Unilag_Medic.Data
                             "clinicId, visitId, visitDateTime, nurseId, staffcode, tbl_medicalstaff.email, tbl_visit.patientId, assignedTo, tbl_vitalsigns.status, tbl_vitalsigns.createDate  FROM tbl_vitalsigns" +
                             " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId = tbl_medicalstaff.itbId LEFT JOIN tbl_doctor ON tbl_vitalsigns.assignedTo = tbl_doctor.itbId";
+                            " INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId = tbl_medicalstaff.itbId LEFT JOIN tbl_doctor ON tbl_vitalsigns.assignedTo = tbl_doctor.itbId ORDER BY itbId DESC LIMIT 20";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
@@ -713,7 +740,29 @@ namespace Unilag_Medic.Data
             return hasRow;
         }
 
-
+        //Select appointed to details from tbl_vital using the visitId
+        public List<Dictionary<string, object>> SelectAppointedDetails(int id)
+        {
+            this.connection.Open();
+            string query = "SELECT assignedTo, visitId, surname, otherNames FROM tbl_vitalsigns INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.assignedTo = tbl_medicalstaff.itbId " +
+                            "WHERE visitId = @visitId";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@visitId", id);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
     }
