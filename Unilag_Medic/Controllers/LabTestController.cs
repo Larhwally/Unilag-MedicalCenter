@@ -362,6 +362,47 @@ namespace Unilag_Medic.Controllers
 
 
 
+	//Post doctor's assessment
+        [Route("DoctorAssessment")]
+        [HttpPost]
+        public IActionResult PostDocAssessment([FromBody] Dictionary<string, string> param)
+        {
+            EntityConnection con = new EntityConnection("tbl_doctor_assessment");
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+
+                return Ok(param);
+            }
+            else
+            {
+                //var resp = Response.WriteAsync("Failed to save test");
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+        }
+
+        [Route("DoctorAssessment")]
+        [HttpGet]
+        public IActionResult GetDocAssessment()
+        {
+            EntityConnection con = new EntityConnection("tbl_doctor_assessment");
+            List<Dictionary<string, object>> result = con.Select();
+
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = " No record found" };
+                return BadRequest(obj);
+            }
+        }
+
+
+
 
         //End of GET Lab Test
 

@@ -609,7 +609,7 @@ namespace Unilag_Medic.Data
                             "clinicName, visitDateTime, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId";
+                            " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId ORDER BY itbId DESC LIMIT 20";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
@@ -627,6 +627,36 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
+	
+	
+	//Select visit by ID
+        public List<Dictionary<string, object>> SelectVisitById(int id)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
+                            "clinicType, visitDateTime, tbl_visit.lastVisit, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
+                            " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
+                            " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId  where tbl_visit.itbId = @itbId";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("itbId", id);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+	
+
 
         public List<Dictionary<string, object>> SelectAllVitalsigns()
         {
@@ -635,7 +665,7 @@ namespace Unilag_Medic.Data
                             "clinicId, visitId, visitDateTime, nurseId, staffcode, tbl_medicalstaff.email, tbl_visit.patientId, assignedTo, tbl_vitalsigns.status, tbl_vitalsigns.createDate  FROM tbl_vitalsigns" +
                             " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId = tbl_medicalstaff.itbId LEFT JOIN tbl_doctor ON tbl_vitalsigns.assignedTo = tbl_doctor.itbId";
+                            " INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId = tbl_medicalstaff.itbId LEFT JOIN tbl_doctor ON tbl_vitalsigns.assignedTo = tbl_doctor.itbId ORDER BY itbId DESC LIMIT 20";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
@@ -717,6 +747,33 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return hasRow;
         }
+
+	
+	 //Select appointed to details from tbl_vital using the visitId
+        public List<Dictionary<string, object>> SelectAppointedDetails(int id)
+        {
+            this.connection.Open();
+            string query = "SELECT assignedTo, visitId, surname, otherNames FROM tbl_vitalsigns INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.assignedTo = tbl_medicalstaff.itbId " +
+                            "WHERE visitId = @visitId";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@visitId", id);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
 
 	
 

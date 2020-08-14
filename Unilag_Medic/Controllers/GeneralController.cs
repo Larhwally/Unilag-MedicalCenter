@@ -645,8 +645,8 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = "No visit for " + visitDate };
-                return NotFound(obj);
+                string[] arr = new string[0];
+                return Ok(arr);
             }
         }
 
