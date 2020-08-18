@@ -23,6 +23,7 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     public class AuthenController : Controller
     {
+        public object obj = new object();
         private readonly IConfiguration _configuration;
 
         public AuthenController(IConfiguration configuration)
@@ -117,7 +118,8 @@ namespace Unilag_Medic.Controllers
 
             }
 
-            return Unauthorized("Please check login details and try again!");
+            obj = new {message = "Please check login details and try again!"};
+            return Unauthorized(obj);
         }
 
 
