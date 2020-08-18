@@ -58,10 +58,12 @@ namespace Unilag_Medic.Controllers
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
 
-                string visitId = "";
-                param.TryGetValue("visitId", out visitId);
+                string visitId = "", assignedTo = "";
 
-                con.UpdateVisit(Convert.ToInt32(visitId));
+                param.TryGetValue("visitId", out visitId);
+                param.TryGetValue("assignedTo", out assignedTo);
+
+                con.UpdateVisit(Convert.ToInt32(visitId), Convert.ToInt32(assignedTo));
                
                 return Created("", param);
             }

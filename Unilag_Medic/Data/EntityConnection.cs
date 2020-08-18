@@ -166,7 +166,7 @@ namespace Unilag_Medic.Data
             this.connection.Open();
             string[] keys = content.Keys.ToArray<string>();
             string placeholder = GetPlaceholder(keys);
-            string query = " insert into " + this.tableName + "(" + implode(keys) + ") values (" + placeholder + ")";
+            string query = " insert into " + this.tableName + "(" + implode(keys) + ") values (" + placeholder + ");" + " SELECT LAST_INSERT_ID()";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             for (int i = 0; i < keys.Length; i++)
@@ -202,6 +202,7 @@ namespace Unilag_Medic.Data
         }
 
 
+        //Get column datatype from the columns in the database
         private MySqlDbType getColumnType(string v)
         {
             v = v.ToLower();
@@ -239,7 +240,7 @@ namespace Unilag_Medic.Data
         }
 
 
-        //Select by ID parameter
+        //Select by ID parameter from all tables
         public List<Dictionary<string, object>> SelectByColumn(Dictionary<string, string> queryParam)
         {
             string query = "select * from " + this.tableName + " ";
@@ -601,8 +602,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> SelectAllVisit()
         {
             this.connection.Open();
-            string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicType, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
+            string query = "SELECT tbl_visit.itbId, patientId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
+                            "clinicType, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId ORDER BY itbId DESC LIMIT 20";
@@ -628,8 +629,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> SelectVisitById(int id)
         {
             this.connection.Open();
-            string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicType, visitDateTime, tbl_visit.lastVisit, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
+            string query = "SELECT tbl_visit.itbId, patientId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
+                            "clinicType, visitDateTime, tbl_visit.lastVisit, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId  where tbl_visit.itbId = @itbId";
 
@@ -656,10 +657,10 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_vitalsigns.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType " +
-                            "clinicId, visitId, visitDateTime, nurseId, staffcode, tbl_medicalstaff.email, tbl_visit.patientId, assignedTo, tbl_vitalsigns.status, tbl_vitalsigns.createDate  FROM tbl_vitalsigns" +
+                            "clinicId, visitId, visitDateTime, nurseId, staffcode, tbl_medicalstaff.email, tbl_visit.patientId, tbl_vitalsigns.assignedTo, tbl_vitalsigns.status, tbl_vitalsigns.createDate  FROM tbl_vitalsigns" +
                             " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId = tbl_medicalstaff.itbId LEFT JOIN tbl_doctor ON tbl_vitalsigns.assignedTo = tbl_doctor.itbId ORDER BY itbId DESC LIMIT 20";
+                            " INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.nurseId = tbl_medicalstaff.itbId LEFT OUTER JOIN tbl_doctor ON tbl_vitalsigns.assignedTo = tbl_doctor.itbId ORDER BY itbId DESC LIMIT 20";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
@@ -682,8 +683,11 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> LastVisit(int patientId)
         {
             this.connection.Open();
-            string query = "SELECT visitDateTime, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames, clinicName FROM tbl_visit INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId" +
-            " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId where patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
+            string query = "SELECT tbl_visit.itbId, visitDateTime, clinicName, tbl_visit.assignedTo, staffId, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
+            " LEFT OUTER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
+            " LEFT OUTER JOIN tbl_doctor ON tbl_visit.assignedTo = tbl_doctor.itbId" +
+            " LEFT OUTER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" +
+            " where tbl_visit.patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@patientId", patientId);
@@ -727,13 +731,14 @@ namespace Unilag_Medic.Data
         }
 
         //Use this method to update vitalsign status on visit table 
-        public bool UpdateVisit(int visitId)
+        public bool UpdateVisit(int visitId, int assignedTo)
         {
             this.connection.Open();
             bool hasRow = false;
-            string query = "UPDATE tbl_visit SET vitalStatus = 1 WHERE itbId = " + visitId;
+            string query = "UPDATE tbl_visit SET vitalStatus = 1, " + "assignedTo = " + assignedTo + " WHERE itbId = " + visitId;
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@itbId", visitId);
+            cmd.Parameters.AddWithValue("@assignedTo", assignedTo);
             MySqlDataReader dataReader = cmd.ExecuteReader();
             hasRow = dataReader.HasRows;
             this.connection.Close();
@@ -744,8 +749,9 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> SelectAppointedDetails(int id)
         {
             this.connection.Open();
-            string query = "SELECT assignedTo, visitId, surname, otherNames FROM tbl_vitalsigns INNER JOIN tbl_medicalstaff ON tbl_vitalsigns.assignedTo = tbl_medicalstaff.itbId " +
-                            "WHERE visitId = @visitId";
+            string query = "SELECT tbl_visit.itbId, assignedTo, staffId, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames, tbl_medicalstaff.position FROM tbl_visit" + 
+                           " INNER JOIN tbl_doctor ON tbl_visit.assignedTo = tbl_doctor.itbId INNER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" + 
+                           " WHERE tbl_visit.itbId = @visitId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@visitId", id);
             MySqlDataReader reader = command.ExecuteReader();
@@ -763,6 +769,79 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
+
+        //Insert a staff patient perculiar records besides the generic patient records
+        public bool InsertStaffPatient(StaffPatient staffPatient)
+        {
+            this.connection.Open();
+            string query = "INSERT INTO tbl_staff_patient(staffCode, dateOfEmployment, patientId, partnerName, partnerHospNum, partnerStatus, status, createdBy, createDate)" +
+                            " VALUES(@staffCode, @dateOfEmployment, @patientId, @partnerName, @partnerHospNum, @partnerStatus, @status, @createdBy, @createDate); SELECT LAST_INSERT_ID()";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@staffCode", staffPatient.staffCode);
+            command.Parameters.AddWithValue("@dateOfEmployment", staffPatient.dateOfEmployment);
+            command.Parameters.AddWithValue("@patientId", staffPatient.patientId);
+            command.Parameters.AddWithValue("@partnerName", staffPatient.partnerName);
+            command.Parameters.AddWithValue("@PartnerHospNum", staffPatient.partnerHospNum);
+            command.Parameters.AddWithValue("@partnerStatus", staffPatient.partnerStatus);
+            command.Parameters.AddWithValue("@status", staffPatient.status);
+            command.Parameters.AddWithValue("@createdBy", staffPatient.createdBy);
+            command.Parameters.AddWithValue("@createDate", staffPatient.createDate);
+            int n = command.ExecuteNonQuery();
+            this.connection.Close();
+            return n > 0;
+        }
+
+        //Select all doctors from tbl_doctor joining tbl_medicalstaff to get bio data
+        public List <Dictionary<string, object>> GetDoctors()
+        {
+            this.connection.Open();
+            string query = "SELECT staffId, surname, otherNames, specializationName, position, tbl_doctor.status, tbl_doctor.createdBy, tbl_doctor.createDate FROM tbl_doctor" +
+                            " INNER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" +
+                            " INNER JOIN tbl_specialization ON tbl_doctor.specialization = tbl_specialization.itbId";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+
+        }
+
+        //Select all apppointment assigned to a doctor by passing doctorID (assignedTo)
+        public List<Dictionary<string, object>> DoctorsAppoinmentList(int assignedTo)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM `tbl_visit` WHERE assignedTo = " + assignedTo + " ORDER BY visitDateTime DESC ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@assignedTo", assignedTo);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
+
 
 
     }

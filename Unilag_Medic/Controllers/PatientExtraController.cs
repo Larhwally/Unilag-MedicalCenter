@@ -242,7 +242,8 @@ namespace Unilag_Medic.Controllers
             }
             return Ok(param);
         }
-
+        
+        //Get a patient last visit record by using patient ID
         [Route("LastVisits")]
         [HttpGet("{id}")]
         public IActionResult GetLastVisit(int patientId)

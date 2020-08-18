@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Unilag_Medic.Data;
+using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Controllers
 {
@@ -44,41 +45,45 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
-               
+
 
         // POST: api/Patient
         [HttpPost]
         public IActionResult Post([FromBody] Dictionary<string, string> param)
         {
-           
+
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                return Created("", param);
-                
-                //List<string> keylst = new List<string>();
-                //List<string> vallst = new List<string>();
-                //List<string> valkeys = new List<string>();
-                //foreach (var key in param.Keys)
-                //{
-                //    keylst.Add(key);
-                //}
-                //string[] vals = param.Values.ToArray();
-                //for (int i = 0; i < vals.Length; i++)
-                //{
-                //    vallst.Add(vals[i]);
-                //}
 
-                //foreach (var key in param.Keys)
-                //{
-                //    valkeys.Add(key + ": " + param[key]);
-                //}
-                //var output = JsonConvert.SerializeObject(valkeys);
-                //return Created("", valkeys);
+                // string patientId = "";
+                // string patientType = "";
+                // string createdBy = "";
+                /*check the value of patient type from the patient record created to post student/staff pateint table
+                Also get the patientId created from the new patient record created and some other record needed for 
+                staff patient table
+                */
+
+                // param.TryGetValue("itbId", out patientId);
+                // param.TryGetValue("createdBy", out createdBy);
+                // param.TryGetValue("patientType", out patientType);
+                // if (Convert.ToInt32(patientType) == 1)
+                // {
+                //     EntityConnection con2 = new EntityConnection("tbl_staff_patient");
+
+                //     StaffPatient model = new StaffPatient();
+                //     model.patientId = Convert.ToInt32(patientId);
+                //     model.createdBy = createdBy;
+                //     model.createDate = DateTime.Now;
+
+                //     con2.InsertStaffPatient(model);
+                // }
+                return Created("", param);
+
             }
             else
             {
@@ -87,7 +92,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest();
             }
 
-          
+
         }
 
         // PUT: api/Patient/5
@@ -105,8 +110,7 @@ namespace Unilag_Medic.Controllers
             {
                 return BadRequest();
             }
-            //return content + "";
-           
+
         }
 
         // DELETE: api/ApiWithActions/5
@@ -119,7 +123,7 @@ namespace Unilag_Medic.Controllers
                 Dictionary<string, string> param = new Dictionary<string, string>();
                 param.Add("itbId", id + "");
                 con.Delete(param).ToString();
-                
+
             }
             else
             {

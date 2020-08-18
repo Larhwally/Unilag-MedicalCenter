@@ -483,7 +483,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_doctor");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> rec = con.Select();
+            List<Dictionary<string, object>> rec = con.GetDoctors();
             return Ok(rec);
         }
 
@@ -605,6 +605,31 @@ namespace Unilag_Medic.Controllers
                 return NotFound(obj);
             }
         }
+
+
+        //Get Doctor's appointment list by assignedTo
+        [Route("DoctorsAppointment")]
+        [HttpGet("{assignedTo}")]
+        public IActionResult GetDoctorAppointment(int assignedTo)
+        {
+            EntityConnection con = new EntityConnection("tbl_visit");
+             Dictionary<string, string> result = new Dictionary<string, string>()
+            {
+                {"assignedTo", assignedTo.ToString() }
+            };
+
+            if (con.DoctorsAppoinmentList(assignedTo).Count > 0)
+            {
+                return Ok(con.DoctorsAppoinmentList(assignedTo));
+            }
+            else
+            {
+                obj = new {message = "No patients assigned yet"};
+                return NotFound(obj);
+            }
+
+        }
+
 
         //End of POST requests
 
