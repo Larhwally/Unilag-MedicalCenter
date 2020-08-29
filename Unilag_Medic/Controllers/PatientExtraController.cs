@@ -42,7 +42,7 @@ namespace Unilag_Medic.Controllers
                 {"staffCode", staffcode }
             };
             //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
-            List<Dictionary<string, object>> result = con.StaffPatient(staffcode);
+            Dictionary<string, object> result = con.StaffPatient(staffcode);
 
             if (con.StaffPatient(staffcode).Count > 0)
             {
@@ -106,7 +106,7 @@ namespace Unilag_Medic.Controllers
                 {"matricNumber", matricnum }
             };
             //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
-            List<Dictionary<string, object>> result = con.StudentPatient(matricnum);
+            Dictionary<string, object> result = con.StudentPatient(matricnum);
 
             if (con.StudentPatient(matricnum).Count > 0)
             {
@@ -211,7 +211,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+            Dictionary<string, object> record = con.SelectByColumn(dic);
 
             if (con.SelectByColumn(dic).Count > 0)
             {

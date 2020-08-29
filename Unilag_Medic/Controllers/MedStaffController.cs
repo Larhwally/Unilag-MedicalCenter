@@ -33,7 +33,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dict)) + "}";
-            List<Dictionary<string, object>> result = con.SelectByColumn(dict);
+            Dictionary<string, object> result = con.SelectByColumn(dict);
 
             if (con.SelectByColumn(dict).Count > 0)
             {

@@ -150,8 +150,9 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
-                return NotFound(obj);
+                //obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
+                string[] arr = new string[0];
+                return Ok(arr);
             }
             //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
             
