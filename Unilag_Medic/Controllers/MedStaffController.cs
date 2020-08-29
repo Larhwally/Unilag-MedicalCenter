@@ -33,7 +33,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dict = new Dictionary<string, string>();
             dict.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dict)) + "}";
-            List<Dictionary<string, object>> result = con.SelectByColumn(dict);
+            Dictionary<string, object> result = con.SelectByColumn(dict);
 
             if (con.SelectByColumn(dict).Count > 0)
             {
@@ -43,12 +43,12 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST: api/MedStaff
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, string> param )
+        public IActionResult Post([FromBody] Dictionary<string, string> param)
         {
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (param != null)
@@ -104,7 +104,7 @@ namespace Unilag_Medic.Controllers
         public IActionResult Delete(int id)
         {
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
-            if (id!= 0)
+            if (id != 0)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();
                 param.Add("itbId", id + "");
@@ -113,7 +113,7 @@ namespace Unilag_Medic.Controllers
             else
             {
                 return NotFound();
-                
+
             }
             return Ok("Record deleted successfully");
         }

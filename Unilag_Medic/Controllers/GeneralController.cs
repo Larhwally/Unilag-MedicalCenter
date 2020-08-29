@@ -88,17 +88,17 @@ namespace Unilag_Medic.Controllers
 
         [Route("VisitVitals")]
         [HttpGet("{visitId}")]
-        public IActionResult GetVitByVisit(string visitId)
+        public IActionResult GetVitByVisit(int visitId)
         {
             EntityConnection con = new EntityConnection("tbl_vitalsigns");
             Dictionary<string, string> pairs = new Dictionary<string, string>
             {
-                { "visitId", visitId}
+                { "visitId", visitId.ToString()}
             };
-
-            if (con.SelectByParam(pairs).Count > 0)
+            var result = con.SelectByParam(pairs);
+            if (result.Count > 0)
             {
-                return Ok(con.SelectByParam(pairs));
+                return Ok(result);
             }
             else
             {
@@ -150,8 +150,9 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
-                return NotFound(obj);
+                //obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
+                string[] arr = new string[0];
+                return Ok(arr);
             }
             //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
             
@@ -169,8 +170,12 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                con.Insert(param);
-                return Created("New record added successfully!", param);
+                long visitID = con.InsertScalar(param);
+
+                param.Add("itbId", visitID.ToString());
+                return Created("", param);
+                // con.Insert(param);
+                // return Created("New record added successfully!", param);
                 //Response.WriteAsync("Record saved successfully!");
             }
             else

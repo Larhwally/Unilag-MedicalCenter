@@ -34,7 +34,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+            Dictionary<string, object> record = con.SelectByColumn(dic);
 
             if (con.SelectByColumn(dic).Count > 0)
             {
@@ -45,7 +45,7 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST: api/VitalSigns
@@ -64,7 +64,7 @@ namespace Unilag_Medic.Controllers
                 param.TryGetValue("assignedTo", out assignedTo);
 
                 con.UpdateVisit(Convert.ToInt32(visitId), Convert.ToInt32(assignedTo));
-               
+
                 return Created("", param);
             }
             else
@@ -73,7 +73,7 @@ namespace Unilag_Medic.Controllers
                 obj = new { message = "Error in adding vital signs record" };
                 return BadRequest(obj);
             }
-            
+
         }
 
         // PUT: api/VitalSigns/5

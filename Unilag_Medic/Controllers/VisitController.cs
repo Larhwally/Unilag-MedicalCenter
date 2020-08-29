@@ -31,13 +31,14 @@ namespace Unilag_Medic.Controllers
         public IActionResult GetVisitById(int id)
         {
             EntityConnection con = new EntityConnection("tbl_visit");
-            Dictionary<string, string> dicts = new Dictionary<string, string>();
-            dicts.Add("itbId", id + "");
+            //Dictionary<string, string> dicts = new Dictionary<string, string>();
+            //dicts.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dicts)) + "}";
-            List<Dictionary<string, object>> record = con.SelectVisitById(id);
+            //List<Dictionary<string, object>> record = con.SelectVisitById(id);
+            var record = con.SelectVisitById(id);
             var appointedTo = con.SelectAppointedDetails(id);
-            obj = new { record, appointed = appointedTo };
-
+            
+            obj = new {record, appointedTo};
 
             if (con.SelectVisitById(id).Count > 0)
             {
@@ -60,7 +61,6 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-
                 return Created("", param);
 
             }

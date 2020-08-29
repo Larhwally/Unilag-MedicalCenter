@@ -60,35 +60,11 @@ namespace Unilag_Medic.Controllers
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
 
-                // string patientId = "";
-                // string patientType = "";
-                // string createdBy = "";
-                /*check the value of patient type from the patient record created to post student/staff pateint table
-                Also get the patientId created from the new patient record created and some other record needed for 
-                staff patient table
-                */
-
-                // param.TryGetValue("itbId", out patientId);
-                // param.TryGetValue("createdBy", out createdBy);
-                // param.TryGetValue("patientType", out patientType);
-                // if (Convert.ToInt32(patientType) == 1)
-                // {
-                //     EntityConnection con2 = new EntityConnection("tbl_staff_patient");
-
-                //     StaffPatient model = new StaffPatient();
-                //     model.patientId = Convert.ToInt32(patientId);
-                //     model.createdBy = createdBy;
-                //     model.createDate = DateTime.Now;
-
-                //     con2.InsertStaffPatient(model);
-                // }
                 return Created("", param);
 
             }
             else
             {
-                //var resp = Response.WriteAsync("Error in creating record");
-                //return resp + "";
                 return BadRequest();
             }
 

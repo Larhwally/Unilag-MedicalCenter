@@ -22,7 +22,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_diagnosis");
             //string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result);
+            return Ok(result); 
         }
 
         // GET: api/Diagnosis/5
@@ -33,7 +33,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+            Dictionary<string, object> record = con.SelectByColumn(dic);
 
             if (con.SelectByColumn(dic).Count > 0)
             {
@@ -43,7 +43,7 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST: api/Diagnosis
@@ -55,25 +55,10 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                string visitId = "";
+                param.TryGetValue("visitId", out visitId);
+                con.UpdateDiagnosis(Convert.ToInt32(visitId));
+                return Created("", param);
             }
             else
             {
@@ -81,7 +66,7 @@ namespace Unilag_Medic.Controllers
                 //var resp = Response.WriteAsync("Error in creating record");
                 //return resp + "";
             }
-            
+
         }
 
         // PUT: api/Diagnosis/5

@@ -15,6 +15,7 @@ namespace Unilag_Medic.Controllers
     {
 
         public object obj = new object();
+
         [Route("Staffs")]
         [HttpGet]
         public IActionResult Getstaff()
@@ -35,7 +36,7 @@ namespace Unilag_Medic.Controllers
                 {"staffCode", staffcode }
             };
             //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
-            List<Dictionary<string, object>> result = con.StaffPatient(staffcode);
+            Dictionary<string, object> result = con.StaffPatient(staffcode);
 
             if (con.StaffPatient(staffcode).Count > 0)
             {
@@ -60,25 +61,8 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
 
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Created("", valkeys);
+                return Created("", param);
             }
             else
             {
@@ -108,7 +92,7 @@ namespace Unilag_Medic.Controllers
                 {"matricNumber", matricnum }
             };
             //string result = EntityConnection.ToJson(con.StudentPatient(matricnum));
-            List<Dictionary<string, object>> result = con.StudentPatient(matricnum);
+            Dictionary<string, object> result = con.StudentPatient(matricnum);
 
             if (con.StudentPatient(matricnum).Count > 0)
             {
@@ -116,7 +100,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new {message = matricnum + " does not exist!" };
+                obj = new { message = matricnum + " does not exist!" };
                 return NotFound(obj);
             }
 
@@ -132,25 +116,8 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
 
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Created("", valkeys);
+                return Created("", param);
             }
             else
             {
@@ -194,14 +161,14 @@ namespace Unilag_Medic.Controllers
                 //var resp = Response.WriteAsync("Failed to save test");
                 return BadRequest("Failed to save record");
             }
-            
+
         }
 
         //End of GET method
 
 
         //Begin POST method
-        
+
         //End of POST method
 
         //Begin Select by ID
@@ -213,7 +180,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+            Dictionary<string, object> record = con.SelectByColumn(dic);
 
             if (con.SelectByColumn(dic).Count > 0)
             {
@@ -223,7 +190,7 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         [Route("UpdateDependent")]
@@ -242,7 +209,7 @@ namespace Unilag_Medic.Controllers
             }
             return Ok(param);
         }
-        
+
         //Get a patient last visit record by using patient ID
         [Route("LastVisits")]
         [HttpGet("{id}")]

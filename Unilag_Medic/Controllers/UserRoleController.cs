@@ -30,7 +30,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            List<Dictionary<string, object>> record = con.SelectByColumn(dic);
+            Dictionary<string, object> record = con.SelectByColumn(dic);
             if (con.SelectByColumn(dic).Count > 0)
             {
                 return Ok(record);
@@ -39,7 +39,7 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST: api/UserRole
@@ -72,7 +72,7 @@ namespace Unilag_Medic.Controllers
                 content.Add("createDate", DateTime.Now.ToString());
                 con.Update(id, content);
                 //Response.WriteAsync("Record updated successfully!");
-                
+
             }
             else
             {
