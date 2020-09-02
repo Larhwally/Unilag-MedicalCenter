@@ -78,7 +78,7 @@ namespace Unilag_Medic.Controllers
 
                 //save image details to the databse
                 EntityConnection con = new EntityConnection("tbl_upload");
-                Dictionary<string, string> param = new Dictionary<string, string>();
+                Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("fullPath", path);
                 param.Add("uniquePath", uniqueName);
                 param.Add("createBy", "admin");

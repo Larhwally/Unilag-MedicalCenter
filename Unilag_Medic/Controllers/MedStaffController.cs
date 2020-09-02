@@ -48,32 +48,15 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/MedStaff
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, string> param )
+        public IActionResult Post([FromBody] Dictionary<string, object> param )
         {
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Created("", param);
             }
             else
             {

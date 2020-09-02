@@ -1,3 +1,11 @@
+ using System;
+ using System.Collections.Generic;
+ using System.Linq;
+ using Microsoft.AspNetCore.Mvc;
+ using MySql.Data.MySqlClient;
+ using Newtonsoft.Json.Linq;
+ using Unilag_Medic.Data;
+
 namespace Unilag_Medic.Controllers
 {
     [authorize]
@@ -20,7 +28,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return ok(new string[0]);
+                return Ok(new string[0]);
             }
             
         }
@@ -47,10 +55,10 @@ namespace Unilag_Medic.Controllers
             result.Remove("otherDrugs");
 
             //check if drug list is empty
-            if (newdrug.Trim() != "")
+            if (newdrugs.Trim() != "")
             {
                 string[] drugs = newdrugs.Split(',');
-                string orQueries = drugs.Select(drugs => "itbId =" + drugId).ToArray();
+                string[] orQueries = drugs.Select(drugId => "itbId =" + drugId).ToArray();
 
                 if (orQueries != null)
                 {
@@ -60,7 +68,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                result.Add(new string[0]);
+                result.Add("drugs", new string[0]);
             } 
 
             //check if other drugs is empty
@@ -104,7 +112,7 @@ namespace Unilag_Medic.Controllers
                 param.Remove("otherDrugs");
 
                 param.Add("drugs", string.Join(",", drugs));
-                param.Add("otherDrugs", string.Join("|", otherrugs));
+                param.Add("otherDrugs", string.Join("|", otherDrugs));
                 
                 con.Insert(param);
                 

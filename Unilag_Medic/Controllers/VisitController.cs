@@ -50,7 +50,7 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/Visit
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, string> param)
+        public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_visit");
             if (param != null)

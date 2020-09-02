@@ -38,7 +38,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Toxicology")]
         [HttpPost]
-        public IActionResult PostToxicology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostToxicology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_toxicology");
             if (param != null)
@@ -82,7 +82,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("UrinalysisTest")]
         [HttpPost]
-        public IActionResult PostUrinalysis([FromBody] Dictionary<string, string> param)
+        public IActionResult PostUrinalysis([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_urinalysis");
             if (param != null)
@@ -124,7 +124,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Microbiology")]
         [HttpPost]
-        public IActionResult PostMicrobiology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostMicrobiology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_microbiologytest");
             if (param != null)
@@ -167,7 +167,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("HaematologyTest")]
         [HttpPost]
-        public IActionResult PostHaematology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostHaematology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_haematology");
             if (param != null)
@@ -212,7 +212,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Chemistry")]
         [HttpPost]
-        public IActionResult PostChemistry([FromBody] Dictionary<string, string> param)
+        public IActionResult PostChemistry([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_chemistrytest");
             if (param != null)
@@ -254,7 +254,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("StoolTest")]
         [HttpPost]
-        public IActionResult PostStoolTest([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStoolTest([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_stooltest_analysis");
             if (param != null)
@@ -285,32 +285,15 @@ namespace Unilag_Medic.Controllers
 
         [Route("PostSeminal")]
         [HttpPost]
-        public IActionResult PostSeminal([FromBody] Dictionary<string, string> param)
+        public IActionResult PostSeminal([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_seminal_analysis");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                List<string> keylst = new List<string>();
-                List<string> vallst = new List<string>();
-                List<string> valkeys = new List<string>();
-                foreach (var key in param.Keys)
-                {
-                    keylst.Add(key);
-                }
-                string[] vals = param.Values.ToArray();
-                for (int i = 0; i < vals.Length; i++)
-                {
-                    vallst.Add(vals[i]);
-                }
-
-                foreach (var key in param.Keys)
-                {
-                    valkeys.Add(key + ": " + param[key]);
-                }
-                //var output = JsonConvert.SerializeObject(valkeys);
-                return Ok(valkeys);
+                
+                return Created("", param);
             }
             else
             {
@@ -342,7 +325,7 @@ namespace Unilag_Medic.Controllers
 
 	 [Route("RadiologicalTest")]
         [HttpPost]
-        public IActionResult PostRadiology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostRadiology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_radiological_examination");
             if (param != null)
@@ -365,7 +348,7 @@ namespace Unilag_Medic.Controllers
 	//Post doctor's assessment
         [Route("DoctorAssessment")]
         [HttpPost]
-        public IActionResult PostDocAssessment([FromBody] Dictionary<string, string> param)
+        public IActionResult PostDocAssessment([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_doctor_assessment");
             if (param != null)
@@ -373,7 +356,7 @@ namespace Unilag_Medic.Controllers
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
 
-                return Ok(param);
+                return Created("", param);
             }
             else
             {

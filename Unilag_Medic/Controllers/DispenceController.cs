@@ -38,7 +38,7 @@ namespace Unilag_Medic.Controllers
         //Begin POST
         [Route("PostDrugType")]
         [HttpPost]
-        public IActionResult PostDrugType([FromBody] Dictionary<string, string> values)
+        public IActionResult PostDrugType([FromBody] Dictionary<string, object> values)
         {
             EntityConnection con = new EntityConnection("tbl_drugtype");
             if (values != null)
@@ -58,7 +58,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("PostDrugDispense")]
         [HttpPost]
-        public IActionResult PostDrugDispense([FromBody] Dictionary<string, string> values)
+        public IActionResult PostDrugDispense([FromBody] Dictionary<string, object> values)
         {
             EntityConnection con = new EntityConnection("tbl_pharmdispense");
             if (values != null)

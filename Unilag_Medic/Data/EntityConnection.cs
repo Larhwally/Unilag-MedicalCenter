@@ -199,7 +199,7 @@ namespace Unilag_Medic.Data
                 string currentValue = content[keys[i]].ToString();
                 MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
                 MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
-                tempParam.value = wrapValue(currentValue, dbType);
+                tempParam.Value = wrapValue(currentValue, dbType);
                 command.Parameters.Add(tempParam);
             }
             int n = command.ExecuteNonQuery();
@@ -223,11 +223,11 @@ namespace Unilag_Medic.Data
                 string currentValue = content[keys[i]].ToString();
                 MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
                 MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
-                tempParam.value = wrapValue(currentValue, dbType);
+                tempParam.Value = wrapValue(currentValue, dbType);
                 command.Parameters.Add(tempParam);
             }
             command.ExecuteScalar();
-            long w = command.LastInsertedId();
+            long w = command.LastInsertedId;
             return w;
         }
        

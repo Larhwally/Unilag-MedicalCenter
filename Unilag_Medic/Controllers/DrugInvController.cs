@@ -47,7 +47,7 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/DrugInv
         [HttpPost]
-        public IActionResult PostDrug([FromBody] Dictionary<string, string> value)
+        public IActionResult PostDrug([FromBody] Dictionary<string, object> value)
         {
             EntityConnection con = new EntityConnection("tbl_druginventory");
             if (value != null)

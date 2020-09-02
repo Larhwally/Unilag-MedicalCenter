@@ -1,9 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "/home/unimed/.dotnet/store/|arch|/|tfm|",
-      "/home/unimed/.nuget/packages",
-      "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      "/Users/mojaveos/.dotnet/store/|arch|/|tfm|",
+      "/Users/mojaveos/.nuget/packages"
     ]
   }
 }

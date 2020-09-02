@@ -53,7 +53,7 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/MedicalExams
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, string> param)
+        public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_medical_exam");
             if (param != null)

@@ -60,7 +60,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Staffs")]
         [HttpPost]
-        public IActionResult PostStaff([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStaff([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_staff_patient");
             if (param != null)
@@ -123,7 +123,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Students")]
         [HttpPost]
-        public IActionResult PostStudent([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStudent([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_student_patient");
             if (param != null)
@@ -162,14 +162,14 @@ namespace Unilag_Medic.Controllers
 
         [Route("Dependents")]
         [HttpPost]
-        public IActionResult PostDependent([FromBody] Dictionary<string, string> values)
+        public IActionResult PostDependent([FromBody] Dictionary<string, object> values)
         {
             EntityConnection con = new EntityConnection("tbl_dependent");
             if (values != null)
             {
                 values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
-		return Created("", values);
+		        return Created("", values);
                 //Response.WriteAsync("Record successfully saved!");
             }
             else

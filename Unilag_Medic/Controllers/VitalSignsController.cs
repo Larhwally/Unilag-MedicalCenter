@@ -57,7 +57,7 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                con.Insert(param);
+                con.InsertRecord(param);
                 string visitId = "";
                 string assignedTo = "";
 

@@ -28,7 +28,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                return ok(new string[0]);
+                return Ok(new string[0]);
             }
             
         }
@@ -57,7 +57,7 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/Patient
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, string> param)
+        public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
