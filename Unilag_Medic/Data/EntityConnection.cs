@@ -824,8 +824,7 @@ namespace Unilag_Medic.Data
 
 	     string query = "SELECT tbl_visit.itbId, visitDateTime, clinicName, tbl_visit.assignedTo, staffId, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
             " LEFT OUTER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
-            " LEFT OUTER JOIN tbl_doctor ON tbl_visit.assignedTo = tbl_doctor.itbId" +
-            " LEFT OUTER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" +
+            " LEFT OUTER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId"  +
             " where tbl_visit.patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
 	
             MySqlCommand command = new MySqlCommand(query, this.connection);
