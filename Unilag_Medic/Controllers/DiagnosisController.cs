@@ -53,12 +53,12 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_diagnosis");
             if (param != null)
             {
-               param.Add("createDate", DateTime.Now.ToString());
-                               con.Insert(param);
-                                               string visitId = "";
-                                                               param.TryGetValue("visitId", out visitId);
-                                                                               con.UpdateDiagnosis(Convert.ToInt32(visitId));
-                                                                                               return Created("", param);
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+                string visitId = "";
+                param.TryGetValue("visitId", out visitId);
+                con.UpdateDiagnosis(Convert.ToInt32(visitId));
+                return Created("", param);
             }
             else
             {

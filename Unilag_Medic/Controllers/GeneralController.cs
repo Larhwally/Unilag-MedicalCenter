@@ -351,14 +351,15 @@ namespace Unilag_Medic.Controllers
 
         [Route("VisitTypes")]
         [HttpPost]
-        public IActionResult PostVisittype([FromBody] Dictionary<string, string> param)
+        public IActionResult PostVisittype([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_visittype");
 
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                con.Insert(param);
+                long id =  con.InsertScalar(param);
+                param.Add("itbIb", id);
                 return Created("New record added successfully!", param);
                 //Response.WriteAsync("Record saved successfully!");
             }

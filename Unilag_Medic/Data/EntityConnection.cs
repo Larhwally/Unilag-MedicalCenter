@@ -160,7 +160,7 @@ namespace Unilag_Medic.Data
         
 
         //insert method
-        public bool Insert(Dictionary<string, string> content)
+        public bool Insert(Dictionary<string, object> content)
         {
             this.connection.Open();
             string[] keys = content.Keys.ToArray<string>();
@@ -183,6 +183,53 @@ namespace Unilag_Medic.Data
            
         }
 
+
+        //A second insert method for dictionary with string key and string value dictionary key-value pair
+        public bool InsertRecord(Dictionary<string, string> content)
+        {
+            this.connection.Open();
+            string[] keys = content.Keys.ToArray<string>();
+            string placeHolder = GetPlaceholder(keys);
+            string query = "INSERT INTO " + this.tableName + "(" + implode(keys) + ") VALUES (" + placeHolder + ");";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentParam = "@" + keys[i];
+                string currentValue = content[keys[i]].ToString();
+                MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
+                MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
+                tempParam.value = wrapValue(currentValue, dbType);
+                command.Parameters.Add(tempParam);
+            }
+            int n = command.ExecuteNonQuery();
+            this.connection.Close();
+            return n > 0;
+        }
+
+
+        //A method for insert that catch the primary key of new ine=serted record in the database
+        public long InsertScalar(Dictionary<string, object> content)
+        {
+            this.connection.Open();
+            string[] keys = content.Keys.ToArray<string>();
+            string placeHolder = GetPlaceholder(keys);
+            string query = "INSERT INTO " + this.tableName + "(" + implode(keys) + ") VALUES (" + placeHolder + ");";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentParam = "@" + keys[i];
+                string currentValue = content[keys[i]].ToString();
+                MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
+                MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
+                tempParam.value = wrapValue(currentValue, dbType);
+                command.Parameters.Add(tempParam);
+            }
+            command.ExecuteScalar();
+            long w = command.LastInsertedId();
+            return w;
+        }
        
         private object wrapValue(string currentValue, MySqlDbType dbType)
         {
@@ -478,6 +525,35 @@ namespace Unilag_Medic.Data
             return result;
         }
 
+
+        //Select vital signs record using visit ID as a search parameter
+        public Dictionary<string, object> SelectVitalByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_vitalsigns.itbId, tbl_vitalsigns.patientId, hospitalNumber, tbl_patient.surname, bpSystolic, bpDiastolic, bloodPressure, temperature," +
+                            " pulse, bmi, bmiStatus, oxygenSaturation, otherNotes, tbl_vitalsigns.visitId, tbl_vitalsigns.status, nurseId, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
+                            " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId " +
+                            " INNER JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId WHERE visitId = @visitId";
+
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                //Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;               
+        }
+
+
         //Use this  method to get a  patient visit record with  hospital number as parameter
         public List<Dictionary<string, object>> DisplayVisitValues(string hospitalNumber)
         {
@@ -558,6 +634,34 @@ namespace Unilag_Medic.Data
             return values;
         }
         
+
+        //Select Diagnosis record using visitID as a search parameter
+        public Dictionary<string, object> SelectDiagnosisByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_diagnosis WHERE visitId = @visitId";
+
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                //Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.TryAdd(reader.GetName(i), reader.GetValue(i));
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;               
+        }
+
+
+
+
         //Use this method to search through student patients using matric number as search parameter
         public  Dictionary<string, object> StudentPatient(string matricNum)
         {
@@ -789,17 +893,17 @@ namespace Unilag_Medic.Data
 
 	 //Use this method to update Diagnosis status on visit table 
 	         public bool UpdateDiagnosis(int visitId)
-	                 {
-	                             this.connection.Open();
-	                                         bool hasRow = false;
-	                                                     string query = "UPDATE tbl_visit SET diagnosisStatus = 1  WHERE itbId = " + visitId;
-	                                                                 MySqlCommand cmd = new MySqlCommand(query, this.connection);
-	                                                                             cmd.Parameters.AddWithValue("@itbId", visitId);
-	                                                                                         MySqlDataReader dataReader = cmd.ExecuteReader();
-	                                                                                                     hasRow = dataReader.HasRows;
-	                                                                                                                 this.connection.Close();
-	                                                                                                                             return hasRow;
-	                                                                                                                                     }
+	        {
+	            this.connection.Open();
+	            bool hasRow = false;
+	            string query = "UPDATE tbl_visit SET diagnosisStatus = 1  WHERE itbId = " + visitId;
+	            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+	            cmd.Parameters.AddWithValue("@itbId", visitId);
+	            MySqlDataReader dataReader = cmd.ExecuteReader();
+	            hasRow = dataReader.HasRows;
+	            this.connection.Close();
+	            return hasRow;
+	        }
 	
 		
 	 //Select appointed to details from tbl_vital using the visitId
@@ -876,7 +980,30 @@ namespace Unilag_Medic.Data
         }
 
 
-	
+    
+
+    //Select drug detaiils from tbl_druginventory which are referenced in an array of drugs passed during prescription 
+        public List<Dictionary<string, object>> DrugDetails(string[] drugArray)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM `tbl_druginventory` WHERE " + string.Join(" OR ", drugArray);
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
 	
 
 	
