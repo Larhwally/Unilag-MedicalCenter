@@ -13,7 +13,7 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     public class PatientExtraController : Controller
     {
-	public Object obj = new Object();
+        public Object obj = new Object();
         [Route("Staffs")]
         [HttpGet]
         public IActionResult Getstaff()
@@ -22,14 +22,14 @@ namespace Unilag_Medic.Controllers
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
             if (result.Count != 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    obj = new { message = "No records to in the database!" };
-                    return BadRequest(obj);
-                }
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = "No records to in the database!" };
+                return BadRequest(obj);
+            }
         }
 
         [Route("SearchStaffs")]
@@ -50,7 +50,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-		obj = new {message = staffcode + " does not exist!"};
+                obj = new { message = staffcode + " does not exist!" };
                 return NotFound(obj);
             }
 
@@ -67,13 +67,13 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-		obj = new {message = "Failed to save record"};
+                obj = new { message = "Failed to save record" };
                 return BadRequest(obj);
             }
         }
@@ -86,14 +86,14 @@ namespace Unilag_Medic.Controllers
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
             if (result.Count != 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    obj = new { message = "No records to in the database!" };
-                    return BadRequest(obj);
-                }
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = "No records to in the database!" };
+                return BadRequest(obj);
+            }
         }
 
         [Route("SearchStudents")]
@@ -114,7 +114,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-		obj = new {message = matricnum + " record not found"};
+                obj = new { message = matricnum + " record not found" };
                 return NotFound(obj);
             }
 
@@ -130,13 +130,13 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-		obj = new {message = "Failed to create record check details and try again!"};
+                obj = new { message = "Failed to create record check details and try again!" };
                 return BadRequest(obj);
             }
 
@@ -150,14 +150,14 @@ namespace Unilag_Medic.Controllers
             //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
             if (result.Count != 0)
-                {
-                    return Ok(result);
-                }
-                else
-                {
-                    obj = new { message = "No records to in the database!" };
-                    return BadRequest(obj);
-                }
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = "No records to in the database!" };
+                return BadRequest(obj);
+            }
         }
 
         [Route("Dependents")]
@@ -169,13 +169,13 @@ namespace Unilag_Medic.Controllers
             {
                 values.Add("createDate", DateTime.Now.ToString());
                 con.Insert(values);
-		        return Created("", values);
+                return Created("", values);
                 //Response.WriteAsync("Record successfully saved!");
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-		obj = new {message = "Failed to save record, check details and try again!"};
+                obj = new { message = "Failed to save record, check details and try again!" };
                 return BadRequest(obj);
             }
             //return Created("", values);
@@ -184,20 +184,20 @@ namespace Unilag_Medic.Controllers
 
         //End of GET method
 
-       
 
 
-       
+
+
 
 
 
 
         //Begin POST method
-        
 
-        
 
-        
+
+
+
 
 
         //End of POST method
@@ -221,7 +221,7 @@ namespace Unilag_Medic.Controllers
             {
                 return NotFound();
             }
-            
+
         }
 
         [Route("UpdateDependent")]
@@ -241,7 +241,7 @@ namespace Unilag_Medic.Controllers
             return Ok(param);
         }
 
-	[Route("LastVisits", Name = "LastAppoint")]
+        [Route("LastVisits", Name = "LastAppoint")]
         [HttpGet("{id:int}")]
         public IActionResult GetLastVisit(int patientId)
         {
@@ -261,6 +261,28 @@ namespace Unilag_Medic.Controllers
             }
 
         }
+
+        //Get patient diagnosis record by visitID
+        [Route("VisitDiagnosis")]
+        [HttpGet("{visitId}")]
+        public IActionResult GetDiagnosisByVisit(int visitId)
+        {
+            EntityConnection connection = new EntityConnection("tbl_diagnosis");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"visitId", visitId.ToString()}
+            };
+            if (connection.SelectDiagnosisByVisit(visitId).Count > 0)
+            {
+                return Ok(connection.SelectDiagnosisByVisit(visitId));
+            }
+            else
+            {
+                string[] arr = new string[0];
+                return Ok(arr);
+            }
+        }
+
 
 
 
