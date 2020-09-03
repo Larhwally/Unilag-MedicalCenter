@@ -44,58 +44,56 @@ namespace Unilag_Medic.Controllers
 
             Dictionary<string, object> result = connection.SelectByColumn(rec);
 
-	    if (result.Count > 0)
-	    {
-	    	
-            result.TryGetValue("otherDrugs", out newobj);
-            result.TryGetValue("drugs", out obj);
 
-            string otherDrugs = newobj.ToString();
-            string newdrug = obj.ToString();
-
-            result.Remove("drugs");
-            result.Remove("otherDrugs");
-
-            //check if the drug list is empty
-            if (newdrug.Trim() != "")
+            //Check if the parent method returns a record
+            if (result.Count > 0)
             {
+                result.TryGetValue("otherDrugs", out newobj);
+                result.TryGetValue("drugs", out obj);
 
-                string[] drugs = newdrug.Split(',');
+                string otherDrugs = newobj.ToString();
+                string newdrug = obj.ToString();
 
-                string[] orQueries = drugs.Select(drugId => "itbId =" + drugId).ToArray(); // [itbId=3, itbId=5]
+                result.Remove("drugs");
+                result.Remove("otherDrugs");
 
-                if (orQueries != null)
+                //check if the drug list is empty
+                if (newdrug.Trim() != "")
                 {
-                    var drugDetails = connection.DrugDetails(orQueries);
-                    result.Add("drugs", drugDetails);
+
+                    string[] drugs = newdrug.Split(',');
+
+                    string[] orQueries = drugs.Select(drugId => "itbId =" + drugId).ToArray(); // [itbId=3, itbId=5]
+
+                    if (orQueries != null)
+                    {
+                        var drugDetails = connection.DrugDetails(orQueries);
+                        result.Add("drugs", drugDetails);
+                    }
                 }
-            }
-            else
-            {
-                result.Add("drugs", new string[0]);
-            }
+                else
+                {
+                    result.Add("drugs", new string[0]);
+                }
 
-            //check if other drugs is empty 
-            if (otherDrugs.Trim() != "")
-            {
-                string[] newOtherDrugs = otherDrugs.Split('|');
-                result.Add("otherDrugs", newOtherDrugs);
-            }
-            else
-            {
-                result.Add("otherDrugs", new string[0]);
-            }
+                //check if other drugs is empty 
+                if (otherDrugs.Trim() != "")
+                {
+                    string[] newOtherDrugs = otherDrugs.Split('|');
+                    result.Add("otherDrugs", newOtherDrugs);
+                }
+                else
+                {
+                    result.Add("otherDrugs", new string[0]);
+                }
 
-
-                obj = new { data = result};
+                obj = new { data = result };
                 return Ok(obj);
             }
             else
             {
-            	string[] arr = new string[0];
-            	                return Ok(arr);
-                //string[] arr = new string[0];
-                //return Ok(arr);
+                string[] arr = new string[0];
+                return Ok(arr);
             }
         }
 
