@@ -822,7 +822,7 @@ namespace Unilag_Medic.Data
             this.connection.Open();
             //bool hasRows = false;
 
-	     string query = "SELECT tbl_visit.itbId, visitDateTime, clinicName, tbl_visit.assignedTo, staffId, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
+	     string query = "SELECT tbl_visit.itbId, visitDateTime, clinicType, tbl_visit.assignedTo, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
             " LEFT OUTER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
             " LEFT OUTER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId"  +
             " where tbl_visit.patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
@@ -850,7 +850,7 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> DailyVisit(string visitDate)
         {
             this.connection.Open();
-	    string query =  "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, tbl_clinic.clinicName," + 
+	    string query =  "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, tbl_clinic.clinicType," + 
                             " visitDateTime, lastVisitId, patientType, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordstaffId = tbl_medicalstaff.itbId WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" ";

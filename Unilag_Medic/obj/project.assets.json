@@ -13682,19 +13682,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/mojaveos/.nuget/packages/": {}
+    "/home/unimed/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/mojaveos/Desktop/Unilag_Medical_Center/Unilag_Medic/Unilag_Medic.csproj",
+      "projectUniqueName": "/home/unimed/Unilag_Medical_Center/Unilag_Medic/Unilag_Medic.csproj",
       "projectName": "Unilag_Medic",
-      "projectPath": "/Users/mojaveos/Desktop/Unilag_Medical_Center/Unilag_Medic/Unilag_Medic.csproj",
-      "packagesPath": "/Users/mojaveos/.nuget/packages/",
-      "outputPath": "/Users/mojaveos/Desktop/Unilag_Medical_Center/Unilag_Medic/obj/",
+      "projectPath": "/home/unimed/Unilag_Medical_Center/Unilag_Medic/Unilag_Medic.csproj",
+      "packagesPath": "/home/unimed/.nuget/packages/",
+      "outputPath": "/home/unimed/Unilag_Medical_Center/Unilag_Medic/obj/",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/Users/mojaveos/.nuget/NuGet/NuGet.Config"
+        "/home/unimed/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.2"
@@ -13760,7 +13764,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.401/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.401/RuntimeIdentifierGraph.json"
       }
     }
   }

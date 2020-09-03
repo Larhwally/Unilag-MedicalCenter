@@ -274,12 +274,14 @@ namespace Unilag_Medic.Controllers
             };
             if (connection.SelectDiagnosisByVisit(visitId).Count > 0)
             {
-                return Ok(connection.SelectDiagnosisByVisit(visitId));
+            	obj = new { data = connection.SelectDiagnosisByVisit(visitId) };
+                return Ok(obj);
             }
             else
             {
-                string[] arr = new string[0];
-                return Ok(arr);
+                pairs = null;
+                                obj = new { data = pairs };
+                                                return Ok(obj);
             }
         }
 

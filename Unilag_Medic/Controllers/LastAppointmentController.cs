@@ -35,8 +35,9 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = patientId + " does not have a previous appointment record yet" };
-                return NotFound(obj);
+                 result = null;
+                                 obj = new { data = result };
+                                                 return Ok(obj);
             }
 
         }
