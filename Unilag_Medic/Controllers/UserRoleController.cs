@@ -44,7 +44,7 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/UserRole
         [HttpPost]
-        public IActionResult PostRole([FromBody] Dictionary<string, string> param)
+        public IActionResult PostRole([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_role");
             if (param != null)

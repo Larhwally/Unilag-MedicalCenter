@@ -37,7 +37,7 @@ namespace Unilag_Medic.Controllers
         //Begin POST method
         [Route("PostItem")]
         [HttpPost]
-        public IActionResult PostItem([FromBody] Dictionary<string, string> rec)
+        public IActionResult PostItem([FromBody] Dictionary<string, object> rec)
         {
             EntityConnection con = new EntityConnection("tbl_inventory");
             if (rec != null)
@@ -56,7 +56,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("PostDispense")]
         [HttpPost]
-        public IActionResult PostDispense([FromBody] Dictionary<string, string> rec)
+        public IActionResult PostDispense([FromBody] Dictionary<string, object> rec)
         {
             EntityConnection con = new EntityConnection("tbl_storedispense");
             if (rec != null)

@@ -16,7 +16,7 @@ namespace Unilag_Medic.Controllers
     {
         public static IHostingEnvironment _environment;
         public object objs = new object();
-        
+
         public UploadsController(IHostingEnvironment environment)
         {
             _environment = environment;
@@ -53,13 +53,13 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
-            
+
             string fName = file.FileName;
             string uniqueName = Guid.NewGuid() + "" + "_" + fName;
 
             if (!file.ContentType.StartsWith("image/"))
             {
-                 objs = new { message = "not an image file" };
+                objs = new { message = "not an image file" };
                 return BadRequest(objs);
             }
             if (!file.FileName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))
@@ -78,7 +78,7 @@ namespace Unilag_Medic.Controllers
 
                 //save image details to the databse
                 EntityConnection con = new EntityConnection("tbl_upload");
-                Dictionary<string, string> param = new Dictionary<string, string>();
+                Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("fullPath", path);
                 param.Add("uniquePath", uniqueName);
                 param.Add("createBy", "admin");

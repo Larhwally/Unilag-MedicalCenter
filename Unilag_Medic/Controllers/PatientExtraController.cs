@@ -15,6 +15,7 @@ namespace Unilag_Medic.Controllers
     {
 
         public object obj = new object();
+        public object data = new object();
 
         [Route("Staffs")]
         [HttpGet]
@@ -54,7 +55,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Staffs")]
         [HttpPost]
-        public IActionResult PostStaff([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStaff([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_staff_patient");
             if (param != null)
@@ -109,7 +110,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Students")]
         [HttpPost]
-        public IActionResult PostStudent([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStudent([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_student_patient");
             if (param != null)
@@ -147,7 +148,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Dependents")]
         [HttpPost]
-        public IActionResult PostDependent([FromBody] Dictionary<string, string> values)
+        public IActionResult PostDependent([FromBody] Dictionary<string, object> values)
         {
             EntityConnection con = new EntityConnection("tbl_dependent");
             if (values != null)
@@ -226,11 +227,167 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = patientId + " does not have a previous appointment record yet" };
+                result = null;
+                obj = new { data = result };
+                return Ok(obj);
+            }
+
+        }
+
+        //Get patient diagnosis record by visitID
+        [Route("VisitDiagnosis")]
+        [HttpGet("{visitId}")]
+        public IActionResult GetDiagnosisByVisit(int visitId)
+        {
+            EntityConnection connection = new EntityConnection("tbl_diagnosis");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"visitId", visitId.ToString()}
+            };
+            if (connection.SelectDiagnosisByVisit(visitId).Count > 0)
+            {
+                return Ok(connection.SelectDiagnosisByVisit(visitId));
+            }
+            else
+            {
+                pairs = null;
+                obj = new { data = pairs };
+                return Ok(obj);
+            }
+        }
+
+
+        [Route("Patients")]
+        [HttpGet("{hospitalNumber}")]
+        public IActionResult GetPatByHospnum(string hospitalNumber)
+        {
+            EntityConnection con = new EntityConnection("tbl_patient");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "hospitalNumber", hospitalNumber}
+            };
+
+            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
+            if (con.SelectByParam(pairs).Count > 0)
+            {
+                return Ok(con.SelectByParam(pairs));
+            }
+            else
+            {
+                obj = new { message = hospitalNumber + "does not exist" };
                 return NotFound(obj);
             }
 
         }
+
+
+        [Route("Visits")]
+        [HttpGet("{hospitalNumber}")]
+        public IActionResult GetVisitByHospnum(string hospitalNumber)
+        {
+            EntityConnection con = new EntityConnection("tbl_visit");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"hospitalNumber", hospitalNumber }
+            };
+
+            if (con.DisplayVisitValues(hospitalNumber).Count > 0)
+            {
+                return Ok(con.DisplayVisitValues(hospitalNumber));
+            }
+            else
+            {
+                obj = new { message = hospitalNumber + "does not have a visit record" };
+                return NotFound(obj);
+            }
+            //string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
+
+        }
+
+
+        [Route("VisitVitals")]
+        [HttpGet("{visitId}")]
+        public IActionResult GetVitByVisit(int visitId)
+        {
+            EntityConnection con = new EntityConnection("tbl_vitalsigns");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "visitId", visitId.ToString()}
+            };
+            var result = con.SelectByParam(pairs);
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = visitId + "does not exist" };
+                return NotFound(obj);
+            }
+            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
+
+        }
+
+
+        [Route("VitalSigns")]
+        [HttpGet("{hospitalNumber}")]
+        public IActionResult GetVitByHospnum(string hospitalNumber)
+        {
+            EntityConnection con = new EntityConnection("tbl_vitalsigns");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "hospitalNumber", hospitalNumber}
+            };
+
+            if (con.DisplayVitalValues(hospitalNumber).Count > 0)
+            {
+                return Ok(con.DisplayVitalValues(hospitalNumber));
+            }
+            else
+            {
+                obj = new { message = hospitalNumber + "does not have a vital sign record yet" };
+                return NotFound(obj);
+            }
+            //string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
+
+        }
+
+
+        [Route("Diagnosis")]
+        [HttpGet("{hospitalNumber}")]
+        public IActionResult GetDiagByHospnum(string hospitalNumber)
+        {
+            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"hospitalNumber", hospitalNumber }
+            };
+
+            if (con.DisplayDiagnosis(hospitalNumber).Count > 0)
+            {
+                return Ok(con.DisplayDiagnosis(hospitalNumber));
+            }
+            else
+            {
+                //obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
+                string[] arr = new string[0];
+                return Ok(arr);
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     }

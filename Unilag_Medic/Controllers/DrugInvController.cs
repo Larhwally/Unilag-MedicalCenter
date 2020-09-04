@@ -14,6 +14,7 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class DrugInvController : ControllerBase
     {
+        public object obj = new object();
         // GET: api/DrugInv
         [HttpGet]
         public IActionResult GetDrug()
@@ -47,7 +48,7 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/DrugInv
         [HttpPost]
-        public IActionResult PostDrug([FromBody] Dictionary<string, string> value)
+        public IActionResult PostDrug([FromBody] Dictionary<string, object> value)
         {
             EntityConnection con = new EntityConnection("tbl_druginventory");
             if (value != null)
@@ -98,5 +99,15 @@ namespace Unilag_Medic.Controllers
             }
             return Ok("Record deleted successfully");
         }
+
+
+
+
+
+
+
+
+
+
     }
 }

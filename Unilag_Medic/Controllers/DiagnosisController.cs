@@ -22,7 +22,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_diagnosis");
             //string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
-            return Ok(result); 
+            return Ok(result);
         }
 
         // GET: api/Diagnosis/5
@@ -54,7 +54,7 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                con.Insert(param);
+                con.InsertRecord(param);
                 string visitId = "";
                 param.TryGetValue("visitId", out visitId);
                 con.UpdateDiagnosis(Convert.ToInt32(visitId));

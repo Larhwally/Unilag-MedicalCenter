@@ -15,12 +15,12 @@ namespace Unilag_Medic.Controllers
     {
         public object obj = new object();
         //Begin GET method for Lab Tests
-       
-       //Begin toxicology GET and POST method
 
-       [Route("Toxicology")]
-       [HttpGet]
-       public IActionResult GetToxicology()
+        //Begin toxicology GET and POST method
+
+        [Route("Toxicology")]
+        [HttpGet]
+        public IActionResult GetToxicology()
         {
             EntityConnection con = new EntityConnection("tbl_toxicology");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
@@ -30,14 +30,14 @@ namespace Unilag_Medic.Controllers
 
         [Route("Toxicology")]
         [HttpPost]
-        public IActionResult PostToxicology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostToxicology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_toxicology");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 //var output = JsonConvert.SerializeObject(valkeys);
                 return Ok(param);
             }
@@ -50,7 +50,7 @@ namespace Unilag_Medic.Controllers
         //End toxicology POAT and GET method
 
 
-        
+
         //Begin Urinalysis POST and GET method
 
         [Route("UrinalysisTest")]
@@ -62,7 +62,7 @@ namespace Unilag_Medic.Controllers
             List<Dictionary<string, object>> result = con.Select();
             if (result.Count > 0)
             {
-                return Ok(result); 
+                return Ok(result);
             }
             else
             {
@@ -74,7 +74,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("UrinalysisTest")]
         [HttpPost]
-        public IActionResult PostUrinalysis([FromBody] Dictionary<string, string> param)
+        public IActionResult PostUrinalysis([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_urinalysis");
             if (param != null)
@@ -86,7 +86,7 @@ namespace Unilag_Medic.Controllers
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -107,21 +107,21 @@ namespace Unilag_Medic.Controllers
 
         [Route("Microbiology")]
         [HttpPost]
-        public IActionResult PostMicrobiology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostMicrobiology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_microbiologytest");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-               
+
                 //var output = JsonConvert.SerializeObject(valkeys);
                 return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -130,7 +130,7 @@ namespace Unilag_Medic.Controllers
 
 
         //Begin Haematology POST and GET method
-        
+
         [Route("HaematologyTest")]
         [HttpGet]
         public IActionResult GetHaematology()
@@ -140,7 +140,7 @@ namespace Unilag_Medic.Controllers
             List<Dictionary<string, object>> result = con.Select();
             if (result.Count > 0)
             {
-                return Ok(result); 
+                return Ok(result);
             }
             else
             {
@@ -151,21 +151,21 @@ namespace Unilag_Medic.Controllers
 
         [Route("HaematologyTest")]
         [HttpPost]
-        public IActionResult PostHaematology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostHaematology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_haematology");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 //var output = JsonConvert.SerializeObject(valkeys);
                 return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -175,7 +175,7 @@ namespace Unilag_Medic.Controllers
 
 
         //Begin chemistry GET and POST method 
-        
+
         [Route("Chemistry")]
         [HttpGet]
         public IActionResult GetChemTest()
@@ -189,20 +189,20 @@ namespace Unilag_Medic.Controllers
 
         [Route("Chemistry")]
         [HttpPost]
-        public IActionResult PostChemistry([FromBody] Dictionary<string, string> param)
+        public IActionResult PostChemistry([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_chemistrytest");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -232,20 +232,20 @@ namespace Unilag_Medic.Controllers
 
         [Route("StoolTest")]
         [HttpPost]
-        public IActionResult PostStoolTest([FromBody] Dictionary<string, string> param)
+        public IActionResult PostStoolTest([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_stooltest_analysis");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 return Created("", param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -264,20 +264,20 @@ namespace Unilag_Medic.Controllers
 
         [Route("SeminalTest")]
         [HttpPost]
-        public IActionResult PostSeminal([FromBody] Dictionary<string, string> param)
+        public IActionResult PostSeminal([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_seminal_analysis");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -292,7 +292,7 @@ namespace Unilag_Medic.Controllers
 
             if (result.Count > 0)
             {
-                return Ok(result); 
+                return Ok(result);
             }
             else
             {
@@ -303,20 +303,20 @@ namespace Unilag_Medic.Controllers
 
         [Route("RadiologicalTest")]
         [HttpPost]
-        public IActionResult PostRadiology([FromBody] Dictionary<string, string> param)
+        public IActionResult PostRadiology([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_radiological_examination");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
                 con.Insert(param);
-                
+
                 return Ok(param);
             }
             else
             {
                 //var resp = Response.WriteAsync("Failed to save test");
-                obj = new {message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
         }
@@ -325,7 +325,7 @@ namespace Unilag_Medic.Controllers
         //Post doctor's assessment
         [Route("DoctorAssessment")]
         [HttpPost]
-        public IActionResult PostDocAssessment([FromBody] Dictionary<string, string> param)
+        public IActionResult PostDocAssessment([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_doctor_assessment");
             if (param != null)

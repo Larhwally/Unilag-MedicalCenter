@@ -51,16 +51,61 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/Patient
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, string> param)
+        public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
 
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
-                param.Add("createDate", DateTime.Now.ToString());
-                con.Insert(param);
 
-                return Created("", param);
+                Dictionary<string, object> genericPatient = new Dictionary<string, object>();
+
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "hospitalNumber", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "department", "status", "createdBy" };
+
+                genericPatient = Utility.Pick(param, patientRecord);
+
+                genericPatient.Add("createDate", DateTime.Now.ToString());
+
+                long patientId = con.InsertScalar(genericPatient);
+
+                genericPatient.Add("itbId", patientId);
+
+                int patientTypeId = Convert.ToInt32(genericPatient["patientType"]);
+
+                // check if patient type is a staff
+                if (patientTypeId == 1)
+                {
+                    Dictionary<string, object> staff = new Dictionary<string, object>();
+
+                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "partnerName", "partnerHospNum", "partnerStatus", "status", "createdBy" };
+
+                    staff = Utility.Pick(param, staffPatientRecord);
+
+                    staff.Add("patientId", patientId);
+                    staff.Add("createDate", DateTime.Now.ToString());
+
+                    EntityConnection connection = new EntityConnection("tbl_staff_patient");
+
+                    connection.InsertStaffPatient(staff);
+                }
+                else if (patientTypeId == 2) //if patient type is a student
+                {
+                    Dictionary<string, object> student = new Dictionary<string, object>();
+
+                    string[] studentPatientRecord = { "matricNumber", "yearOfAdmission", "parentName", "parentAddress1", "parentAddress2", "parentPhone1", "parentPhone2", "localGuardian", "localGuardAddress1", "localGuardAddress2", "localGuardPhone1", "localGuardPhone2", "localGuardianRelationship", "status", "recordStaffId" };
+
+                    student = Utility.Pick(param, studentPatientRecord);
+
+                    student.Add("patientId", patientId);
+                    student.Add("createDate", DateTime.Now.ToString());
+
+                    EntityConnection connect = new EntityConnection("tbl_student_patient");
+
+                    connect.InsertStudentPatient(student);
+                }
+
+                obj = new { data = param };
+                return Created("", obj);
 
             }
             else

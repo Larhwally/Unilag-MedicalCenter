@@ -15,7 +15,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("VitalUnits")]
         [HttpPost]
-        public IActionResult PostUnit([FromBody] Dictionary<string, string> details)
+        public IActionResult PostUnit([FromBody] Dictionary<string, object> details)
         {
             EntityConnection con = new EntityConnection("tbl_vitalunits");
             if (details != null)
@@ -29,7 +29,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         [Route("VitalUnits")]
         [HttpGet]
         public IActionResult GetUnit()
@@ -38,133 +38,14 @@ namespace Unilag_Medic.Controllers
             List<Dictionary<string, object>> rec = con.Select();
             return Ok(rec);
         }
+
         //Begin  GET requests
-        [Route("Patients")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetPatByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_patient");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "hospitalNumber", hospitalNumber}
-            };
-
-            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
-            if (con.SelectByParam(pairs).Count > 0)
-            {
-                return Ok(con.SelectByParam(pairs)); 
-            }
-            else
-            {
-                obj = new { message = hospitalNumber + "does not exist" };
-                return NotFound(obj);
-            }
-            
-        }
-
-        [Route("Visits")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetVisitByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_visit");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                {"hospitalNumber", hospitalNumber }
-            };
-
-            if (con.DisplayVisitValues(hospitalNumber).Count > 0)
-            {
-                return Ok(con.DisplayVisitValues(hospitalNumber));
-            }
-            else
-            {
-                obj = new { message = hospitalNumber + "does not have a visit record" };
-                return NotFound(obj);
-            }
-            //string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
-
-        }
-
-
-        [Route("VisitVitals")]
-        [HttpGet("{visitId}")]
-        public IActionResult GetVitByVisit(int visitId)
-        {
-            EntityConnection con = new EntityConnection("tbl_vitalsigns");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "visitId", visitId.ToString()}
-            };
-            var result = con.SelectByParam(pairs);
-            if (result.Count > 0)
-            {
-                return Ok(result);
-            }
-            else
-            {
-                obj = new { message = visitId + "does not exist" };
-                return NotFound(obj);
-            }
-            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
-           
-        }
-
-
-        [Route("VitalSigns")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetVitByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_vitalsigns");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "hospitalNumber", hospitalNumber}
-            };
-
-            if (con.DisplayVitalValues(hospitalNumber).Count > 0)
-            {
-                return Ok(con.DisplayVitalValues(hospitalNumber));
-            }
-            else
-            {
-                obj = new { message = hospitalNumber + "does not have a vital sign record yet" };
-                return NotFound(obj);
-            }
-            //string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
-           
-        }
-
-        
-        [Route("Diagnosis")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetDiagByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                {"hospitalNumber", hospitalNumber }
-            };
-
-            if (con.DisplayDiagnosis(hospitalNumber).Count > 0)
-            {
-                return Ok(con.DisplayDiagnosis(hospitalNumber));
-            }
-            else
-            {
-                //obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
-                string[] arr = new string[0];
-                return Ok(arr);
-            }
-            //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
-            
-        }
-        //End of get Patients
-
 
         //POST and GET method for Visit
 
         [Route("Clinics")]
         [HttpPost]
-        public IActionResult PostClinic([FromBody] Dictionary<string, string> param)
+        public IActionResult PostClinic([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_clinic");
             if (param != null)
@@ -205,7 +86,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("ClinicSchedules")]
         [HttpPost]
-        public IActionResult PostClinicSchedule([FromBody] Dictionary<string, string> param)
+        public IActionResult PostClinicSchedule([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_clinicopenschedule");
             if (param != null)
@@ -251,7 +132,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("States")]
         [HttpPost]
-        public IActionResult PostState([FromBody] Dictionary<string, string> param)
+        public IActionResult PostState([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_state");
 
@@ -259,7 +140,7 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToShortDateString());
                 con.Insert(param);
-                return Created("Record added successful" ,param);
+                return Created("Record added successful", param);
             }
             else
             {
@@ -267,9 +148,9 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End of State POST and GET
-    
+
         //Nationality GET and POST method
 
         [Route("Nationalities")]
@@ -284,7 +165,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Nationalities")]
         [HttpPost]
-        public IActionResult PostNationality([FromBody] Dictionary<string, string> param)
+        public IActionResult PostNationality([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_nationality");
 
@@ -300,7 +181,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End of Nationality
 
         //Begin Patient type GET and POST
@@ -317,7 +198,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("PatientTypes")]
         [HttpPost]
-        public IActionResult PostPatienttype([FromBody] Dictionary<string, string> param)
+        public IActionResult PostPatienttype([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_patienttype");
             if (param != null)
@@ -334,7 +215,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End POST and GET method
 
 
@@ -352,7 +233,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("VisitTypes")]
         [HttpPost]
-        public IActionResult PostVisittype([FromBody] Dictionary<string, string> param)
+        public IActionResult PostVisittype([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_visittype");
 
@@ -370,10 +251,10 @@ namespace Unilag_Medic.Controllers
             }
             //return Ok(param);
         }
-        
+
         //End Visittype GET and POST
 
-        
+
         //Begin HMO Post and GET method
 
         [Route("Hmos")]
@@ -388,7 +269,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Hmos")]
         [HttpPost]
-        public IActionResult PostHMO([FromBody] Dictionary<string, string> param)
+        public IActionResult PostHMO([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_hmo");
 
@@ -407,10 +288,10 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //END of HMO GET and POst method
 
-        
+
         //Begin Department POST and GET method
 
         [Route("Departments")]
@@ -425,7 +306,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Departments")]
         [HttpPost]
-        public IActionResult PostDepartment([FromBody] Dictionary<string, string> param)
+        public IActionResult PostDepartment([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_department");
             if (param != null)
@@ -442,10 +323,10 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End of Department POST and GET method 
 
-        
+
         //Begin faculty POST and GET method
         [Route("Faculty")]
         [HttpGet]
@@ -459,7 +340,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Faculty")]
         [HttpPost]
-        public IActionResult PostFaculty([FromBody] Dictionary<string, string> param)
+        public IActionResult PostFaculty([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_faculty");
             if (param != null)
@@ -494,7 +375,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Doctors")]
         [HttpPost]
-        public IActionResult PostDoctor([FromBody] Dictionary<string, string> param)
+        public IActionResult PostDoctor([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_doctor");
             if (param != null)
@@ -528,7 +409,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Specializations")]
         [HttpPost]
-        public IActionResult PostSpecialization([FromBody] Dictionary<string, string> param)
+        public IActionResult PostSpecialization([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_specialization");
             if (param != null)
@@ -552,7 +433,7 @@ namespace Unilag_Medic.Controllers
 
         [Route("Stafftypes")]
         [HttpPost]
-        public IActionResult Poststafftype([FromBody] Dictionary<string, string> param)
+        public IActionResult Poststafftype([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_stafftype");
 
@@ -565,7 +446,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = "Error in creating record"};
+                obj = new { message = "Error in creating record" };
                 return BadRequest(obj);
             }
             //return Ok(param);
@@ -618,7 +499,7 @@ namespace Unilag_Medic.Controllers
         public IActionResult GetDoctorAppointment(int assignedTo)
         {
             EntityConnection con = new EntityConnection("tbl_visit");
-             Dictionary<string, string> result = new Dictionary<string, string>()
+            Dictionary<string, string> result = new Dictionary<string, string>()
             {
                 {"assignedTo", assignedTo.ToString() }
             };
@@ -629,12 +510,34 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new {message = "No patients assigned yet"};
+                obj = new { message = "No patients assigned yet" };
                 return NotFound(obj);
             }
 
         }
 
+
+
+        // Drug search
+        [Route("SearchDrug")]
+        [HttpGet("drugName")]
+        public IActionResult SearchDrugs(string drugName)
+        {
+            EntityConnection connection = new EntityConnection("tbl_druginventory");
+            Dictionary<string, object> result = new Dictionary<string, object>()
+            {
+                {"drugName", drugName}
+            };
+            if (connection.DrugSearch(drugName).Count > 0)
+            {
+                obj = connection.DrugSearch(drugName);
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+        }
 
         //End of POST requests
 
@@ -643,5 +546,9 @@ namespace Unilag_Medic.Controllers
 
 
 
+
+
+
     }
+
 }
