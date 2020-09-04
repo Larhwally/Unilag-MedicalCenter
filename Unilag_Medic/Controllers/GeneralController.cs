@@ -29,7 +29,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         [Route("VitalUnits")]
         [HttpGet]
         public IActionResult GetUnit()
@@ -39,125 +39,7 @@ namespace Unilag_Medic.Controllers
             return Ok(rec);
         }
         //Begin  GET requests
-        [Route("Patients")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetPatByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_patient");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "hospitalNumber", hospitalNumber}
-            };
 
-            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
-            if (con.SelectByParam(pairs).Count > 0)
-            {
-                return Ok(con.SelectByParam(pairs)); 
-            }
-            else
-            {
-                obj = new { message = hospitalNumber + "does not exist" };
-                return NotFound(obj);
-            }
-            
-        }
-
-        [Route("Visits")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetVisitByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_visit");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                {"hospitalNumber", hospitalNumber }
-            };
-
-            if (con.DisplayVisitValues(hospitalNumber).Count > 0)
-            {
-                return Ok(con.DisplayVisitValues(hospitalNumber));
-            }
-            else
-            {
-                obj = new { message = hospitalNumber + "does not have a visit record" };
-                return NotFound(obj);
-            }
-            //string res = EntityConnection.ToJson(con.DisplayVisitValues(hospnum));
-
-        }
-
-
-        [Route("VisitVitals")]
-        [HttpGet("{visitId}")]
-        public IActionResult GetVitByVisit(string visitId)
-        {
-            EntityConnection con = new EntityConnection("tbl_vitalsigns");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "visitId", visitId}
-            };
-
-            if (con.SelectByParam(pairs).Count > 0)
-            {
-                return Ok(con.SelectByParam(pairs));
-            }
-            else
-            {
-                obj = new { message = visitId + "does not exist" };
-                return NotFound(obj);
-            }
-            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
-           
-        }
-
-
-        [Route("VitalSigns")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetVitByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_vitalsigns");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "hospitalNumber", hospitalNumber}
-            };
-
-            if (con.DisplayVitalValues(hospitalNumber).Count > 0)
-            {
-                return Ok(con.DisplayVitalValues(hospitalNumber));
-            }
-            else
-            {
-                obj = new { message = hospitalNumber + "does not have a vital sign record yet" };
-                return NotFound(obj);
-            }
-            //string rec = EntityConnection.ToJson(con.DisplayVitalValues(hospnum));
-           
-        }
-
-        
-        [Route("Diagnosis")]
-        [HttpGet("{hospitalNumber}")]
-        public IActionResult GetDiagByHospnum(string hospitalNumber)
-        {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                {"hospitalNumber", hospitalNumber }
-            };
-
-            if (con.DisplayDiagnosis(hospitalNumber).Count > 0)
-            {
-                return Ok(con.DisplayDiagnosis(hospitalNumber));
-            }
-            else
-            {
-                //obj = new { message = hospitalNumber + "does not have a diagnosis record yet" };
-                string[] arr = new string[0];
-                return Ok(arr);
-            }
-            //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
-            
-        }
-        //End of get Patients
 
 
         //POST and GET method for Visit
@@ -255,7 +137,7 @@ namespace Unilag_Medic.Controllers
             {
                 param.Add("createDate", DateTime.Now.ToShortDateString());
                 con.Insert(param);
-                return Created("Record added successful" ,param);
+                return Created("Record added successful", param);
             }
             else
             {
@@ -263,9 +145,9 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End of State POST and GET
-    
+
 
 
         //Nationality GET and POST method
@@ -298,10 +180,10 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End of Nationality
 
-        
+
         //Begin Patient type GET and POST
 
         [Route("PatientTypes")]
@@ -333,7 +215,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End POST and GET method
 
 
@@ -358,7 +240,7 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                long id =  con.InsertScalar(param);
+                long id = con.InsertScalar(param);
                 param.Add("itbIb", id);
                 return Created("New record added successfully!", param);
                 //Response.WriteAsync("Record saved successfully!");
@@ -370,10 +252,10 @@ namespace Unilag_Medic.Controllers
             }
             //return Ok(param);
         }
-        
+
         //End Visittype GET and POST
 
-        
+
         //Begin HMO Post and GET method
 
         [Route("Hmos")]
@@ -407,10 +289,10 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //END of HMO GET and POst method
 
-        
+
         //Begin Department POST and GET method
 
         [Route("Departments")]
@@ -442,10 +324,10 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
         }
-        
+
         //End of Department POST and GET method 
 
-        
+
         //Begin faculty POST and GET method
         [Route("Faculty")]
         [HttpGet]
@@ -554,21 +436,7 @@ namespace Unilag_Medic.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	[Route("Stafftypes")]
+        [Route("Stafftypes")]
         [HttpGet]
         public IActionResult GetStaffType()
         {
@@ -609,28 +477,28 @@ namespace Unilag_Medic.Controllers
         }
         //End of POST requests
 
-		[Route("LastVisits")]
-        	[HttpGet("{id:int}")]
-        	public IActionResult GetLastVisit(int patientId)
-        	{
-            	  EntityConnection con = new EntityConnection("tbl_visit");
-            	  Dictionary<string, string> result = new Dictionary<string, string>()
-            	{
+        [Route("LastVisits")]
+        [HttpGet("{id:int}")]
+        public IActionResult GetLastVisit(int patientId)
+        {
+            EntityConnection con = new EntityConnection("tbl_visit");
+            Dictionary<string, string> result = new Dictionary<string, string>()
+                {
                   {"patientId", patientId + ""}
                };
-               if (con.LastVisit(patientId).Count > 0)
-               {
+            if (con.LastVisit(patientId).Count > 0)
+            {
                 return Ok(con.LastVisit(patientId));
-               }
-               else
-               {
-                 obj = new { message = patientId + " does not have a previous appointment record yet" };
-                 return NotFound(obj);
-               }
+            }
+            else
+            {
+                obj = new { message = patientId + " does not have a previous appointment record yet" };
+                return NotFound(obj);
+            }
 
-               }
-	
-	 //Get daily appointments by using date(yyyy-mm-dd) as parameter
+        }
+
+        //Get daily appointments by using date(yyyy-mm-dd) as parameter
         [Route("Appointments")]
         [HttpGet("{visitDate}")]
         public IActionResult GetDailyVisit(string visitDate)
@@ -652,13 +520,13 @@ namespace Unilag_Medic.Controllers
             }
         }
 
-	//Get Doctor's appointment list by assignedTo
+        //Get Doctor's appointment list by assignedTo
         [Route("DoctorsAppointment")]
         [HttpGet("{assignedTo}")]
         public IActionResult GetDoctorAppointment(int assignedTo)
         {
             EntityConnection con = new EntityConnection("tbl_visit");
-             Dictionary<string, string> result = new Dictionary<string, string>()
+            Dictionary<string, string> result = new Dictionary<string, string>()
             {
                 {"assignedTo", assignedTo.ToString() }
             };
@@ -669,12 +537,34 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new {message = "No patients assigned yet"};
+                obj = new { message = "No patients assigned yet" };
                 return NotFound(obj);
             }
 
         }
-		
+
+
+        // Drug search
+        [Route("SearchDrug")]
+        [HttpGet("drugName")]
+        public IActionResult SearchDrugs(string drugName)
+        {
+            EntityConnection connection = new EntityConnection("tbl_druginventory");
+            Dictionary<string, object> result = new Dictionary<string, object>()
+            {
+                {"drugName", drugName}
+            };
+            if (connection.DrugSearch(drugName).Count > 0)
+            {
+                obj = connection.DrugSearch(drugName);
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+        }
+
 
 
 
