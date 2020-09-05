@@ -566,6 +566,90 @@ namespace Unilag_Medic.Controllers
         }
 
 
+         //Begin other prescription
+        [Route("Xray")]
+        [HttpGet]
+        public IActionResult GetXray()
+        {
+            EntityConnection connection = new EntityConnection("tbl_xray_request");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result};
+                return Ok(obj);    
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+            
+        }
+
+        [Route("Xray")]
+        [HttpPost]
+        public IActionResult PostXray([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_xray_request");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+            
+        }
+
+
+        //Begin Post for referrral
+        [Route("Referrals")]
+        [HttpGet]
+        public IActionResult GetReferrals()
+        {
+            EntityConnection connection = new EntityConnection("tbl_referral");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result};
+                return Ok(obj);    
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+            
+        }
+
+        [Route("Referrals")]
+        [HttpPost]
+        public IActionResult PostReferrals([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_referral");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+            
+        }
+
+
 
 
 
