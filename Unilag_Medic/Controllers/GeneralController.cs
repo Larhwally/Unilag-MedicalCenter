@@ -650,6 +650,49 @@ namespace Unilag_Medic.Controllers
         }
 
 
+         //Begin POST and GET of lab tests
+        [Route("LabTests")]
+        [HttpGet]
+        public IActionResult GetLabTest()
+        {
+            EntityConnection connection = new EntityConnection("tbl_lab_test");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result};
+                return Ok(obj);    
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+            
+        }
+
+        [Route("LabTests")]
+        [HttpPost]
+        public IActionResult PostLabTest([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_lab_test");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+            
+        }
+
+
+
 
 
 
