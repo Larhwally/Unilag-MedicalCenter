@@ -565,6 +565,100 @@ namespace Unilag_Medic.Controllers
             }
         }
 
+        // Begin lab request 
+        [Route("LabRequests")]
+        [HttpGet("{id}")]
+        public IActionResult GetLabRequests(int id)
+        {
+            EntityConnection connection = new EntityConnection("tbl_labtest_request");
+
+            Dictionary<string, string> rec = new Dictionary<string, string>();
+            rec.Add("itbId", id + "");
+
+            Dictionary<string, object> result = connection.SelectByColumn(rec);
+
+            if (result.Count > 0)
+            {
+                obj = result["labTestId"];
+                notes = result["testNote"];
+
+                string labTestIds = obj.ToString();
+                string labNotes = notes.ToString();
+
+                result.Remove("labTestId");
+                result.Remove("testNote");
+
+                // Check if labtestId has values and not ab anempty array
+                if (labTestIds.Trim() != "")
+                {
+                    string[] testIds = labTestIds.Split(',');
+                    string[] orQueries = testIds.Select(labtestid => "itbId =" + labtestid).ToArray();
+
+                    if (orQueries != null)
+                    {
+                        var labTestNames = connection.LabTestNames(orQueries);
+                        result.Add("labTestId", labTestNames);
+                    }
+                }
+                else
+                {
+                    result.Add("labTestId", new string[0]);
+                }
+
+                // Check if lab notes is empty
+                if (labNotes.Trim() != "")
+                {
+                    string[] labRequestNotes = labNotes.Split('|');
+                    result.Add("testNote", labRequestNotes);
+                }
+                else
+                {
+                    result.Add("testNote", new string[0]);
+                }
+
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+        [Route("LabRequests")]
+        [HttpPost]
+        public IActionResult PostLabRequest([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_labtest_request");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                JArray labTestId = (JArray)param["labTestId"];
+                JArray labTestNote = (JArray)param["testNote"];
+
+                param.Remove("labTestId");
+                param.Remove("testNote");
+
+                param.Add("labTestId", string.Join(",", labTestId));
+                param.Add("testNote", string.Join("|", labTestNote));
+
+
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+
+        }
+
+
+
 
          //Begin other prescription
         [Route("Xray")]
