@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsof.Json.Linq;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
@@ -12,6 +14,7 @@ namespace Unilag_Medic.Controllers
     public class GeneralController : Controller
     {
         public object obj = new object();
+        public object notes = new object();
 
         [Route("VitalUnits")]
         [HttpPost]
@@ -660,7 +663,7 @@ namespace Unilag_Medic.Controllers
 
 
 
-         //Begin other prescription
+        //Begin other prescription
         [Route("Xray")]
         [HttpGet]
         public IActionResult GetXray()
@@ -670,14 +673,14 @@ namespace Unilag_Medic.Controllers
 
             if (result.Count > 0)
             {
-                obj = new { data = result};
-                return Ok(obj);    
+                obj = new { data = result };
+                return Ok(obj);
             }
             else
             {
                 return Ok(new string[0]);
             }
-            
+
         }
 
         [Route("Xray")]
@@ -698,7 +701,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
 
-            
+
         }
 
 
@@ -712,14 +715,14 @@ namespace Unilag_Medic.Controllers
 
             if (result.Count > 0)
             {
-                obj = new { data = result};
-                return Ok(obj);    
+                obj = new { data = result };
+                return Ok(obj);
             }
             else
             {
                 return Ok(new string[0]);
             }
-            
+
         }
 
         [Route("Referrals")]
@@ -740,11 +743,10 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
 
-            
         }
 
 
-         //Begin POST and GET of lab tests
+        //Begin POST and GET of lab tests
         [Route("LabTests")]
         [HttpGet]
         public IActionResult GetLabTest()
@@ -754,14 +756,14 @@ namespace Unilag_Medic.Controllers
 
             if (result.Count > 0)
             {
-                obj = new { data = result};
-                return Ok(obj);    
+                obj = new { data = result };
+                return Ok(obj);
             }
             else
             {
                 return Ok(new string[0]);
             }
-            
+
         }
 
         [Route("LabTests")]
@@ -782,7 +784,7 @@ namespace Unilag_Medic.Controllers
                 return BadRequest(obj);
             }
 
-            
+
         }
 
 
