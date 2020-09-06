@@ -1006,6 +1006,29 @@ namespace Unilag_Medic.Data
         }
 
 
+        // Select lab test names from tbl_lab_test which are referenced in an array of lab test names during lab test request
+        public List<Dictionary<string, object>> LabTestNames(string[] labTestName)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_lab_test WHERE " + string.Join(" OR ", labTestName);
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
 
 
         //Select drug detaiils from tbl_druginventory which are referenced in an array of drugs passed during prescription 

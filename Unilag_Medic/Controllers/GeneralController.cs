@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsof.Json.Linq;
+using Newtonsoft.Json.Linq;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
