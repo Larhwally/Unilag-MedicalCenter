@@ -1104,6 +1104,30 @@ namespace Unilag_Medic.Data
         }
 
 
+        // Select a lab request record using Visit ID as a search parameter
+        public Dictionary<string, object> SelectLabRequest(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_labtest_request WHERE visitId = " + visitId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("visitId", visitId);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
 
 
 

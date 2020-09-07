@@ -578,7 +578,7 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> rec = new Dictionary<string, string>();
             rec.Add("itbId", id + "");
 
-            Dictionary<string, object> result = connection.SelectByColumn(rec);
+            Dictionary<string, object> result = connection.SelectLabRequest(id);
 
             if (result.Count > 0)
             {
