@@ -1086,6 +1086,7 @@ namespace Unilag_Medic.Data
             this.connection.Open();
             string[] keys = student.Keys.ToArray<string>();
             string placeholder = GetPlaceholder(keys);
+
             string query = "INSERT INTO tbl_student_patient (" + implode(keys) + ") VALUES(" + placeholder + ")";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
@@ -1102,6 +1103,33 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return n > 0;
         }
+
+
+        //Insert a non staff patient specific data to the non staff table besides the generic patient record
+
+        public bool InsertNonStaff(Dictionary<string, object> nonStaff)
+        {
+            this.connection.Open();
+            string[] keys = nonStaff.Keys.ToArray<string>();
+            string placeholder = GetPlaceholder(keys);
+
+            string query = "INSERT INTO tbl_nonstaff (" + implode(keys) + ") VALUES(" + placeholder + ")";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentParam = "@" + keys[i];
+                string currentValue = nonStaff[keys[i]].ToString();
+                MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
+                MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
+                tempParam.Value = wrapValue(currentValue, dbType);
+                command.Parameters.Add(tempParam);
+            }
+            int n = command.ExecuteNonQuery();
+            this.connection.Close();
+            return n > 0;
+        }
+
 
 
         // Select a lab request record using Visit ID as a search parameter

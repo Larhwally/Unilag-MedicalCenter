@@ -31,9 +31,9 @@ namespace Unilag_Medic.Controllers
             _configuration = configuration;
         }
 
-       [Route("RegisterUser")]
-       [HttpPost]
-       public IActionResult RegUser([FromBody] UnilagMedLogin model)
+        [Route("RegisterUser")]
+        [HttpPost]
+        public IActionResult RegUser([FromBody] UnilagMedLogin model)
         {
             //DbAccessLayer db = new DbAccessLayer();
             EntityConnection con = new EntityConnection("tbl_userlogin");
@@ -44,7 +44,7 @@ namespace Unilag_Medic.Controllers
                 roleId = model.roleId,
                 medstaffId = model.medstaffId,
                 createBy = model.createBy,
-                createDate  = DateTime.Now
+                createDate = DateTime.Now
             };
 
             string password = model.password;
@@ -68,9 +68,9 @@ namespace Unilag_Medic.Controllers
             {
                 return BadRequest("check user details and try again");
             }
-            var res = new { user.email, user.createBy, user.createDate };
+            var data = new { user.email, user.createBy, user.createDate };
             //var result = res;
-            return Created("", res);
+            return Created("", data);
         }
 
 
@@ -86,8 +86,8 @@ namespace Unilag_Medic.Controllers
 
 
 
-                if (connection.CheckUser(email, pass) == true && model != null)
-                {
+            if (connection.CheckUser(email, pass) == true && model != null)
+            {
                 var claim = new[]
                     {
                         new Claim(ClaimTypes.NameIdentifier, model.roleId.ToString()),
@@ -113,17 +113,17 @@ namespace Unilag_Medic.Controllers
 
                 var role = connection.DisplayRoles(email);
                 var tempresult = new { logindate, tokenval };
-               
-                return Ok(new {role, tempresult });
+
+                return Ok(new { data = role, tempresult });
 
             }
 
-            obj = new {message = "Please check login details and try again!"};
+            obj = new { message = "Please check login details and try again!" };
             return Unauthorized(obj);
         }
 
 
-        
+
 
     }
 }
