@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System;
+using Microsoft.AspNetCore.Cryptography.KeyDerivation;
+
 
 namespace Unilag_Medic.Data
 {
@@ -15,6 +18,22 @@ namespace Unilag_Medic.Data
             }
 
             return result;
+        }
+
+
+        public static string Hash(string toBeHashed)
+        {
+            byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
+            // derive a 256-bit subkey (use HMACSHA1 with 10,000 iterations)
+            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                password: toBeHashed,
+                salt: salt,
+                prf: KeyDerivationPrf.HMACSHA512,
+                iterationCount: 1000,
+                numBytesRequested: 50
+                ));
+
+            return hashed;
         }
     }
 }

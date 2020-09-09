@@ -79,7 +79,7 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public IActionResult Loginuser([FromBody] UnilagMedLogin model)
         {
-            EntityConnection connection = new EntityConnection("tbl_userlogin");
+            EntityConnection connection = new EntityConnection("tbl_medicalstaff");
             string email = model.email;
             string pass = model.password;
             DateTime logindate = DateTime.Now;

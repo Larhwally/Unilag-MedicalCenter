@@ -16,6 +16,33 @@ namespace Unilag_Medic.Controllers
         public object obj = new object();
         public object notes = new object();
 
+        [Route("MedicalUnits")]
+        [HttpPost]
+        public IActionResult PostMedUnit([FromBody] Dictionary<string, object> details)
+        {
+            EntityConnection con = new EntityConnection("tbl_medunits");
+            if (details != null)
+            {
+                con.Insert(details);
+                return Ok(details);
+            }
+            else
+            {
+                obj = new { message = "error in creating record" };
+                return BadRequest(obj);
+            }
+        }
+
+        [Route("MedicalUnits")]
+        [HttpGet]
+        public IActionResult GetMedUnit()
+        {
+            EntityConnection con = new EntityConnection("tbl_medunits");
+            List<Dictionary<string, object>> rec = con.Select();
+            return Ok(rec);
+        }
+
+
         [Route("VitalUnits")]
         [HttpPost]
         public IActionResult PostUnit([FromBody] Dictionary<string, object> details)

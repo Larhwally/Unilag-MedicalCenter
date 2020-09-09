@@ -15,6 +15,7 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class MedStaffController : ControllerBase
     {
+        public object obj = new object();
         // GET: api/MedStaff
         [HttpGet]
         public IActionResult GetMedStaff()
@@ -22,6 +23,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
             //string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
+            result.ForEach(p => p.Remove("password"));
             return Ok(result);
         }
 
@@ -35,33 +37,42 @@ namespace Unilag_Medic.Controllers
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dict)) + "}";
             Dictionary<string, object> result = con.SelectByColumn(dict);
 
-            if (con.SelectByColumn(dict).Count > 0)
+            if (result.Count > 0)
             {
+                result.Remove("password");
                 return Ok(result);
             }
             else
             {
                 return NotFound();
             }
-            
+
         }
 
         // POST: api/MedStaff
         [HttpPost]
-        public IActionResult Post([FromBody] Dictionary<string, object> param )
+        public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
             if (param != null)
             {
+                var password = param["surname"];
+
+                string userPassword = Utility.Hash(password.ToString());
+
+                param.Add("password", userPassword);
                 param.Add("createDate", DateTime.Now.ToString());
+
                 con.Insert(param);
-                
+
+                param.Remove("password");
+
                 return Created("", param);
             }
             else
             {
-                //var resp = Response.WriteAsync("Error in creating record");
-                return BadRequest("Error in creating record");
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
             }
         }
 
@@ -87,7 +98,7 @@ namespace Unilag_Medic.Controllers
         public IActionResult Delete(int id)
         {
             EntityConnection con = new EntityConnection("tbl_medicalstaff");
-            if (id!= 0)
+            if (id != 0)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();
                 param.Add("itbId", id + "");
@@ -96,7 +107,7 @@ namespace Unilag_Medic.Controllers
             else
             {
                 return NotFound();
-                
+
             }
             return Ok("Record deleted successfully");
         }

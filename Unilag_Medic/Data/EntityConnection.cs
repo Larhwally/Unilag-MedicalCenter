@@ -424,7 +424,7 @@ namespace Unilag_Medic.Data
         public bool UpdateUser(int id, UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "UPDATE tbl_userlogin SET password = @password, updatedBy = @updatedBy, createDate = @createDate WHERE medstaffId = @medstaffId";
+            string query = "UPDATE tbl_medicalstaff SET password = @password, updatedBy = @updatedBy, createDate = @createDate WHERE medstaffId = @medstaffId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlParameter parameter = new MySqlParameter("@medstaffId", MySqlDbType.Int32);
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
@@ -456,7 +456,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             bool hasRows = false;
-            string query = "SELECT * FROM tbl_userlogin WHERE email = @email  AND password = @password";
+            string query = "SELECT * FROM tbl_medicalstaff WHERE email = @email  AND password = @password";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
             //using (var rng = RandomNumberGenerator.Create())
@@ -504,9 +504,8 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT tbl_userlogin.email, tbl_userlogin.roleId, tbl_role.itbId, roleTitle, medstaffId, staffCode, surname, position FROM tbl_userlogin " +
-                            "INNER JOIN tbl_role ON tbl_userlogin.roleId = tbl_role.itbId " +
-                            "INNER JOIN tbl_medicalstaff ON tbl_userlogin.medstaffId = tbl_medicalstaff.itbId WHERE tbl_userlogin.email = @email";
+            string query = "SELECT tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname, position FROM tbl_medicalstaff " +
+                            "INNER JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE tbl_medicalstaff.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
             MySqlDataReader reader = command.ExecuteReader();
