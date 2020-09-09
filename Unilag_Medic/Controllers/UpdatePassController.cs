@@ -13,6 +13,8 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class UpdatePassController : ControllerBase
     {
+        public object obj = new object();
+
         // GET: api/UpdatePass
         //[HttpGet]
         //public IEnumerable<string> Get()
@@ -42,14 +44,15 @@ namespace Unilag_Medic.Controllers
             {
                 unilag.createDate = DateTime.Now;
                 con.UpdateUser(id, unilag);
-                Response.WriteAsync("Password successfully updated!");
+                obj = new { message = "password updated successfully" };
+                return Ok(obj);
             }
             else
             {
-                return BadRequest("Error in updating password!");
+                obj = new { data = "Password update failed" };
+                return BadRequest(obj);
             }
 
-            return Ok(unilag);
         }
 
 
