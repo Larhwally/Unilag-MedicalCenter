@@ -408,13 +408,13 @@ namespace Unilag_Medic.Data
         public bool AddUser(UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "INSERT INTO tbl_userlogin(email, password, roleId, medstaffId, createBy, createDate) VALUES(@email,@password,@roleId,@medstaffId,@createBy,@createDate)";
+            string query = "INSERT INTO tbl_userlogin(email, password, roleId, medstaffId, updatedBy, createDate) VALUES(@email,@password,@roleId,@medstaffId,@updatedBy,@createDate)";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@email", unilag.email);
             cmd.Parameters.AddWithValue("@password", unilag.password);
             cmd.Parameters.AddWithValue("@roleId", unilag.roleId);
             cmd.Parameters.AddWithValue("@medstaffId", unilag.medstaffId);
-            cmd.Parameters.AddWithValue("@createBy", unilag.createBy);
+            cmd.Parameters.AddWithValue("@updatedBy", unilag.createBy);
             cmd.Parameters.AddWithValue("@createDate", unilag.createDate);
             int n = cmd.ExecuteNonQuery();
             this.connection.Close();
@@ -424,7 +424,7 @@ namespace Unilag_Medic.Data
         public bool UpdateUser(int id, UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "UPDATE tbl_userlogin SET password = @password, createBy = @createBy, createDate = @createDate WHERE medstaffId = @medstaffId";
+            string query = "UPDATE tbl_userlogin SET password = @password, updatedBy = @updatedBy, createDate = @createDate WHERE medstaffId = @medstaffId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlParameter parameter = new MySqlParameter("@medstaffId", MySqlDbType.Int32);
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
@@ -444,7 +444,7 @@ namespace Unilag_Medic.Data
             parameter.Value = id;
             command.Parameters.Add(parameter);
             command.Parameters.AddWithValue("@password", unilag.password);
-            command.Parameters.AddWithValue("@createBy", unilag.createBy);
+            command.Parameters.AddWithValue("@updatedBy", unilag.createBy);
             command.Parameters.AddWithValue("@createDate", unilag.createDate);
             int n = command.ExecuteNonQuery();
             this.connection.Close();
