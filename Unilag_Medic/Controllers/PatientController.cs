@@ -62,12 +62,19 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
+                param.Remove("hospitalNumber");
+
+                Random random = new Random();
+                int randomNumber = random.Next(100, 1000);
+                var hospnum = "unimed-" + randomNumber;
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "hospitalNumber", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status" };
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status" };
 
                 genericPatient = Utility.Pick(param, patientRecord);
+
+                genericPatient.Add("hospitalNumber", hospnum);
 
                 genericPatient.Add("createDate", DateTime.Now.ToString());
 
@@ -123,6 +130,7 @@ namespace Unilag_Medic.Controllers
                     cons.InsertNonStaff(nonStaff);
                 }
 
+                param.Add("hospitalNumber", hospnum);
                 obj = new { data = param };
                 return Created("", obj);
 
