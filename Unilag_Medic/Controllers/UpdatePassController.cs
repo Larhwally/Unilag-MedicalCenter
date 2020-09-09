@@ -36,14 +36,14 @@ namespace Unilag_Medic.Controllers
         //}
 
         // PUT: api/UpdatePass/5
-        [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, UnilagMedLogin unilag)
+        [HttpPut("{medstaffId}")]
+        public IActionResult UpdateUser(int medstaffId, UnilagMedLogin unilag)
         {
             EntityConnection con = new EntityConnection("tbl_userlogin");
-            if (id != 0)
+            if (medstaffId != 0)
             {
                 unilag.createDate = DateTime.Now;
-                con.UpdateUser(id, unilag);
+                con.UpdateUser(medstaffId, unilag);
                 obj = new { message = "password updated successfully" };
                 return Ok(obj);
             }
@@ -58,7 +58,7 @@ namespace Unilag_Medic.Controllers
 
 
         //// DELETE: api/ApiWithActions/5
-        //[HttpDelete("{id}")]
+        //[HttpDelete("{medstaffId}")]
         //public void Delete(int id)
         //{
         //}
