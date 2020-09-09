@@ -65,7 +65,7 @@ namespace Unilag_Medic.Controllers
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "hospitalNumber", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status", "createdBy" };
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "hospitalNumber", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status" };
 
                 genericPatient = Utility.Pick(param, patientRecord);
 
