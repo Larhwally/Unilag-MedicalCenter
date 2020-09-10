@@ -427,9 +427,9 @@ namespace Unilag_Medic.Data
         public bool UpdateUser(int id, UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "UPDATE tbl_userlogin SET password = @password, createBy = @createBy, createDate = @createDate WHERE itbId = @itbId";
+            string query = "UPDATE tbl_medicalstaff SET password = @password, createBy = @createBy, createDate = @createDate WHERE medstaffId = @medstaffId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
-            MySqlParameter parameter = new MySqlParameter("@itbId", MySqlDbType.Int32);
+            MySqlParameter parameter = new MySqlParameter("@medstaffId", MySqlDbType.Int32);
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
             //using (var rng = RandomNumberGenerator.Create())
             //{
@@ -459,7 +459,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             bool hasRows = false;
-            string query = "SELECT * FROM tbl_userlogin WHERE email = @email  AND password = @password";
+            string query = "SELECT * FROM tbl_medicalstaff WHERE email = @email  AND password = @password";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
             //using (var rng = RandomNumberGenerator.Create())
@@ -507,9 +507,8 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT tbl_userlogin.email, tbl_userlogin.roleId, tbl_role.itbId, roleTitle, medstaffId, staffCode, surname, position FROM tbl_userlogin " +
-                            "INNER JOIN tbl_role ON tbl_userlogin.roleId = tbl_role.itbId " +
-                            "INNER JOIN tbl_medicalstaff ON tbl_userlogin.medstaffId = tbl_medicalstaff.itbId WHERE tbl_userlogin.email = @email";
+            string query = "SELECT tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname, position FROM tbl_medicalstaff " +
+                            "INNER JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE tbl_medicalstaff.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
             MySqlDataReader reader = command.ExecuteReader();
@@ -1016,6 +1015,31 @@ namespace Unilag_Medic.Data
         }
 
 
+        // Select lab test names from tbl_lab_test which are referenced in an array of lab test names during lab test request
+        public List<Dictionary<string, object>> LabTestNames(string[] labTestName)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_lab_test WHERE " + string.Join(" OR ", labTestName);
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
         //Select/Pick some fields from a payload dictionary into another dictionary
         // public Dictionary<string, object> Pick(Dictionary<string, object> source, string[] fieldsNeeded)
         // {
@@ -1078,6 +1102,60 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return n > 0;
         }
+
+
+
+        //Insert a non staff patient specific data to the non staff table besides the generic patient record
+
+        public bool InsertNonStaff(Dictionary<string, object> nonStaff)
+        {
+            this.connection.Open();
+            string[] keys = nonStaff.Keys.ToArray<string>();
+            string placeholder = GetPlaceholder(keys);
+
+            string query = "INSERT INTO tbl_nonstaff (" + implode(keys) + ") VALUES(" + placeholder + ")";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentParam = "@" + keys[i];
+                string currentValue = nonStaff[keys[i]].ToString();
+                MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
+                MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
+                tempParam.Value = wrapValue(currentValue, dbType);
+                command.Parameters.Add(tempParam);
+            }
+            int n = command.ExecuteNonQuery();
+            this.connection.Close();
+            return n > 0;
+        }
+
+
+
+        // Select a lab request record using Visit ID as a search parameter
+        public Dictionary<string, object> SelectLabRequest(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_labtest_request WHERE visitId = " + visitId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("visitId", visitId);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
 
 
 

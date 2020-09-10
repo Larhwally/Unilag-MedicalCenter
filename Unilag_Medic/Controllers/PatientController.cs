@@ -57,12 +57,19 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
+                param.Remove("hospitalNumber");
+
+                Random random = new Random();
+                int randomNumber = random.Next(100, 1000);
+                var hospnum = "unimed-" + randomNumber;
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "hospitalNumber", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "department", "status", "createdBy" };
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status", "createdBy" };
 
                 genericPatient = Utility.Pick(param, patientRecord);
+
+                genericPatient.Add("hospitalNumber", hospnum);
 
                 genericPatient.Add("createDate", DateTime.Now.ToString());
 
@@ -77,7 +84,7 @@ namespace Unilag_Medic.Controllers
                 {
                     Dictionary<string, object> staff = new Dictionary<string, object>();
 
-                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "partnerName", "partnerHospNum", "partnerStatus", "status", "createdBy" };
+                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "designation", "partnerName", "partnerHospNum", "partnerIsStaff", "status", "createdBy" };
 
                     staff = Utility.Pick(param, staffPatientRecord);
 
@@ -103,7 +110,22 @@ namespace Unilag_Medic.Controllers
 
                     connect.InsertStudentPatient(student);
                 }
+                else if (patientTypeId == 4)
+                {
+                    Dictionary<string, object> nonStaff = new Dictionary<string, object>();
 
+                    string[] nonStaffRecord = { "companyName", "dateOfAppointment", "companyAddress", "designation", "recordStaffId" };
+
+                    nonStaff = Utility.Pick(param, nonStaffRecord); // pick the data specified in the array out of the param dictionary containing full patient data and save it in a dictionary
+
+                    nonStaff.Add("patientId", patientId);
+
+                    EntityConnection cons = new EntityConnection("tbl_nonstaff");
+
+                    cons.InsertNonStaff(nonStaff);
+                }
+
+                param.Add("hospitalNumber", hospnum);
                 obj = new { data = param };
                 return Created("", obj);
 

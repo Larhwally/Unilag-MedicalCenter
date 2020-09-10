@@ -124,14 +124,13 @@ namespace Unilag_Medic.Controllers
             }
         }
 
+        
 
-        [Route("OtherDrugs")]
-        [HttpGet]
-        public IActionResult PostOtherDrugs([FromBody] Dictionary<string, object> param)
-        {
-            EntityConnection connection = new EntityConnection("tbl_otherdrugpresc");
-            return Ok(param);
-        }
+
+
+
+
+
 
     }
 }

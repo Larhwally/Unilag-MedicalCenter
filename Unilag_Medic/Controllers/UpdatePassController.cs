@@ -9,10 +9,12 @@ using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class UpdatePassController : ControllerBase
     {
+        public object obj = new object();
         // GET: api/UpdatePass
         //[HttpGet]
         //public IEnumerable<string> Get()
@@ -34,22 +36,24 @@ namespace Unilag_Medic.Controllers
         //}
 
         // PUT: api/UpdatePass/5
-        [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, UnilagMedLogin unilag)
+        [HttpPut("{medstaffId}")]
+        public IActionResult UpdateUser(int medstaffId, UnilagMedLogin unilag)
         {
             EntityConnection con = new EntityConnection("tbl_userlogin");
-            if (id != 0)
+            if (medstaffId != 0)
             {
                 unilag.createDate = DateTime.Now;
-                con.UpdateUser(id, unilag);
-                Response.WriteAsync("Password successfully updated!");
+                con.UpdateUser(medstaffId, unilag);
+                obj = new {message = "password updated successfully"};
+                return Ok(obj);
             }
             else
             {
-                return BadRequest("Error in updating password!");
+                obj = new {data = "Password update failed"};
+                return BadRequest(obj);
             }
 
-            return Ok(unilag);
+           
         }
 
 

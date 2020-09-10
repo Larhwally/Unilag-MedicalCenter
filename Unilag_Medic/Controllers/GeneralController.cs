@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
@@ -12,6 +14,35 @@ namespace Unilag_Medic.Controllers
     public class GeneralController : Controller
     {
         public object obj = new object();
+        public object notes = new object();
+
+
+        [Route("MedicalUnits")]
+        [HttpPost]
+        public IActionResult PostMedUnit([FromBody] Dictionary<string, object> details)
+        {
+            EntityConnection con = new EntityConnection("tbl_medunits");
+            if (details != null)
+            {
+                con.Insert(details);
+                return Ok(details);
+            }
+            else
+            {
+                obj = new { message = "error in creating record" };
+                return BadRequest(obj);
+            }
+        }
+
+        [Route("MedicalUnits")]
+        [HttpGet]
+        public IActionResult GetMedUnit()
+        {
+            EntityConnection con = new EntityConnection("tbl_medunits");
+            List<Dictionary<string, object>> rec = con.Select();
+            return Ok(rec);
+        }
+
 
         [Route("VitalUnits")]
         [HttpPost]
@@ -528,9 +559,11 @@ namespace Unilag_Medic.Controllers
             {
                 {"drugName", drugName}
             };
-            if (connection.DrugSearch(drugName).Count > 0)
+            List<Dictionary<string, object>> param = new List<Dictionary<string, object>>();
+            param = connection.DrugSearch(drugName);
+            if (param.Count > 0)
             {
-                obj = connection.DrugSearch(drugName);
+                obj = new { data = param };
                 return Ok(obj);
             }
             else
@@ -538,6 +571,231 @@ namespace Unilag_Medic.Controllers
                 return Ok(new string[0]);
             }
         }
+
+
+        //Begin other prescription
+
+        [Route("LabRequests")]
+        [HttpGet("{id}")]
+        public IActionResult GetLabRequests(int id)
+        {
+            EntityConnection connection = new EntityConnection("tbl_labtest_request");
+
+            Dictionary<string, string> rec = new Dictionary<string, string>();
+            rec.Add("itbId", id + "");
+
+            Dictionary<string, object> result = connection.SelectLabRequest(id);
+
+            if (result.Count > 0)
+            {
+                obj = result["labTestId"];
+                notes = result["testNote"];
+
+                string labTestIds = obj.ToString();
+                string labNotes = notes.ToString();
+
+                result.Remove("labTestId");
+                result.Remove("testNote");
+
+                // Check if labtestId has values and not ab anempty array
+                if (labTestIds.Trim() != "")
+                {
+                    string[] testIds = labTestIds.Split(',');
+                    string[] orQueries = testIds.Select(labtestid => "itbId =" + labtestid).ToArray();
+
+                    if (orQueries != null)
+                    {
+                        var labTestNames = connection.LabTestNames(orQueries);
+                        result.Add("labTestId", labTestNames);
+                    }
+                }
+                else
+                {
+                    result.Add("labTestId", new string[0]);
+                }
+
+                // Check if lab notes is empty
+                if (labNotes.Trim() != "")
+                {
+                    string[] labRequestNotes = labNotes.Split('|');
+                    result.Add("testNote", labRequestNotes);
+                }
+                else
+                {
+                    result.Add("testNote", new string[0]);
+                }
+
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+        [Route("LabRequests")]
+        [HttpPost]
+        public IActionResult PostLabRequest([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_labtest_request");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                JArray labTestId = (JArray)param["labTestId"];
+                JArray labTestNote = (JArray)param["testNote"];
+
+                param.Remove("labTestId");
+                param.Remove("testNote");
+
+                param.Add("labTestId", string.Join(",", labTestId));
+                param.Add("testNote", string.Join("|", labTestNote));
+
+
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+
+        }
+
+
+
+
+        [Route("Xray")]
+        [HttpGet]
+        public IActionResult GetXray()
+        {
+            EntityConnection connection = new EntityConnection("tbl_xray_request");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+        [Route("Xray")]
+        [HttpPost]
+        public IActionResult PostXray([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_xray_request");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+
+        }
+
+
+        //Begin Post for referrral
+        [Route("Referrals")]
+        [HttpGet]
+        public IActionResult GetReferrals()
+        {
+            EntityConnection connection = new EntityConnection("tbl_referral");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+        [Route("Referrals")]
+        [HttpPost]
+        public IActionResult PostReferrals([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_referral");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+
+        }
+
+
+
+        //Begin POST and GET of lab tests
+        [Route("LabTests")]
+        [HttpGet]
+        public IActionResult GetLabTest()
+        {
+            EntityConnection connection = new EntityConnection("tbl_lab_test");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+        [Route("LabTests")]
+        [HttpPost]
+        public IActionResult PostLabTest([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_lab_test");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+
+        }
+
+
+
 
         //End of POST requests
 
