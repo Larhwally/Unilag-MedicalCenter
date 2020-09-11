@@ -1179,6 +1179,32 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        // Generate patient record report
+        public Dictionary<string, object> PatientReport()
+        {
+            this.connection.Open();
+            string query = "SELECT COUNT(tbl_patient.itbId) AS Total_Patient, SUM(CASE WHEN tbl_patient.patientType = 1 THEN 1 ELSE 0 END) AS staff_patient," +
+                           " SUM(CASE WHEN tbl_patient.patientType = 2 THEN 1 ELSE 0 END) AS student_patient FROM tbl_patient";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                // Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+
+        }
+
 
 
 
