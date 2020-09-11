@@ -48,6 +48,46 @@ namespace Unilag_Medic.Controllers
         }
 
 
+         // Get visit record report
+        [Route("AppointmentReport")]
+        [HttpGet]
+        public IActionResult GetAppointmentReport()
+        {
+            EntityConnection connection = new EntityConnection("tbl_visit");
+            Dictionary<string, object> result = connection.AppointmentReport();
+
+            // Get the total appointments, awaiting vitals, attended to appointments
+            int totalAppointment = Convert.ToInt32(result["Total_Appointment"]);
+            double awaitingVitals = Convert.ToDouble(result["Awaiting_vitals"]);
+            double attendedTo = Convert.ToDouble(result["Attended"]);
+
+            // Get the percentage of awaiting and attended
+            var awaitingPercent = awaitingVitals / totalAppointment * 100;
+            var attendendPercent = attendedTo / totalAppointment * 100;
+
+            // Pass each result into a seperate dictionary to make them independent objects/dictionaries
+            Dictionary<string, object> awaitingRecord = new Dictionary<string, object>();
+            awaitingRecord.Add("label", "Awaiting");
+            awaitingRecord.Add("count", awaitingVitals);
+            awaitingRecord.Add("percentage", awaitingPercent);
+
+            Dictionary<string, object> attendedRecorded = new Dictionary<string, object>();
+            attendedRecorded.Add("label", "Attended");
+            attendedRecorded.Add("count", attendedTo);
+            attendedRecorded.Add("percentage", attendendPercent);
+
+
+            // Pipe the dictionaries into a list of dictionaries/array of objects
+            List<Dictionary<string, object>> Appointments = new List<Dictionary<string, object>>();
+            Appointments.Add(awaitingRecord);
+            Appointments.Add(attendedRecorded);
+
+            return Ok(Appointments);
+
+
+        }
+
+
         
     }
 }

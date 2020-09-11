@@ -1206,6 +1206,32 @@ namespace Unilag_Medic.Data
         }
 
 
+         // Generate appointment record
+        public Dictionary<string, object> AppointmentReport()
+        {
+            this.connection.Open();
+            string query = "SELECT COUNT(tbl_visit.itbId) AS Total_Appointment, SUM(tbl_visit.vitalStatus = 0) AS Awaiting_vitals, " +
+                            "SUM(tbl_visit.diagnosisStatus = 1) AS Attended FROM tbl_visit";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                // Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
 
 
 

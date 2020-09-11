@@ -23,6 +23,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_medunits");
             if (details != null)
             {
+                details.Add("createDate", DateTime.Now.ToString());
                 con.Insert(details);
                 return Ok(details);
             }
