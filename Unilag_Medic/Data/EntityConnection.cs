@@ -1153,7 +1153,31 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+         // Select staff schedule
+        public List<Dictionary<string, object>> SelectAllStaffSchedule()
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_staff_schedule.staffId, surname, otherNames, gender, phoneNumber, tbl_staff_schedule.roleId, tbl_staff_schedule.clinicId clinicType, clinicName, scheduleDate FROM tbl_staff_schedule " +
+                           "INNER JOIN tbl_medicalstaff ON tbl_staff_schedule.staffId = tbl_medicalstaff.itbId " +
+                           "INNER JOIN tbl_clinic on tbl_staff_schedule.clinicId = tbl_clinic.itbId";
 
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
 

@@ -10,7 +10,7 @@ namespace Unilag_Medic.Controllers
     [Route("api/[controller]")]
     [ApiController]
 
-    public class StaffSchedule
+    public class StaffSchedule : ControllerBase
     {
         public object obj = new object();
 
@@ -20,7 +20,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection connection = new EntityConnection("tbl_staff_schedule");
 
-            List<Dictionary<string, object>> result = connection.Select();
+            List<Dictionary<string, object>> result = connection.SelectAllStaffSchedule();
             if (result.Count > 0)
             {
                 return Ok(result);
