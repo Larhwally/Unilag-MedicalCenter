@@ -424,9 +424,10 @@ namespace Unilag_Medic.Data
         public bool UpdateUser(int id, UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "UPDATE tbl_medicalstaff SET password = @password, updatedBy = @updatedBy, createDate = @createDate WHERE itbId = @itbId";
+            string query = "UPDATE tbl_medicalstaff SET password = @password, createdBy = @createdBy, createDate = @createDate WHERE itbId = @itbId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlParameter parameter = new MySqlParameter("@itbId", MySqlDbType.Int32);
+            MySqlParameter parameter2 = new MySqlParameter("@createdBy", MySqlDbType.VarChar) 
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
             //using (var rng = RandomNumberGenerator.Create())
             //{
