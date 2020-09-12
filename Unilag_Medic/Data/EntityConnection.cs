@@ -1159,8 +1159,8 @@ namespace Unilag_Medic.Data
             this.connection.Open();
             string query = "SELECT tbl_staff_schedule.staffId, surname, otherNames, gender, phoneNumber, tbl_staff_schedule.roleId, " +
                            "tbl_staff_schedule.clinicId, clinicType, clinicName, scheduleDate FROM tbl_staff_schedule " +
-                           "INNER JOIN tbl_medicalstaff ON tbl_staff_schedule.staffId = tbl_medicalstaff.itbId " +
-                           "INNER JOIN tbl_clinic on tbl_staff_schedule.clinicId = tbl_clinic.itbId";
+                           "LEFT JOIN tbl_medicalstaff ON tbl_staff_schedule.staffId = tbl_medicalstaff.itbId " +
+                           "LEFT JOIN tbl_clinic on tbl_staff_schedule.clinicId = tbl_clinic.itbId";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
