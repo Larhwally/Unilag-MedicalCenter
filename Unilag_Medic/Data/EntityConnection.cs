@@ -427,7 +427,7 @@ namespace Unilag_Medic.Data
             string query = "UPDATE tbl_medicalstaff SET password = @password, createdBy = @createdBy, createDate = @createDate WHERE itbId = @itbId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlParameter parameter = new MySqlParameter("@itbId", MySqlDbType.Int32);
-            MySqlParameter parameter2 = new MySqlParameter("@createdBy", MySqlDbType.VarChar) 
+            MySqlParameter parameter = new MySqlParameter("@createdBy", MySqlDbType.VarChar);
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
             //using (var rng = RandomNumberGenerator.Create())
             //{
@@ -505,7 +505,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT tbl_medicalstaff.itbId, staffCode, surname, tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle FROM tbl_medicalstaff " +
+            string query = "SELECT tbl_medicalstaff.itbId AS medstaffId, staffCode, surname, tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle FROM tbl_medicalstaff " +
                             "INNER JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE tbl_medicalstaff.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
