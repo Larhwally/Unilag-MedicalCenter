@@ -504,7 +504,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname, position FROM tbl_medicalstaff " +
+            string query = "SELECT tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname FROM tbl_medicalstaff " +
                             "INNER JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE tbl_medicalstaff.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
@@ -1153,11 +1153,12 @@ namespace Unilag_Medic.Data
             return values;
         }
 
-         // Select staff schedule
+        // Select staff schedule
         public List<Dictionary<string, object>> SelectAllStaffSchedule()
         {
             this.connection.Open();
-            string query = "SELECT tbl_staff_schedule.staffId, surname, otherNames, gender, phoneNumber, tbl_staff_schedule.roleId, tbl_staff_schedule.clinicId clinicType, clinicName, scheduleDate FROM tbl_staff_schedule " +
+            string query = "SELECT tbl_staff_schedule.staffId, surname, otherNames, gender, phoneNumber, tbl_staff_schedule.roleId, " +
+                           "tbl_staff_schedule.clinicId, clinicType, clinicName, scheduleDate FROM tbl_staff_schedule " +
                            "INNER JOIN tbl_medicalstaff ON tbl_staff_schedule.staffId = tbl_medicalstaff.itbId " +
                            "INNER JOIN tbl_clinic on tbl_staff_schedule.clinicId = tbl_clinic.itbId";
 
@@ -1206,7 +1207,7 @@ namespace Unilag_Medic.Data
         }
 
 
-         // Generate appointment record
+        // Generate appointment record
         public Dictionary<string, object> AppointmentReport()
         {
             this.connection.Open();
