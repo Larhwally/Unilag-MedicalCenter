@@ -1185,7 +1185,8 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT COUNT(tbl_patient.itbId) AS Total_Patient, SUM(CASE WHEN tbl_patient.patientType = 1 THEN 1 ELSE 0 END) AS staff_patient," +
-                           " SUM(CASE WHEN tbl_patient.patientType = 2 THEN 1 ELSE 0 END) AS student_patient FROM tbl_patient";
+                           " SUM(CASE WHEN tbl_patient.patientType = 2 THEN 1 ELSE 0 END)  AS student_patient, " +
+                           "SUM(CASE WHEN tbl_patient.patientType = 4 THEN 1 ELSE 0 END) AS non_staff_patient FROM tbl_patient";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();

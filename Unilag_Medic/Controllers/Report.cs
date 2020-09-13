@@ -21,10 +21,13 @@ namespace Unilag_Medic.Controllers
             // Get the values of total patients, student patients and staff patients
             double students = Convert.ToDouble(result["student_patient"]);
             double staffs = Convert.ToDouble(result["staff_patient"]);
+            double nonStaffs = Convert.ToDouble(result["non_staff_patient"]);
             int totalPatient = Convert.ToInt32(result["Total_Patient"]);
+
 
             var studentPercent = students / totalPatient * 100; //convert to percent
             var staffPercent = staffs / totalPatient * 100; //convert to percent
+            var nonStaffPercent = nonStaffs / totalPatient * 100; //convert to percent
 
             // Pass each patient detail to a seperate Dictionary or make 'em independent objects
             Dictionary<string, object> Students = new Dictionary<string, object>();
@@ -35,10 +38,15 @@ namespace Unilag_Medic.Controllers
             Staffs.Add("staff_patients", staffs);
             Staffs.Add("staff_percentage", staffPercent);
 
+            Dictionary<string, object> NonStaffs = new Dictionary<string, object>();
+            NonStaffs.Add("non_staffs", nonStaffs);
+            NonStaffs.Add("non_staff_peercentage", nonStaffPercent);
+
             // Pass the seperate dictionaries of student and staff patients into a list of dictionaries/array of objects
             List<Dictionary<string, object>> Patients = new List<Dictionary<string, object>>();
             Patients.Add(Students);
             Patients.Add(Staffs);
+            Patients.Add(NonStaffs);
 
 
             // result.Add("student_percent", studentPercent);
