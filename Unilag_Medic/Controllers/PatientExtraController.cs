@@ -128,6 +128,40 @@ namespace Unilag_Medic.Controllers
 
         }
 
+
+        [Route("NonStaffs")]    
+        [HttpGet]
+        public IActionResult GetNonStaffs()
+        {
+            EntityConnection con = new EntityConnection("tbl_nonstaff");
+            //string result = "{'status': true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> result = con.Select();
+            return Ok(result);
+        }
+
+
+        [Route("NonStaffs")]
+        [HttpPost]
+        public IActionResult PostNonStaff([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection con = new EntityConnection("tbl_nonstaff");
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                con.Insert(param);
+
+                return Created("", param);
+            }
+            else
+            {
+                //var resp = Response.WriteAsync("Failed to save test");
+                return BadRequest("Error in creating record");
+            }
+        }
+
+
+
+
         [Route("Dependents")]
         [HttpGet]
         public IActionResult GetDependent()

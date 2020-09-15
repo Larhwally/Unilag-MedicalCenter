@@ -57,6 +57,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
             {
+                // Auto generate hospital number
                 param.Remove("hospitalNumber");
 
                 Random random = new Random();
@@ -65,7 +66,7 @@ namespace Unilag_Medic.Controllers
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status", "createdBy" };
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status", "recordStaffId" };
 
                 genericPatient = Utility.Pick(param, patientRecord);
 
@@ -110,6 +111,7 @@ namespace Unilag_Medic.Controllers
 
                     connect.InsertStudentPatient(student);
                 }
+                // check if patient is a non staff
                 else if (patientTypeId == 4)
                 {
                     Dictionary<string, object> nonStaff = new Dictionary<string, object>();

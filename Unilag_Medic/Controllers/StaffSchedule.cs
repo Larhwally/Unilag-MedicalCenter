@@ -19,7 +19,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection connection = new EntityConnection("tbl_staff_schedule");
 
-            List<Dictionary<string, object>> result = connection.Select();
+            List<Dictionary<string, object>> result = connection.SelectAllStaffSchedule();
             if (result.Count > 0)
             {
                 return Ok(result);

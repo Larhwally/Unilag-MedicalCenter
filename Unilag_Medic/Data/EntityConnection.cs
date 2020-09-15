@@ -18,7 +18,7 @@ namespace Unilag_Medic.Data
 {
     public class EntityConnection
     {
-        public string ConnectionString = "server=localhost;port=3306;database=unilag_medic;user=root;password=ellnerd22";
+        public string ConnectionString = "server=localhost;port=3306;database=unimeddbbackup;user=root;password=";
         private MySqlConnection connection;
         private string tableName;
         private int defaultSelectLength;
@@ -76,7 +76,7 @@ namespace Unilag_Medic.Data
             for (int i = 0; i < tempResult.Count; i++)
             {
                 Dictionary<string, object> current = tempResult[i]; //changed object to string for dict
-                result.Add(current["column_name"].ToString(), current["data_type"].ToString());
+                result.TryAdd(current["column_name"].ToString(), current["data_type"].ToString());
             }
             return result;
 
@@ -427,9 +427,10 @@ namespace Unilag_Medic.Data
         public bool UpdateUser(int id, UnilagMedLogin unilag)
         {
             this.connection.Open();
-            string query = "UPDATE tbl_medicalstaff SET password = @password, createBy = @createBy, createDate = @createDate WHERE medstaffId = @medstaffId";
+            string query = "UPDATE tbl_medicalstaff SET password = @password, createDate = @createDate WHERE itbId = @itbId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
-            MySqlParameter parameter = new MySqlParameter("@medstaffId", MySqlDbType.Int32);
+            MySqlParameter parameter = new MySqlParameter("@itbId", MySqlDbType.Int32);
+
             byte[] salt = { 2, 3, 1, 2, 3, 6, 7, 4, 2, 3, 1, 7, 8, 9, 6 };
             //using (var rng = RandomNumberGenerator.Create())
             //{
@@ -507,7 +508,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname, position FROM tbl_medicalstaff " +
+            string query = "SELECT tbl_medicalstaff.itbId AS medstaffId, tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname FROM tbl_medicalstaff " +
                             "INNER JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE tbl_medicalstaff.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
@@ -1148,6 +1149,86 @@ namespace Unilag_Medic.Data
                 {
                     values.Add(reader.GetName(i), reader.GetValue(i));
                 }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+        // Select staff schedule
+        public List<Dictionary<string, object>> SelectAllStaffSchedule()
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_staff_schedule.staffId, staffCode, surname, otherNames, gender, phoneNumber, tbl_staff_schedule.roleId, tbl_staff_schedule.clinicId, clinicType, clinicName, scheduleDate FROM tbl_staff_schedule " +
+                           "LEFT JOIN tbl_medicalstaff ON tbl_staff_schedule.staffId = tbl_medicalstaff.itbId " +
+                           "LEFT JOIN tbl_clinic on tbl_staff_schedule.clinicId = tbl_clinic.itbId";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
+            while (reader.Read())
+            {
+                Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    pairs.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+        // Generate patient report record
+        public Dictionary<string, object> PatientReport()
+        {
+            this.connection.Open();
+            string query = "SELECT COUNT(tbl_patient.itbId) AS Total_Patient, SUM(CASE WHEN tbl_patient.patientType = 1 THEN 1 ELSE 0 END) AS staff_patient," +
+                           " SUM(CASE WHEN tbl_patient.patientType = 2 THEN 1 ELSE 0 END)  AS student_patient, " +
+                           "SUM(CASE WHEN tbl_patient.patientType = 4 THEN 1 ELSE 0 END) AS non_staff_patient FROM tbl_patient";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                // Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+
+        }
+
+        // Generate appointment record
+        public Dictionary<string, object> AppointmentReport()
+        {
+            this.connection.Open();
+            string query = "SELECT COUNT(tbl_visit.itbId) AS Total_Appointment, SUM(tbl_visit.vitalStatus = 0) AS Awaiting_vitals, " +
+                            "SUM(tbl_visit.diagnosisStatus = 1) AS Attended FROM tbl_visit";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                // Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                //values.Add(pairs);
             }
             reader.Close();
             this.connection.Close();

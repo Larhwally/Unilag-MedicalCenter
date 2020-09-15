@@ -59,7 +59,8 @@ namespace Unilag_Medic.Controllers
 
                 var password = param["surname"];
 
-                var userPassword = Utility.Hash(password.ToString());
+
+                var userPassword = Utility.Hash(password.ToString().ToLower());
 
                 param.Add("password", userPassword);
 
