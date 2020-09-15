@@ -1234,6 +1234,35 @@ namespace Unilag_Medic.Data
         }
 
 
+        // Generate report for medical staffs
+        public Dictionary<string, object> GetStaffReport()
+        {
+            this.connection.Open();
+            string query = "SELECT COUNT(tbl_medicalstaff.itbId) AS Total_Staffs, SUM(CASE WHEN tbl_medicalstaff.roleId = 4 THEN 1 ELSE 0 END) AS record_staff, " +
+                           "SUM(CASE WHEN tbl_medicalstaff.roleId = 3 THEN 1 ELSE 0 END) AS nurses, SUM(CASE WHEN tbl_medicalstaff.roleId = 5 THEN 1 ELSE 0 END) AS doctors, " +
+                           "SUM(CASE WHEN tbl_medicalstaff.roleId = 7 THEN 1 ELSE 0 END) AS pharmacists, SUM(CASE WHEN tbl_medicalstaff.roleId = 6 THEN 1 ELSE 0 END) AS lab_technician, " +
+                           "SUM(CASE WHEN tbl_medicalstaff.roleId = 8 THEN 1 ELSE 0 END) AS xray_staffs FROM tbl_medicalstaff";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                // Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
 
 
 
