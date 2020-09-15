@@ -58,7 +58,7 @@ namespace Unilag_Medic.Controllers
             {
                 var password = param["surname"];
 
-                string userPassword = Utility.Hash(password.ToString());
+                string userPassword = Utility.Hash(password.ToString().ToLower());
 
                 param.Add("password", userPassword);
                 param.Add("createDate", DateTime.Now.ToString());
@@ -107,9 +107,9 @@ namespace Unilag_Medic.Controllers
             else
             {
                 return NotFound();
-
             }
-            return Ok("Record deleted successfully");
+            obj = new {message = "Record deleted successfully"};
+            return Ok(obj);
         }
 
 
