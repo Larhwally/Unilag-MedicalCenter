@@ -88,10 +88,18 @@ namespace Unilag_Medic.Data
             this.defaultSelectLength = defaultlength;
         }
 
-        //select all
+        //select all with limit to 20 records
         public List<Dictionary<string, object>> Select()
         {
             string query = "select * from " + this.tableName + " ORDER by itbId DESC LIMIT 20 ";
+            return this.BaseSelect(query);
+        }
+
+
+        // Select without limit of records
+        public List<Dictionary<string, object>> SelectAll()
+        {
+            string query = "SELECT * FROM " + this.tableName + " ORDER BY itbId DESC";
             return this.BaseSelect(query);
         }
 

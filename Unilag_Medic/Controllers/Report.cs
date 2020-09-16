@@ -40,7 +40,7 @@ namespace Unilag_Medic.Controllers
 
             Dictionary<string, object> NonStaffs = new Dictionary<string, object>();
             NonStaffs.Add("non_staffs", nonStaffs);
-            NonStaffs.Add("non_staff_peercentage", nonStaffPercent);
+            NonStaffs.Add("non_staff_percentage", nonStaffPercent);
 
             // Pass the seperate dictionaries of student and staff patients into a list of dictionaries/array of objects
             List<Dictionary<string, object>> Patients = new List<Dictionary<string, object>>();
