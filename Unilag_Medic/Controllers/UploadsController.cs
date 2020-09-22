@@ -69,7 +69,7 @@ namespace Unilag_Medic.Controllers
             }
             if (file.Length < 1024 * 1024 * 2)
             {
-                string path = Path.Combine("/home/unimed/wwwroot", uniqueName);
+                string path = Path.Combine("/home/unimed/Unilag_Medical_Center/Unilag_Medic/wwwroot", uniqueName);
 
                 using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                 {

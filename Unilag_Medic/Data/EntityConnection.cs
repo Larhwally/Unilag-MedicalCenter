@@ -916,7 +916,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> SelectAppointedDetails(int id)
         {
             this.connection.Open();
-            string query = "SELECT tbl_visit.itbId, assignedTo, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames, tbl_medicalstaff.position FROM tbl_visit" +
+            string query = "SELECT tbl_visit.itbId, assignedTo, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
                            " INNER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId WHERE tbl_visit.itbId = @visitId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@visitId", id);
