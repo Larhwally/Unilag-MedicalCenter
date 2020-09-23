@@ -88,10 +88,18 @@ namespace Unilag_Medic.Data
             this.defaultSelectLength = defaultlength;
         }
 
-        //select all
+        //select all record limited by 20 records at a time
         public List<Dictionary<string, object>> Select()
         {
             string query = "select * from " + this.tableName + " ORDER BY itbId DESC LIMIT 20 ";
+            return this.BaseSelect(query);
+        }
+
+
+        // Select all records with no limit
+        public List<Dictionary<string, object>> SelectAll()
+        {
+            string query = "SELECT * FROM " + this.tableName + " ORDER BY itbId DESC";
             return this.BaseSelect(query);
         }
 
@@ -1216,6 +1224,34 @@ namespace Unilag_Medic.Data
             this.connection.Open();
             string query = "SELECT COUNT(tbl_visit.itbId) AS Total_Appointment, SUM(tbl_visit.vitalStatus = 0) AS Awaiting_vitals, " +
                             "SUM(tbl_visit.diagnosisStatus = 1) AS Attended FROM tbl_visit";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                // Dictionary<string, object> pairs = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+
+                }
+                //values.Add(pairs);
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+        // Generate report for medical staffs
+        public Dictionary<string, object> GetStaffReport()
+        {
+            this.connection.Open();
+            string query = "SELECT COUNT(tbl_medicalstaff.itbId) AS Total_Staffs, SUM(CASE WHEN tbl_medicalstaff.roleId = 4 THEN 1 ELSE 0 END) AS record_staff, " +
+                           "SUM(CASE WHEN tbl_medicalstaff.roleId = 3 THEN 1 ELSE 0 END) AS nurses, SUM(CASE WHEN tbl_medicalstaff.roleId = 5 THEN 1 ELSE 0 END) AS doctors, " +
+                           "SUM(CASE WHEN tbl_medicalstaff.roleId = 7 THEN 1 ELSE 0 END) AS pharmacists, SUM(CASE WHEN tbl_medicalstaff.roleId = 6 THEN 1 ELSE 0 END) AS lab_technician, " +
+                           "SUM(CASE WHEN tbl_medicalstaff.roleId = 8 THEN 1 ELSE 0 END) AS xray_staffs FROM tbl_medicalstaff";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();

@@ -39,7 +39,7 @@ namespace Unilag_Medic.Controllers
 
             Dictionary<string, object> NonStaffs = new Dictionary<string, object>();
             NonStaffs.Add("non_staffs", nonStaffs);
-            NonStaffs.Add("non_staff_peercentage", nonStaffPercent);
+            NonStaffs.Add("non_staff_percentage", nonStaffPercent);
 
             // Pass the seperate dictionaries of student and staff patients into a list of dictionaries/array of objects
             List<Dictionary<string, object>> Patients = new List<Dictionary<string, object>>();
@@ -90,6 +90,79 @@ namespace Unilag_Medic.Controllers
             Appointments.Add(attendedRecorded);
 
             return Ok(Appointments);
+
+
+        }
+
+
+        // Get medical staffs record analysis
+        [Route("StaffReport")]
+        [HttpGet]
+        public IActionResult GetStaffAnalysis()
+        {
+            EntityConnection connection = new EntityConnection("tbl_medicalstaff");
+            Dictionary<string, object> result = connection.GetStaffReport();
+
+            // Get total value of the medical staff units
+            int totalStaffs = Convert.ToInt32(result["Total_Staffs"]);
+            double recordStaff = Convert.ToDouble(result["record_staff"]);
+            double nurses = Convert.ToDouble(result["nurses"]);
+            double doctors = Convert.ToDouble(result["doctors"]);
+            double pharmicists = Convert.ToDouble(result["pharmacists"]);
+            double laboritarian = Convert.ToDouble(result["lab_technician"]);
+            double xrayStaff = Convert.ToDouble(result["xray_staffs"]);
+
+            // Calculate percentage of each staff number
+            var recordPercent = recordStaff / totalStaffs * 100;
+            var nursePercent = nurses / totalStaffs * 100;
+            var doctorPercent = doctors / totalStaffs * 100;
+            var pharmacistPercent = pharmicists / totalStaffs * 100;
+            var laboratoryPercent = laboritarian / totalStaffs * 100;
+            var xrayPercent = xrayStaff / totalStaffs * 100;
+
+            // Pass each result into a seperate dictionaries
+            Dictionary<string, object> recordRecords = new Dictionary<string, object>();
+            recordRecords.Add("label", "recordstaffs");
+            recordRecords.Add("count", recordStaff);
+            recordRecords.Add("percentage", recordPercent);
+
+            Dictionary<string, object> nurseRecord = new Dictionary<string, object>();
+            nurseRecord.Add("label", "nurses");
+            nurseRecord.Add("count", nurses);
+            nurseRecord.Add("percentage", nursePercent);
+
+            Dictionary<string, object> doctorRecords = new Dictionary<string, object>();
+            doctorRecords.Add("label", "doctors");
+            doctorRecords.Add("count", doctors);
+            doctorRecords.Add("percentage", doctorPercent);
+
+            Dictionary<string, object> pharmacyRecord = new Dictionary<string, object>();
+            pharmacyRecord.Add("label", "pharmacists");
+            pharmacyRecord.Add("count", pharmicists);
+            pharmacyRecord.Add("percentage", pharmacistPercent);
+
+            Dictionary<string, object> laboratoryRecord = new Dictionary<string, object>();
+            laboratoryRecord.Add("label", "laboratorystaffs");
+            laboratoryRecord.Add("count", laboritarian);
+            laboratoryRecord.Add("percentage", laboratoryPercent);
+
+            Dictionary<string, object> xrayRecord = new Dictionary<string, object>();
+            xrayRecord.Add("label", "xraystaffs");
+            xrayRecord.Add("count", xrayStaff);
+            xrayRecord.Add("percentage", xrayPercent);
+
+
+            // Pipe the dictiories into a list/ array of objects
+            List<Dictionary<string, object>> StaffReports = new List<Dictionary<string, object>>();
+            StaffReports.Add(recordRecords);
+            StaffReports.Add(nurseRecord);
+            StaffReports.Add(doctorRecords);
+            StaffReports.Add(pharmacyRecord);
+            StaffReports.Add(laboratoryRecord);
+            StaffReports.Add(xrayRecord);
+
+
+            return Ok(StaffReports);
 
 
         }

@@ -258,7 +258,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_visittype");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> rec = con.Select();
+            List<Dictionary<string, object>> rec = con.SelectAll();
             return Ok(rec);
         }
 
@@ -294,7 +294,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_hmo");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> rec = con.Select();
+            List<Dictionary<string, object>> rec = con.SelectAll();
             return Ok(rec);
         }
 
@@ -331,7 +331,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_department");
             //string result = "{'status':true, 'data':}" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> rec = con.Select();
+            List<Dictionary<string, object>> rec = con.SelectAll();
             return Ok(rec);
         }
 
@@ -365,7 +365,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_faculty");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> rec = con.Select();
+            List<Dictionary<string, object>> rec = con.SelectAll();
             return Ok(rec);
         }
 

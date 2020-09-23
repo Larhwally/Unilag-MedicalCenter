@@ -14,9 +14,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.IdentityModel.Tokens;
 using Unilag_Medic.Data;
 using Unilag_Medic.ViewModel;
+using Unilag_Medic.Services;
 
 namespace Unilag_Medic
 {
@@ -27,12 +30,29 @@ namespace Unilag_Medic
             Configuration = configuration;
         }
 
+        // public Startup(IConfiguration configuration) 
+        // {
+        //     this.Configuration = configuration;
+
+        // }
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IConfiguration>();
+            services.AddHttpClient();
+
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseDefaultTypeSerializer()
+                .UseMemoryStorage()
+            );
+
+            services.AddHangfireServer();
+
+            services.AddSingleton<ICreateClinic, CreateClinic>();
 
             services.AddCors(options =>
             {
@@ -84,7 +104,11 @@ namespace Unilag_Medic
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app,
+        IHostingEnvironment env,
+        IBackgroundJobClient backgroundJobClient,
+        IRecurringJobManager recurringJobManger,
+        IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -100,7 +124,17 @@ namespace Unilag_Medic
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
-           
+
+            app.UseHangfireDashboard();
+            backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
+            recurringJobManger.AddOrUpdate(
+                "Run Daily",
+                () => Console.WriteLine("Testing recurring job!"),
+                Cron.Daily
+            );
+            backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
+
+
         }
     }
 }
