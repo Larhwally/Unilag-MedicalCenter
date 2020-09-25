@@ -120,11 +120,11 @@ namespace Unilag_Medic
 
             app.UseHangfireDashboard();
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
-            recurringJobManger.AddOrUpdate(
-                "Run Daily",
-                () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
-                Cron.Daily
-            );
+            // recurringJobManger.AddOrUpdate(
+            //     "Run Daily",
+            //     () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
+            //     Cron.Daily
+            // );
             //backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
 
 
