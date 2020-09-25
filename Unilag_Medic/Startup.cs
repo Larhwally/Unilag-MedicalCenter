@@ -97,7 +97,11 @@ namespace Unilag_Medic
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app,
+        IHostingEnvironment env,
+        IBackgroundJobClient backgroundJobClient,
+        IRecurringJobManager recurringJobManger,
+        IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -113,6 +117,16 @@ namespace Unilag_Medic
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
+
+            app.UseHangfireDashboard();
+            //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
+            recurringJobManger.AddOrUpdate(
+                "Run Daily",
+                () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
+                Cron.Daily
+            );
+            //backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
+
 
         }
     }
