@@ -942,9 +942,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> GetDoctors()
         {
             this.connection.Open();
-            string query = "SELECT staffId, surname, otherNames, specializationName, tbl_doctor.status, tbl_doctor.createdBy, tbl_doctor.createDate FROM tbl_doctor" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" +
-                            " INNER JOIN tbl_specialization ON tbl_doctor.specialization = tbl_specialization.itbId";
+            string query = "SELECT tbl_medicalstaff.itbId, surname, otherNames, specializationName, tbl_medicalstaff.status, tbl_medicalstaff.createdBy, tbl_medicalstaff.createDate FROM tbl_medicalstaff" +
+                            " INNER JOIN tbl_specialization ON tbl_medicalstaff.specializationId = tbl_specialization.itbId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
             List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
