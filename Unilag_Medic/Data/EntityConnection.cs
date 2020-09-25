@@ -12,6 +12,7 @@ using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Unilag_Medic.Models;
 using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Data
@@ -217,6 +218,8 @@ namespace Unilag_Medic.Data
             return n > 0;
 
         }
+
+
 
         //A new method to catch the itbId of a new insert author: John
         public long InsertScalar(Dictionary<string, object> content)
@@ -1062,6 +1065,35 @@ namespace Unilag_Medic.Data
 
         //     return result;
         // }
+        // Insert a result of an External API call into a table
+        public string InsertResult(List<NationalityModel> countries)
+        {
+
+            this.connection.Open();
+            string query = "INSERT INTO tbl_nationality(nationalityName, capitalName, regionName, subRegionName, createdBy, createDate) " +
+                           "VALUES(@nationalityName, @capitalName, @regionName, @subRegionName, @createdBy, @createDate)";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            string createdBy = "lawal";
+            DateTime createDate = DateTime.Now;
+            foreach (var country in countries)
+            {
+                command.Parameters.AddWithValue("@nationalityName", country.Name);
+                command.Parameters.AddWithValue("@capitalName", country.Capital);
+                command.Parameters.AddWithValue("@regionName", country.Region);
+                command.Parameters.AddWithValue("@subRegionName", country.Subregion);
+                command.Parameters.AddWithValue("@createdBy", createdBy);
+                command.Parameters.AddWithValue("@createDate", createDate);
+                int n = command.ExecuteNonQuery();
+                command.Parameters.Clear();
+            }
+
+            this.connection.Close();
+            return "Inserted";
+
+        }
+
+
 
 
         //Insert a staff patient perculiar records besides the generic patient records
@@ -1270,6 +1302,8 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
+
+
 
 
 

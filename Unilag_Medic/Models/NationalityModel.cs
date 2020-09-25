@@ -10,8 +10,6 @@ namespace Unilag_Medic.Models
         [JsonProperty("capital")]
         public string Capital { get; set; }
 
-        [JsonProperty("altSpellings")]
-        public string[] AltSpellings { get; set; }
 
         [JsonProperty("region")]
         public string Region { get; set; }

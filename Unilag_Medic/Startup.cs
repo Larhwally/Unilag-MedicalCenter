@@ -20,6 +20,7 @@ using Microsoft.IdentityModel.Tokens;
 using Unilag_Medic.Data;
 using Unilag_Medic.ViewModel;
 using Unilag_Medic.Services;
+using Unilag_Medic.Models;
 
 namespace Unilag_Medic
 {
@@ -53,6 +54,8 @@ namespace Unilag_Medic
             services.AddHangfireServer();
 
             services.AddSingleton<ICreateClinic, CreateClinic>();
+
+
 
             services.AddCors(options =>
             {

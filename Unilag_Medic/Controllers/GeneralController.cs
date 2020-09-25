@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Unilag_Medic.Data;
+using Unilag_Medic.Models;
 using Unilag_Medic.Services;
 
 namespace Unilag_Medic.Controllers
@@ -14,6 +18,15 @@ namespace Unilag_Medic.Controllers
     //[Produces("application/json")]
     public class GeneralController : Controller
     {
+
+        private readonly IHttpClientFactory _clientFactory;
+
+        public GeneralController(IHttpClientFactory clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
+
+        public List<NationalityModel> countries { get; set; }
         public object obj = new object();
         public object notes = new object();
 
@@ -798,10 +811,50 @@ namespace Unilag_Medic.Controllers
 
         [Route("Countries")]
         [HttpGet]
-        public IActionResult GetCountries()
+        public async Task<IActionResult> GetCountriesAsync()
         {
-            NationalityData nationality = new NationalityData();
-            return Ok(nationality);
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://restcountries.eu/rest/v2/all");
+
+            var client = _clientFactory.CreateClient();
+
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseStream = await response.Content.ReadAsStreamAsync();
+                var resp = await JsonSerializer.DeserializeAsync<List<Dictionary<string, object>>>(responseStream);
+
+                countries = new List<NationalityModel>();
+
+                foreach (var item in resp)
+                {
+                    var country = new NationalityModel
+                    {
+                        Name = item["name"].ToString(),
+                        Capital = item["capital"].ToString(),
+                        Region = item["region"].ToString(),
+                        Subregion = item["subregion"].ToString()
+                    };
+                    countries.Add(country);
+                }
+
+                // Insert result inside Nation table
+                EntityConnection connection = new EntityConnection("tbl_nationality");
+                connection.InsertResult(countries);
+
+                return Ok(countries);
+
+            }
+            else
+            {
+                NotFound();
+                //nationalityModel = new List<NationalityModel>();
+            }
+
+            return null;
+
+
         }
 
 
