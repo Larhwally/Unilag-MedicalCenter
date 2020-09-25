@@ -12,11 +12,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Unilag_Medic.Data;
 using Unilag_Medic.ViewModel;
+using Unilag_Medic.Services;
 
 namespace Unilag_Medic
 {

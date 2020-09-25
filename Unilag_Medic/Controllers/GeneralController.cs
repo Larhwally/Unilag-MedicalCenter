@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Unilag_Medic.Data;
+using Unilag_Medic.Models;
 
 namespace Unilag_Medic.Controllers
 {
@@ -16,6 +17,14 @@ namespace Unilag_Medic.Controllers
     //[Produces("application/json")]
     public class GeneralController : Controller
     {
+        private readonly IHttpClientFactory _clientFactory;
+
+        public GeneralController(IHttpClientFactory clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
+
+        public List<NationalityModel> countries { get; set; }
         public object obj = new object();
         public object notes = new object();
 
