@@ -856,7 +856,7 @@ namespace Unilag_Medic.Controllers
             else
             {
                 NotFound();
-                //nationalityModel = new List<NationalityModel>();
+                
             }
 
             return null;
