@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.IdentityModel.Tokens;
 using Unilag_Medic.Data;
-using Unilag_Medic.ViewModel;
 using Unilag_Medic.Services;
-using Unilag_Medic.Models;
 
 namespace Unilag_Medic
 {
@@ -53,7 +45,7 @@ namespace Unilag_Medic
 
             services.AddHangfireServer();
 
-            services.AddSingleton<ICreateClinic, CreateClinic>();
+            services.AddSingleton<ICronServices, CronServices>();
 
 
 
@@ -103,7 +95,7 @@ namespace Unilag_Medic
                 });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -129,13 +121,13 @@ namespace Unilag_Medic
             app.UseMvc();
 
             app.UseHangfireDashboard();
-            backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
+            //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
             recurringJobManger.AddOrUpdate(
                 "Run Daily",
-                () => Console.WriteLine("Testing recurring job!"),
+                () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
                 Cron.Daily
             );
-            backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
+            //backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
 
 
         }

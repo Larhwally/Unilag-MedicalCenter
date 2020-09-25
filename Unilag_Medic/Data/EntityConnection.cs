@@ -1304,6 +1304,30 @@ namespace Unilag_Medic.Data
         }
 
 
+        // A method that is triggered by cron to change depedent status if age is above 18
+        public bool UpdateDependentStatus()
+        {
+            var today = DateTime.Now;
+            DateTime birthDate = new DateTime();
+            var age = today.Year - birthDate.Year;
+
+            bool hasRow = false;
+            this.connection.Open();
+            string query = "UPDATE tbl_dependent SET status = " + "Above 18" + " WHERE age > 18";   
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
+            hasRow = dataReader.HasRows;
+            this.connection.Close();
+            return hasRow;
+
+
+        }
+
+
+
+
+
+
 
 
 
