@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace Unilag_Medic.Controllers
     {
         public static IHostingEnvironment _environment;
         public object objs = new object();
-        
+
         public UploadsController(IHostingEnvironment environment)
         {
             _environment = environment;
@@ -59,7 +60,7 @@ namespace Unilag_Medic.Controllers
 
             if (!file.ContentType.StartsWith("image/"))
             {
-                 objs = new { message = "not an image file" };
+                objs = new { message = "not an image file" };
                 return BadRequest(objs);
             }
             if (!file.FileName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))

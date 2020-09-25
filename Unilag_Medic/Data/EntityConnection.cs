@@ -12,6 +12,7 @@ using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Unilag_Medic.Models;
 using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Data
