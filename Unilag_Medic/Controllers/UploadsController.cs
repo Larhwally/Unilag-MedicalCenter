@@ -10,6 +10,7 @@ using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UploadsController : ControllerBase
@@ -53,7 +54,6 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
-            
             string fName = file.FileName;
             string uniqueName = Guid.NewGuid() + "" + "_" + fName;
 

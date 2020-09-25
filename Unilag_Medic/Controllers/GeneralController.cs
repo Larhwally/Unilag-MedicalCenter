@@ -816,6 +816,60 @@ namespace Unilag_Medic.Controllers
         }
 
 
+        [Route("Countries")]
+        [HttpGet]
+        public async Task<IActionResult> GetCountriesAsync()
+        {
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://restcountries.eu/rest/v2/all");
+
+            var client = _clientFactory.CreateClient();
+
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseStream = await response.Content.ReadAsStreamAsync();
+                var resp = await JsonSerializer.DeserializeAsync<List<Dictionary<string, object>>>(responseStream);
+
+                countries = new List<NationalityModel>();
+
+                foreach (var item in resp)
+                {
+                    var country = new NationalityModel
+                    {
+                        Name = item["name"].ToString(),
+                        Capital = item["capital"].ToString(),
+                        Region = item["region"].ToString(),
+                        Subregion = item["subregion"].ToString()
+                    };
+                    countries.Add(country);
+                }
+
+                // Insert result inside Nation table
+                EntityConnection connection = new EntityConnection("tbl_nationality");
+                connection.InsertResult(countries);
+
+                return Ok(countries);
+
+            }
+            else
+            {
+                NotFound();
+                //nationalityModel = new List<NationalityModel>();
+            }
+
+            return null;
+
+
+        }
+
+
+
+
+        //End of POST requests
+
+
 
 
 

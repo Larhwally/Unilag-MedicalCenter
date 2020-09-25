@@ -34,6 +34,17 @@ namespace Unilag_Medic
         {
             //services.AddSingleton<IConfiguration>();
 
+            services.AddHttpClient();
+
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseDefaultTypeSerializer()
+                .UseMemoryStorage()
+            );
+
+            services.AddHangfireServer();
+
             services.AddCors(options =>
             {
                 options.AddPolicy("default", policy =>
@@ -99,7 +110,7 @@ namespace Unilag_Medic
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseMvc();
-           
+
         }
     }
 }

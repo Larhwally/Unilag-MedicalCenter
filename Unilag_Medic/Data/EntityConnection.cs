@@ -1269,6 +1269,33 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        // Insert a result of an External API call into a table
+        public string InsertResult(List<NationalityModel> countries)
+        {
+
+            this.connection.Open();
+            string query = "INSERT INTO tbl_nationality(nationalityName, capitalName, regionName, subRegionName, createdBy, createDate) " +
+                           "VALUES(@nationalityName, @capitalName, @regionName, @subRegionName, @createdBy, @createDate)";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            string createdBy = "lawal";
+            DateTime createDate = DateTime.Now;
+            foreach (var country in countries)
+            {
+                command.Parameters.AddWithValue("@nationalityName", country.Name);
+                command.Parameters.AddWithValue("@capitalName", country.Capital);
+                command.Parameters.AddWithValue("@regionName", country.Region);
+                command.Parameters.AddWithValue("@subRegionName", country.Subregion);
+                command.Parameters.AddWithValue("@createdBy", createdBy);
+                command.Parameters.AddWithValue("@createDate", createDate);
+                int n = command.ExecuteNonQuery();
+                command.Parameters.Clear();
+            }
+
+            this.connection.Close();
+            return "Inserted";
+
+        }
 
 
 
