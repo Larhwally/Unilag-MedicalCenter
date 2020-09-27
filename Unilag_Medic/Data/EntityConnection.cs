@@ -943,7 +943,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_medicalstaff.itbId, surname, otherNames, specializationName, tbl_medicalstaff.status, tbl_medicalstaff.createdBy, tbl_medicalstaff.createDate FROM tbl_medicalstaff" +
-                            " INNER JOIN tbl_specialization ON tbl_medicalstaff.specializationId = tbl_specialization.itbId";
+                            " LEFT JOIN tbl_specialization ON tbl_medicalstaff.specializationId = tbl_specialization.itbId WHERE roleId = 5";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
             List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
