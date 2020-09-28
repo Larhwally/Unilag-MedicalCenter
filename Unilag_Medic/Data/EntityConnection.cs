@@ -862,7 +862,7 @@ namespace Unilag_Medic.Data
                             " visitDateTime, lastVisitId, patientType, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus," +
                             " assignedTo, GROUP_CONCAT(tbl_medicalstaff.surname, tbl_medicalstaff.otherNames SEPARATOR', ') AS doctorName FROM tbl_visit" +
                             " LEFT JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId LEFT JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
-                            " LEFT JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" ";
+                            " LEFT JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" " + "group by tbl_visit.itbId";
 
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@visitDateTime", visitDate);
