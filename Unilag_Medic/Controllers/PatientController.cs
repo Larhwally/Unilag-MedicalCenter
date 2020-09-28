@@ -131,6 +131,7 @@ namespace Unilag_Medic.Controllers
                 }
 
                 param.Add("hospitalNumber", hospnum);
+                param.Add("itbId", patientId);
                 obj = new { data = param };
                 return Created("", obj);
 
