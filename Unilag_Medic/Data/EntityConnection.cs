@@ -966,7 +966,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> DoctorsAppoinmentList(int assignedTo)
         {
             this.connection.Open();
-            string query = "SELECT * FROM `tbl_visit` WHERE assignedTo = " + assignedTo + " ORDER BY visitDateTime DESC ";
+            string query = "SELECT tbl_visit.itbId, visitDateTime, tbl_visit.patientId, tbl_visit.recordStaffId, tbl_visit.clinicId, vitalStatus, diagnosisStatus, assignedTo, surname, otherNames, lastVisitId, tbl_visit.status, prescriptionId  FROM `tbl_visit`" +
+                            " INNER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId WHERE assignedTo = " + assignedTo + " ORDER BY visitDateTime DESC ";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@assignedTo", assignedTo);
             MySqlDataReader reader = command.ExecuteReader();
