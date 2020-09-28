@@ -98,7 +98,11 @@ namespace Unilag_Medic.Controllers
 
                     EntityConnection connection = new EntityConnection("tbl_staff_patient");
 
-                    connection.InsertStaffPatient(staff);
+                    long staffId = connection.InsertScalar(staff);
+
+                    param.Add("staffId", staffId);
+
+                    //connection.InsertStaffPatient(staff);
                 }
                 else if (patientTypeId == 2) //if patient type is a student
                 {
