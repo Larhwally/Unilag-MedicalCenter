@@ -587,6 +587,47 @@ namespace Unilag_Medic.Controllers
         }
 
 
+        // Drug Type Post and Get endpoints
+        [Route("DrugCategories")]
+        [HttpPost]
+        public IActionResult PostDrugType([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_drugtype");
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+                //Response.WriteAsync("Record saved successfully!");
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+        }
+
+
+        [Route("DrugCategories")]
+        [HttpGet]
+        public IActionResult GetDrugType()
+        {
+            EntityConnection con = new EntityConnection("tbl_drugtype");
+            //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
+            List<Dictionary<string, object>> rec = con.Select();
+
+            if (rec != null)
+            {
+                return Ok(rec);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+
         // Drug search
         [Route("SearchDrug")]
         [HttpGet("drugName")]
