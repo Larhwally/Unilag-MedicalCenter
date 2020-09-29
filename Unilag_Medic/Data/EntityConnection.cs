@@ -1413,6 +1413,28 @@ namespace Unilag_Medic.Data
             return values;
         }
 
+        // A meethod to get a prescription record by visitId
+        public Dictionary<string, object> GetPrescriptionVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * from tbl_prescription WHERE visitId = @visitId";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
 
 
 

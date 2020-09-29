@@ -404,6 +404,80 @@ namespace Unilag_Medic.Controllers
             //string res = EntityConnection.ToJson(con.DisplayDiagnosis(hospnum));
 
         }
+
+
+
+        // Get the prescription record by visitId
+        [Route("VisitPrescription")]
+        [HttpGet("visitId")]
+        public IActionResult GetPrescriptionbyVisit(int visitId)
+        {
+            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                {"visitId", visitId + ""}
+            };
+
+            Dictionary<string, object> result = con.GetPrescriptionVisit(visitId);
+
+
+            //Check if the parent method returns a record
+            if (result.Count > 0)
+            {
+                result.TryGetValue("otherDrugs", out newobj);
+                result.TryGetValue("drugs", out obj);
+
+                string otherDrugs = newobj.ToString();
+                string newdrug = obj.ToString();
+
+                result.Remove("drugs");
+                result.Remove("otherDrugs");
+
+                //check if the drug list is empty
+                if (newdrug.Trim() != "")
+                {
+
+                    string[] drugs = newdrug.Split(',');
+
+                    string[] orQueries = drugs.Select(drugId => "itbId =" + drugId).ToArray(); // [itbId=3, itbId=5]
+
+                    if (orQueries != null)
+                    {
+                        var drugDetails = con.DrugDetails(orQueries);
+                        result.Add("drugs", drugDetails);
+                    }
+                }
+                else
+                {
+                    result.Add("drugs", new string[0]);
+                }
+
+                //check if other drugs is empty 
+                if (otherDrugs.Trim() != "")
+                {
+                    string[] newOtherDrugs = otherDrugs.Split('|');
+                    result.Add("otherDrugs", newOtherDrugs);
+                }
+                else
+                {
+                    result.Add("otherDrugs", new string[0]);
+                }
+
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                string[] arr = new string[0];
+                return Ok(arr);
+            }
+
+
+
+
+
+        }
+
         //End of get Patients
 
 
