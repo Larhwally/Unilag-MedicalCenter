@@ -82,7 +82,7 @@ namespace Unilag_Medic.Controllers
 
                 genericPatient = Utility.Pick(param, patientRecord);
 
-                genericPatient.Add("hospitalNumber", hospnum);
+                genericPatient.Add("hospitalNumber", hospitalNumber);
 
                 genericPatient.Add("createDate", DateTime.Now.ToString());
 
@@ -146,7 +146,7 @@ namespace Unilag_Medic.Controllers
                     cons.InsertNonStaff(nonStaff);
                 }
 
-                param.Add("hospitalNumber", hospnum);
+                param.Add("hospitalNumber", hospitalNumber);
                 param.Add("itbId", patientId);
                 obj = new { data = param };
                 return Created("", obj);
