@@ -121,7 +121,6 @@ namespace Unilag_Medic.Controllers
                 }
                 else if (patientTypeId == 4)
                 {
-                    param.Remove("faculty");
                     Dictionary<string, object> nonStaff = new Dictionary<string, object>();
 
                     string[] nonStaffRecord = { "companyName", "dateOfAppointment", "companyAddress", "designation", "recordStaffId", "partnerTitle", "partnerRelation", "partnerName", "dateOfArrival" };
@@ -131,6 +130,8 @@ namespace Unilag_Medic.Controllers
                     nonStaff.Add("patientId", patientId);
 
                     EntityConnection cons = new EntityConnection("tbl_nonstaff");
+
+                    param.Remove("faculty");
 
                     cons.InsertNonStaff(nonStaff);
                 }
