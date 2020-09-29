@@ -855,9 +855,9 @@ namespace Unilag_Medic.Controllers
                 result.Remove("labTestId");
                 result.Remove("testNote");
 
-                string[] testIds;
-                string[] testNames;
-                string[] testNotes;
+                string[] testIds = new string[0];
+                string[] testNames = new string[0];
+                string[] testNotes = new string[0];
 
                 // Check if labtestId has values and not ab anempty array
                 if (labTestIds.Trim() != "")
@@ -867,7 +867,8 @@ namespace Unilag_Medic.Controllers
 
                     if (orQueries != null)
                     {
-                        testNames = connection.LabTestNames(orQueries);
+                        var testObjs = connection.LabTestNames(orQueries);
+                        testNames = testObjs.Select(obj => obj["labTestName"]);
                     }
                 }
 
@@ -875,15 +876,14 @@ namespace Unilag_Medic.Controllers
                 if (labNotes.Trim() != "")
                 {
                     testNotes = labNotes.Split('|');
-                    result.Add("testNote", labRequestNotes);
                 }
 
                 for (int i = 0; i < testIds.Length; i++)
                 {
                     var labTest = new Dictionary<string, object>();
-                    labTest.Append("id", testIds[i]);
-                    labTest.Append("testName", testNames[i]);
-                    labTest.Append("testNote", testNotes[i]);
+                    labTest["id"] = testIds[i];
+                    labTest["testName"] = testNames[i];
+                    labTest["testNote"] = testNotes[i];
                 }
             }
             // End Lab test GET
