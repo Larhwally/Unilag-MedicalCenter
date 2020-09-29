@@ -1427,7 +1427,7 @@ namespace Unilag_Medic.Data
             {
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    values.Add(reader.GetName(i), reader.GetValue(i));
+                    values.TryAdd(reader.GetName(i), reader.GetValue(i));
                 }
             }
             reader.Close();
