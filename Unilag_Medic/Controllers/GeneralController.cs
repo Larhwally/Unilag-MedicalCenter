@@ -26,6 +26,8 @@ namespace Unilag_Medic.Controllers
 
         public List<NationalityModel> countries { get; set; }
         public object obj = new object();
+        public object obj1 = new object();
+        public object obj2 = new object();
         public object notes = new object();
 
         [Route("MedicalUnits")]
@@ -786,7 +788,7 @@ namespace Unilag_Medic.Controllers
         }
 
 
-        //Begin Post for referrral
+        //Begin Post and get for referrral made after diagnosis     
         [Route("Referrals")]
         [HttpGet]
         public IActionResult GetReferrals()
@@ -827,7 +829,126 @@ namespace Unilag_Medic.Controllers
         }
 
 
-        //Begin POST and GET of lab tests
+        // Begin Get Lab test request, x-ray request and referrals  by visisId
+        [Route("DoctorsNotes")]
+        [HttpGet("visitId")]
+        public IActionResult GetDoctorsNotes(int visisId)
+        {
+            // Begin Lab test GET
+            EntityConnection connection = new EntityConnection("tbl_labtest_request");
+            Dictionary<string, string> rec = new Dictionary<string, string>();
+            rec.Add("visitId", visisId + "");
+
+            Dictionary<string, object> result = connection.GetLabRequestByVisit(visisId);
+            if (result.Count > 0)
+            {
+                obj = result["labTestId"];
+                notes = result["testNote"];
+
+                string labTestIds = obj.ToString();
+                string labNotes = notes.ToString();
+
+                result.Remove("labTestId");
+                result.Remove("testNote");
+
+                // Check if labtestId has values and not ab anempty array
+                if (labTestIds.Trim() != "")
+                {
+                    string[] testIds = labTestIds.Split(',');
+                    string[] orQueries = testIds.Select(labtestid => "itbId =" + labtestid).ToArray();
+
+                    if (orQueries != null)
+                    {
+                        var labTestNames = connection.LabTestNames(orQueries);
+                        result.Add("labTestId", labTestNames);
+                    }
+                }
+                else
+                {
+                    result.Add("labTestId", new string[0]);
+                }
+
+                // Check if lab notes is empty
+                if (labNotes.Trim() != "")
+                {
+                    string[] labRequestNotes = labNotes.Split('|');
+                    result.Add("testNote", labRequestNotes);
+                }
+                else
+                {
+                    result.Add("testNote", new string[0]);
+                }
+
+                obj = new { data = result };
+                //return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+            // End Lab test GET
+
+            // Begin xray GET
+            EntityConnection konnect = new EntityConnection("tbl_xray_request");
+
+            Dictionary<string, string> record = new Dictionary<string, string>();
+            record.Add("visitId", visisId + "");
+
+            Dictionary<string, object> res = konnect.GetXrayRequestByVisit(visisId);
+
+            if (res.Count > 0)
+            {
+                obj1 = new { data = res };
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+            // End X-ray request GET
+
+            // Begin referrals GET
+            EntityConnection conns = new EntityConnection("tbl_referral");
+
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            param.Add("visitId", visisId + "");
+
+            Dictionary<string, object> tempres = conns.GetReferralByVisit(visisId);
+
+            if (tempres.Count > 0)
+            {
+                obj2 = new { data = tempres };
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+            // End Referrals GET
+
+            // Insert all result of the above operations independently into seperate dictionaries
+            // Dictionary<string, object> Dic1 = new Dictionary<string, object>();
+            // Dic1.
+
+            // if (true)
+            // {
+
+            // }
+
+            notes = new { data = obj, obj1, obj2 };
+
+            return Ok(notes);
+
+
+
+        }
+
+
+
+
+
+
+        //Begin POST and GET of lab tests 
+        // Endpoint for adding and getting all lab test types in the database
         [Route("LabTests")]
         [HttpGet]
         public IActionResult GetLabTest()

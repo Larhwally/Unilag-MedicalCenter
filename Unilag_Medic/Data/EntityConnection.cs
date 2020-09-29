@@ -1344,6 +1344,77 @@ namespace Unilag_Medic.Data
         }
 
 
+        // A method to get lab request data from the DB using the visitId as a filter paramater
+        public Dictionary<string, object> GetLabRequestByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_labtest_request WHERE visitId = @visitId";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+        // A method to get X-ray request data from the DB using the visitId as a filter paramater
+        public Dictionary<string, object> GetXrayRequestByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_xray_request WHERE visitId = @visitId";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
+        // A method to get Refereals request data from the DB using the visitId as a filter paramater
+        public Dictionary<string, object> GetReferralByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_referral WHERE visitId = @visitId";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
 
 
 
