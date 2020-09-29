@@ -68,9 +68,17 @@ namespace Unilag_Medic.Controllers
                 int randomNumber = random.Next(100, 1000);
                 var hospnum = "unimed-" + randomNumber;
 
+                int patientTypeId = Convert.ToInt32(param["patientType"]);
+
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "status" };
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "status" };
+
+                if (patientTypeId == 1 || patientTypeId == 2)
+                {
+                    patientRecord.Append("faculty");
+                    patientRecord.Append("department");
+                }
 
                 genericPatient = Utility.Pick(param, patientRecord);
 
@@ -82,7 +90,7 @@ namespace Unilag_Medic.Controllers
 
                 genericPatient.Add("itbId", patientId);
 
-                int patientTypeId = Convert.ToInt32(genericPatient["patientType"]);
+
 
                 // check if patient type is a staff
                 if (patientTypeId == 1)
