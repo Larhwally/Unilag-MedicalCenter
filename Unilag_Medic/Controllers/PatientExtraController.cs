@@ -14,6 +14,8 @@ namespace Unilag_Medic.Controllers
     public class PatientExtraController : Controller
     {
         public Object obj = new Object();
+        public Object newobj = new Object();
+
         [Route("Staffs")]
         [HttpGet]
         public IActionResult Getstaff()
