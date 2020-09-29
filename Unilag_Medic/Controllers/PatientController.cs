@@ -21,7 +21,7 @@ namespace Unilag_Medic.Controllers
         public IActionResult GetPatient()
         {
             EntityConnection con = new EntityConnection("tbl_patient");
-            List<Dictionary<string, object>> result = con.Select();
+            List<Dictionary<string, object>> result = con.SelectAll();
             if (result.Count > 0)
             {
                 return Ok(result);
