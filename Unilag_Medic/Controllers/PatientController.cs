@@ -131,7 +131,7 @@ namespace Unilag_Medic.Controllers
                 {
                     Dictionary<string, object> nonStaff = new Dictionary<string, object>();
 
-                    string[] nonStaffRecord = { "companyName", "dateOfAppointment", "companyAddress", "designation", "recordStaffId", "partnerTitle", "partnerRelation", "partnerName", "dateOfArrival" };
+                    string[] nonStaffRecord = { "companyName", "dateOfEmployment", "companyAddress", "designation", "recordStaffId", "partnerTitle", "partnerRelation", "partnerName", "dateOfArrival" };
 
                     nonStaff = Utility.Pick(param, nonStaffRecord); // pick the perculiar data related to a specific table and save it in a dictionary
 
