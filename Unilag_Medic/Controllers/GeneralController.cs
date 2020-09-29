@@ -730,7 +730,6 @@ namespace Unilag_Medic.Controllers
                 param.Add("labTestId", string.Join(",", labTestId));
                 param.Add("testNote", string.Join("|", labTestNote));
 
-
                 connection.Insert(param);
                 return Created("", param);
             }
@@ -839,7 +838,12 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> rec = new Dictionary<string, string>();
             rec.Add("visitId", visitId + "");
 
+            List labTests = new List<Dictionary<string, object>>();
+            Dictionary xray = new Dictionary<string, object>();
+            Dictionary referrals = new Dictionary<string, object>();
+
             Dictionary<string, object> result = connection.GetLabRequestByVisit(visitId);
+
             if (result.Count > 0)
             {
                 obj = result["labTestId"];
@@ -851,40 +855,36 @@ namespace Unilag_Medic.Controllers
                 result.Remove("labTestId");
                 result.Remove("testNote");
 
+                string[] testIds;
+                string[] testNames;
+                string[] testNotes;
+
                 // Check if labtestId has values and not ab anempty array
                 if (labTestIds.Trim() != "")
                 {
-                    string[] testIds = labTestIds.Split(',');
+                    testIds = labTestIds.Split(',');
                     string[] orQueries = testIds.Select(labtestid => "itbId =" + labtestid).ToArray();
 
                     if (orQueries != null)
                     {
-                        var labTestNames = connection.LabTestNames(orQueries);
-                        result.Add("labTestId", labTestNames);
+                        testNames = connection.LabTestNames(orQueries);
                     }
-                }
-                else
-                {
-                    result.Add("labTestId", new string[0]);
                 }
 
                 // Check if lab notes is empty
                 if (labNotes.Trim() != "")
                 {
-                    string[] labRequestNotes = labNotes.Split('|');
+                    testNotes = labNotes.Split('|');
                     result.Add("testNote", labRequestNotes);
                 }
-                else
-                {
-                    result.Add("testNote", new string[0]);
-                }
 
-                obj = result;
-                //return Ok(obj);
-            }
-            else
-            {
-                return Ok(new string[0]);
+                for (int i = 0; i < testIds.Length; i++)
+                {
+                    var labTest = new Dictionary<string, object>();
+                    labTest.Append("id", testIds[i]);
+                    labTest.Append("testName", testNames[i]);
+                    labTest.Append("testNote", testNotes[i]);
+                }
             }
             // End Lab test GET
 
@@ -898,11 +898,11 @@ namespace Unilag_Medic.Controllers
 
             if (res.Count > 0)
             {
-                obj1 = res;
+                xray = res;
             }
             else
             {
-                return Ok(new string[0]);
+                xray = null;
             }
             // End X-ray request GET
 
@@ -916,11 +916,11 @@ namespace Unilag_Medic.Controllers
 
             if (tempres.Count > 0)
             {
-                obj2 = tempres;
+                referrals = tempres;
             }
             else
             {
-                return Ok(new string[0]);
+                referrals = null;
             }
 
             // End Referrals GET
@@ -934,7 +934,7 @@ namespace Unilag_Medic.Controllers
 
             // }
 
-            notes = new { data = obj, obj1, obj2 };
+            notes = new { data = labTests, xray, referrals };
 
             return Ok(notes);
 
