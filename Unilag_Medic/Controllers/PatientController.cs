@@ -89,7 +89,7 @@ namespace Unilag_Medic.Controllers
                 {
                     Dictionary<string, object> staff = new Dictionary<string, object>();
 
-                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "designation", "partnerTitle", "partnerName", "partnerHospNum", "partnerRelation", "partnerIsStaff", "dateOfArrival" "status", "recordStaffId" };
+                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "designation", "partnerTitle", "partnerName", "partnerHospNum", "partnerRelation", "partnerIsStaff", "dateOfArrival", "status", "recordStaffId" };
 
                     staff = Utility.Pick(param, staffPatientRecord);
 
