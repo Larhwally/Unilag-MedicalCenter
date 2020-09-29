@@ -829,17 +829,17 @@ namespace Unilag_Medic.Controllers
         }
 
 
-        // Begin Get Lab test request, x-ray request and referrals  by visisId
+        // Begin Get Lab test request, x-ray request and referrals  by visitId
         [Route("DoctorsNotes")]
         [HttpGet("visitId")]
-        public IActionResult GetDoctorsNotes(int visisId)
+        public IActionResult GetDoctorsNotes(int visitId)
         {
             // Begin Lab test GET
             EntityConnection connection = new EntityConnection("tbl_labtest_request");
             Dictionary<string, string> rec = new Dictionary<string, string>();
-            rec.Add("visitId", visisId + "");
+            rec.Add("visitId", visitId + "");
 
-            Dictionary<string, object> result = connection.GetLabRequestByVisit(visisId);
+            Dictionary<string, object> result = connection.GetLabRequestByVisit(visitId);
             if (result.Count > 0)
             {
                 obj = result["labTestId"];
@@ -892,9 +892,9 @@ namespace Unilag_Medic.Controllers
             EntityConnection konnect = new EntityConnection("tbl_xray_request");
 
             Dictionary<string, string> record = new Dictionary<string, string>();
-            record.Add("visitId", visisId + "");
+            record.Add("visitId", visitId + "");
 
-            Dictionary<string, object> res = konnect.GetXrayRequestByVisit(visisId);
+            Dictionary<string, object> res = konnect.GetXrayRequestByVisit(visitId);
 
             if (res.Count > 0)
             {
@@ -910,9 +910,9 @@ namespace Unilag_Medic.Controllers
             EntityConnection conns = new EntityConnection("tbl_referral");
 
             Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("visitId", visisId + "");
+            param.Add("visitId", visitId + "");
 
-            Dictionary<string, object> tempres = conns.GetReferralByVisit(visisId);
+            Dictionary<string, object> tempres = conns.GetReferralByVisit(visitId);
 
             if (tempres.Count > 0)
             {
