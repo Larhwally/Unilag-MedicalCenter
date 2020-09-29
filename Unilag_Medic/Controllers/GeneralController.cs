@@ -868,7 +868,10 @@ namespace Unilag_Medic.Controllers
                     if (orQueries != null)
                     {
                         var testObjs = connection.LabTestNames(orQueries);
-                        testNames = testObjs.Select(obj => obj["labTestName"]);
+                        foreach (var obj in testObjs)
+                        {
+                            testNames.Append(obj["labTestName"]);
+                        }
                     }
                 }
 
