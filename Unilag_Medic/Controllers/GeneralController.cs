@@ -879,7 +879,7 @@ namespace Unilag_Medic.Controllers
                     result.Add("testNote", new string[0]);
                 }
 
-                obj = new { data = result };
+                obj = result;
                 //return Ok(obj);
             }
             else
@@ -898,7 +898,7 @@ namespace Unilag_Medic.Controllers
 
             if (res.Count > 0)
             {
-                obj1 = new { data = res };
+                obj1 = res;
             }
             else
             {
@@ -916,7 +916,7 @@ namespace Unilag_Medic.Controllers
 
             if (tempres.Count > 0)
             {
-                obj2 = new { data = tempres };
+                obj2 = tempres;
             }
             else
             {
