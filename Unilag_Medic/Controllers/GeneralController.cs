@@ -855,14 +855,19 @@ namespace Unilag_Medic.Controllers
                 result.Remove("labTestId");
                 result.Remove("testNote");
 
-                string[] testIds = new string[0];
-                string[] testNames = new string[0];
-                string[] testNotes = new string[0];
+                List<string> testIds = new List<string>();
+                List<string> testNames = new List<string>();
+                List<string> testNotes = new List<string>();
 
                 // Check if labtestId has values and not ab anempty array
                 if (labTestIds.Trim() != "")
                 {
-                    testIds = labTestIds.Split(',');
+                    var ids = labTestIds.Split(',');
+                    foreach (var id in ids)
+                    {
+                        testIds.Add(id);
+                    }
+
                     string[] orQueries = testIds.Select(labtestid => "itbId =" + labtestid).ToArray();
 
                     if (orQueries != null)
@@ -870,7 +875,7 @@ namespace Unilag_Medic.Controllers
                         var testObjs = connection.LabTestNames(orQueries);
                         foreach (var obj in testObjs)
                         {
-                            testNames.Append(obj["labTestName"]);
+                            testNames.Add(obj["labTestName"].ToString());
                         }
                     }
                 }
@@ -878,15 +883,20 @@ namespace Unilag_Medic.Controllers
                 // Check if lab notes is empty
                 if (labNotes.Trim() != "")
                 {
-                    testNotes = labNotes.Split('|');
+                    var notes = labNotes.Split('|');
+                    foreach (var note in notes)
+                    {
+                        testNotes.Add(note);
+                    }
                 }
 
-                for (int i = 0; i < testIds.Length; i++)
+                for (int i = 0; i < testIds.ToArray().Length; i++)
                 {
                     var labTest = new Dictionary<string, object>();
                     labTest["id"] = testIds[i];
                     labTest["testName"] = testNames[i];
                     labTest["testNote"] = testNotes[i];
+                    labTests.Add(labTest);
                 }
             }
             // End Lab test GET
@@ -940,7 +950,6 @@ namespace Unilag_Medic.Controllers
             notes = new { data = new { labTests, xray, referrals } };
 
             return Ok(notes);
-
 
 
         }
