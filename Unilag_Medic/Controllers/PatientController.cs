@@ -121,6 +121,7 @@ namespace Unilag_Medic.Controllers
                 }
                 else if (patientTypeId == 4)
                 {
+                    param.Remove("faculty");
                     Dictionary<string, object> nonStaff = new Dictionary<string, object>();
 
                     string[] nonStaffRecord = { "companyName", "dateOfAppointment", "companyAddress", "designation", "recordStaffId" };
