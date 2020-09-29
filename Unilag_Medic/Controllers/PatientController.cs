@@ -141,6 +141,8 @@ namespace Unilag_Medic.Controllers
 
                     param.Remove("faculty");
 
+                    param.Remove("department");
+
                     cons.InsertNonStaff(nonStaff);
                 }
 
