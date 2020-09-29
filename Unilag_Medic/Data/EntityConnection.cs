@@ -1319,6 +1319,30 @@ namespace Unilag_Medic.Data
 
         }
 
+        // Hospital number check
+        public string GenerateUniqueHospitalNumber()
+        {
+            //bool hasRows = true;
+            this.connection.Open();
+
+            var notUnique = true;
+            var hospnum = "";
+
+            while (notUnique)
+            {
+                hospnum = Utility.GenerateHospNum();
+                string query = "SELECT * FROM tbl_patient WHERE hospitalNumber = @hospitalNumber";
+                MySqlCommand cmd = new MySqlCommand(query, this.connection);
+                cmd.Parameters.AddWithValue("@hospitalNumber", hospnum);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                notUnique = dataReader.HasRows;
+            }
+            //hasRows = dataReader.HasRows;
+
+            this.connection.Close();
+            return hospnum;
+        }
+
 
 
 

@@ -64,9 +64,9 @@ namespace Unilag_Medic.Controllers
             {
                 param.Remove("hospitalNumber");
 
-                Random random = new Random();
-                int randomNumber = random.Next(100, 1000);
-                var hospnum = "unimed-" + randomNumber;
+                // Generate hospital number
+                EntityConnection forHospNum = new EntityConnection("tbl_patient");
+                var hospitalNumber = forHospNum.GenerateUniqueHospitalNumber();
 
                 int patientTypeId = Convert.ToInt32(param["patientType"]);
 
