@@ -937,7 +937,7 @@ namespace Unilag_Medic.Controllers
 
             // }
 
-            notes = new { data = labTests, xray, referrals };
+            notes = new { data = new { labTests, xray, referrals } };
 
             return Ok(notes);
 
