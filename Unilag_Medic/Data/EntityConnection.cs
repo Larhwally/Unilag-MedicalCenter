@@ -1417,7 +1417,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> GetPrescriptionVisit(int visitId)
         {
             this.connection.Open();
-            string query = "SELECT * from tbl_prescription WHERE visitId = @visitId";
+            string query = "SELECT * from tbl_prescription WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@visitId", visitId);
             MySqlDataReader reader = cmd.ExecuteReader();
