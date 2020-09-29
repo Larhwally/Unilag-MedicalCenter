@@ -15,6 +15,7 @@
     <PackageReference Include="Hangfire.Core" Version="1.7.13"/>
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.13"/>
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0"/>
+    <PackageReference Include="RestSharp" Version="106.11.5"/>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\"/>

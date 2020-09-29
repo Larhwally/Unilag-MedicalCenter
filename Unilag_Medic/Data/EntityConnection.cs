@@ -852,9 +852,10 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, tbl_clinic.clinicName," +
-                            " visitDateTime, lastVisitId, patientType, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo FROM tbl_visit" +
+                            " visitDateTime, lastVisitId, patientType, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus," +
+                            " assignedTo, GROUP_CONCAT(tbl_medicalstaff.surname, tbl_medicalstaff.otherNames SEPARATOR', ') AS doctorName FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_visit.recordstaffId = tbl_medicalstaff.itbId WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" ";
+                            " INNER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId WHERE visitDateTime LIKE " + "\"%" + visitDate + "%\" ";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@visitDateTime", visitDate);
             MySqlDataReader reader = command.ExecuteReader();
@@ -933,9 +934,8 @@ namespace Unilag_Medic.Data
         public List<Dictionary<string, object>> GetDoctors()
         {
             this.connection.Open();
-            string query = "SELECT staffId, surname, otherNames, specializationName, position, tbl_doctor.status, tbl_doctor.createdBy, tbl_doctor.createDate FROM tbl_doctor" +
-                            " INNER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" +
-                            " INNER JOIN tbl_specialization ON tbl_doctor.specialization = tbl_specialization.itbId";
+            string query = "SELECT tbl_medicalstaff.itbId, surname, otherNames, specializationName, tbl_medicalstaff.status, tbl_medicalstaff.createdBy, tbl_medicalstaff.createDate FROM tbl_medicalstaff" +
+                            " LEFT JOIN tbl_specialization ON tbl_medicalstaff.specializationId = tbl_specialization.itbId WHERE tbl_medicalstaff.roleId = 5";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader reader = command.ExecuteReader();
             List<Dictionary<string, object>> values = new List<Dictionary<string, object>>();
@@ -955,10 +955,23 @@ namespace Unilag_Medic.Data
         }
 
         //Select all apppointment assigned to a doctor by passing doctorID (assignedTo)
+        /*  "itbId": 23,
+        "visitDateTime": "2020-08-31T08:00:00",
+        "patientId": 10,
+        "recordStaffId": 2,
+        "clinicId": 3,
+        "vitalStatus": false,
+        "diagnosisStatus": false,
+        "assignedTo": 6,
+        "lastVisitId": null,
+        "status": "Scheduled",
+        "createDate": "2020-07-29T01:41:36",
+        "prescriptionId": null*/
         public List<Dictionary<string, object>> DoctorsAppoinmentList(int assignedTo)
         {
             this.connection.Open();
-            string query = "SELECT * FROM `tbl_visit` WHERE assignedTo = " + assignedTo + " ORDER BY visitDateTime DESC ";
+            string query = "SELECT tbl_visit.itbId, visitDateTime, tbl_visit.patientId, tbl_visit.recordStaffId, tbl_visit.clinicId, vitalStatus, diagnosisStatus, assignedTo, surname, otherNames, lastVisitId, tbl_visit.status, prescriptionId  FROM `tbl_visit`" +
+                            " INNER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId WHERE assignedTo = " + assignedTo + " ORDER BY visitDateTime DESC ";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@assignedTo", assignedTo);
             MySqlDataReader reader = command.ExecuteReader();
@@ -1310,10 +1323,11 @@ namespace Unilag_Medic.Data
             var today = DateTime.Now;
             DateTime birthDate = new DateTime();
             var age = today.Year - birthDate.Year;
+            today = new DateTime(2008, 12, 25); //assigning a date to a value
 
             bool hasRow = false;
             this.connection.Open();
-            string query = "UPDATE tbl_dependent SET status = " + "Above 18" + " WHERE age > 18";   
+            string query = "UPDATE tbl_dependent SET status = " + "Above 18" + " WHERE age > 18";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             MySqlDataReader dataReader = command.ExecuteReader();
             hasRow = dataReader.HasRows;
@@ -1321,6 +1335,30 @@ namespace Unilag_Medic.Data
             return hasRow;
 
 
+        }
+
+        // Hospital number check
+        public string GenerateUniqueHospitalNumber()
+        {
+            //bool hasRows = true;
+            this.connection.Open();
+
+            var notUnique = true;
+            var hospnum = "";
+
+            while (notUnique)
+            {
+                hospnum = Utility.GenerateHospNum();
+                string query = "SELECT * FROM tbl_patient WHERE hospitalNumber = @hospitalNumber";
+                MySqlCommand cmd = new MySqlCommand(query, this.connection);
+                cmd.Parameters.AddWithValue("@hospitalNumber", hospnum);
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+                notUnique = dataReader.HasRows;
+            }
+            //hasRows = dataReader.HasRows;
+
+            this.connection.Close();
+            return hospnum;
         }
 
 

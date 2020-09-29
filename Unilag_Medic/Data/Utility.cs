@@ -36,6 +36,15 @@ namespace Unilag_Medic.Data
             return hashed;
         }
 
+        // Generate a randon number hospital number 
+        public static string GenerateHospNum()
+        {
+            Random random = new Random();
+            int randomNumber = random.Next(10, 100000);
+            var hospnum = "unimed-" + randomNumber;
+            return hospnum;
+        }
+
 
     }
 }

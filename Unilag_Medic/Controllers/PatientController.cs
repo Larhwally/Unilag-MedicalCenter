@@ -60,9 +60,9 @@ namespace Unilag_Medic.Controllers
                 // Auto generate hospital number
                 param.Remove("hospitalNumber");
 
-                Random random = new Random();
-                int randomNumber = random.Next(100, 1000);
-                var hospnum = "unimed-" + randomNumber;
+                EntityConnection forHospNum = new EntityConnection("tbl_patient");
+                var hospitalNumber = forHospNum.GenerateUniqueHospitalNumber();
+
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
@@ -70,7 +70,7 @@ namespace Unilag_Medic.Controllers
 
                 genericPatient = Utility.Pick(param, patientRecord);
 
-                genericPatient.Add("hospitalNumber", hospnum);
+                genericPatient.Add("hospitalNumber", hospitalNumber);
 
                 genericPatient.Add("createDate", DateTime.Now.ToString());
 
@@ -94,7 +94,11 @@ namespace Unilag_Medic.Controllers
 
                     EntityConnection connection = new EntityConnection("tbl_staff_patient");
 
-                    connection.InsertStaffPatient(staff);
+                    long staffId = connection.InsertScalar(staff);
+
+                    param.Add("staffId", staffId);
+
+                    //connection.InsertStaffPatient(staff);
                 }
                 else if (patientTypeId == 2) //if patient type is a student
                 {
@@ -124,10 +128,13 @@ namespace Unilag_Medic.Controllers
 
                     EntityConnection cons = new EntityConnection("tbl_nonstaff");
 
+                    param.Remove("faculty");
+
+
                     cons.InsertNonStaff(nonStaff);
                 }
 
-                param.Add("hospitalNumber", hospnum);
+                param.Add("hospitalNumber", hospitalNumber);
                 obj = new { data = param };
                 return Created("", obj);
 

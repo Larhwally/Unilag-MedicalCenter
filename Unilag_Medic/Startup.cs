@@ -34,6 +34,7 @@ namespace Unilag_Medic
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IConfiguration>();
+            services.AddSingleton<IZenossOps, ZenossOps>();
             services.AddHttpClient();
 
             services.AddHangfire(config =>
@@ -122,11 +123,11 @@ namespace Unilag_Medic
 
             app.UseHangfireDashboard();
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
-            recurringJobManger.AddOrUpdate(
-                "Run Daily",
-                () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
-                Cron.Daily
-            );
+            // recurringJobManger.AddOrUpdate(
+            //     "Run Daily",
+            //     () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
+            //     Cron.Daily
+            // );
             //backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
 
 

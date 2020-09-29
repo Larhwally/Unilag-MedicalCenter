@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Unilag_Medic.Data;
+using Unilag_Medic.Models;
 
 namespace Unilag_Medic.Controllers
 {
@@ -54,6 +55,7 @@ namespace Unilag_Medic.Controllers
         public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
 
+            int patientId;
             string fName = file.FileName;
             string uniqueName = Guid.NewGuid() + "" + "_" + fName;
 
@@ -78,7 +80,15 @@ namespace Unilag_Medic.Controllers
 
                 //save image details to the databse
                 EntityConnection con = new EntityConnection("tbl_upload");
+                Images imageModel = new Images();
+                var imageDetail = new Images
+                {
+                    patientId = imageModel.patientId,
+
+
+                };
                 Dictionary<string, object> param = new Dictionary<string, object>();
+                //param.Add("patientId", patientId);
                 param.Add("fullPath", path);
                 param.Add("uniquePath", uniqueName);
                 param.Add("createBy", "admin");

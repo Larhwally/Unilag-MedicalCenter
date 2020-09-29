@@ -11,5 +11,6 @@ namespace Unilag_Medic.Models
         public string imgUniquePath { get; set; }
         public string uploadBy { get; set; }
         public DateTime uploadDatetime { get; set; }
+        public int patientId { get; set; }
     }
 }
