@@ -838,9 +838,9 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> rec = new Dictionary<string, string>();
             rec.Add("visitId", visitId + "");
 
-            List labTests = new List<Dictionary<string, object>>();
-            Dictionary xray = new Dictionary<string, object>();
-            Dictionary referrals = new Dictionary<string, object>();
+            List<Dictionary<string, object>> labTests = new List<Dictionary<string, object>>();
+            Dictionary<string, object> xray = new Dictionary<string, object>();
+            Dictionary<string, object> referrals = new Dictionary<string, object>();
 
             Dictionary<string, object> result = connection.GetLabRequestByVisit(visitId);
 
