@@ -1348,7 +1348,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> GetLabRequestByVisit(int visitId)
         {
             this.connection.Open();
-            string query = "SELECT * FROM tbl_labtest_request WHERE visitId = @visitId";
+            string query = "SELECT * FROM tbl_labtest_request WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@visitId", visitId);
             MySqlDataReader reader = cmd.ExecuteReader();
@@ -1371,7 +1371,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> GetXrayRequestByVisit(int visitId)
         {
             this.connection.Open();
-            string query = "SELECT * FROM tbl_xray_request WHERE visitId = @visitId";
+            string query = "SELECT * FROM tbl_xray_request WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@visitId", visitId);
             MySqlDataReader reader = cmd.ExecuteReader();
@@ -1395,7 +1395,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> GetReferralByVisit(int visitId)
         {
             this.connection.Open();
-            string query = "SELECT * FROM tbl_referral WHERE visitId = @visitId";
+            string query = "SELECT * FROM tbl_referral WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
             cmd.Parameters.AddWithValue("@visitId", visitId);
             MySqlDataReader reader = cmd.ExecuteReader();
