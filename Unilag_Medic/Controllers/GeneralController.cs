@@ -28,6 +28,10 @@ namespace Unilag_Medic.Controllers
 
         public List<NationalityModel> countries { get; set; }
         public object obj = new object();
+
+        public object obj1 = new object();
+
+        public object obj2 = new object();
         public object notes = new object();
 
 
@@ -720,7 +724,6 @@ namespace Unilag_Medic.Controllers
 
 
 
-
         [Route("Xray")]
         [HttpGet]
         public IActionResult GetXray()
@@ -762,7 +765,7 @@ namespace Unilag_Medic.Controllers
         }
 
 
-        //Begin Post for referrral
+        //Begin Post and get for referrral made after diagnosis
         [Route("Referrals")]
         [HttpGet]
         public IActionResult GetReferrals()
@@ -804,8 +807,139 @@ namespace Unilag_Medic.Controllers
         }
 
 
+        // Begin Get Lab test request, x-ray request and referrals  by visitId
+        [Route("DoctorsNotes")]
+        [HttpGet("visitId")]
+        public IActionResult GetDoctorsNotes(int visitId)
+        {
+            // Begin Lab test GET
+            EntityConnection connection = new EntityConnection("tbl_labtest_request");
+            Dictionary<string, string> rec = new Dictionary<string, string>();
+            rec.Add("visitId", visitId + "");
 
-        //Begin POST and GET of lab tests
+            List<Dictionary<string, object>> labTests = new List<Dictionary<string, object>>();
+            Dictionary<string, object> xray = new Dictionary<string, object>();
+            Dictionary<string, object> referrals = new Dictionary<string, object>();
+
+            Dictionary<string, object> result = connection.GetLabRequestByVisit(visitId);
+
+            if (result.Count > 0)
+            {
+                obj = result["labTestId"];
+                notes = result["testNote"];
+
+                string labTestIds = obj.ToString();
+                string labNotes = notes.ToString();
+
+                result.Remove("labTestId");
+                result.Remove("testNote");
+
+                List<string> testIds = new List<string>();
+                List<string> testNames = new List<string>();
+                List<string> testNotes = new List<string>();
+
+                // Check if labtestId has values and not ab anempty array
+                if (labTestIds.Trim() != "")
+                {
+                    var ids = labTestIds.Split(',');
+                    foreach (var id in ids)
+                    {
+                        testIds.Add(id);
+                    }
+
+                    string[] orQueries = testIds.Select(labtestid => "itbId =" + labtestid).ToArray();
+
+                    if (orQueries != null)
+                    {
+                        var testObjs = connection.LabTestNames(orQueries);
+                        foreach (var obj in testObjs)
+                        {
+                            testNames.Add(obj["labTestName"].ToString());
+                        }
+                    }
+                }
+
+                // Check if lab notes is empty
+                if (labNotes.Trim() != "")
+                {
+                    var notes = labNotes.Split('|');
+                    foreach (var note in notes)
+                    {
+                        testNotes.Add(note);
+                    }
+                }
+
+                for (int i = 0; i < testIds.ToArray().Length; i++)
+                {
+                    var labTest = new Dictionary<string, object>();
+                    labTest["id"] = testIds[i];
+                    labTest["testName"] = testNames[i];
+                    labTest["testNote"] = testNotes[i];
+                    labTests.Add(labTest);
+                }
+            }
+            // End Lab test GET
+
+            // Begin xray GET
+            EntityConnection konnect = new EntityConnection("tbl_xray_request");
+
+            Dictionary<string, string> record = new Dictionary<string, string>();
+            record.Add("visitId", visitId + "");
+
+            Dictionary<string, object> res = konnect.GetXrayRequestByVisit(visitId);
+
+            if (res.Count > 0)
+            {
+                xray = res;
+            }
+            else
+            {
+                xray = null;
+            }
+            // End X-ray request GET
+
+            // Begin referrals GET
+            EntityConnection conns = new EntityConnection("tbl_referral");
+
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            param.Add("visitId", visitId + "");
+
+            Dictionary<string, object> tempres = conns.GetReferralByVisit(visitId);
+
+            if (tempres.Count > 0)
+            {
+                referrals = tempres;
+            }
+            else
+            {
+                referrals = null;
+            }
+
+            // End Referrals GET
+
+            // Insert all result of the above operations independently into seperate dictionaries
+            // Dictionary<string, object> Dic1 = new Dictionary<string, object>();
+            // Dic1.
+
+            // if (true)
+            // {
+
+            // }
+
+            notes = new { data = new { labTests, xray, referrals } };
+
+            return Ok(notes);
+
+
+        }
+
+
+
+
+
+
+        //Begin POST and GET of lab tests in the DB        
+        // Endpoint for adding and getting all lab test types in the database
         [Route("LabTests")]
         [HttpGet]
         public IActionResult GetLabTest()
@@ -855,7 +989,6 @@ namespace Unilag_Medic.Controllers
 
             var client = _clientFactory.CreateClient();
 
-
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
@@ -895,7 +1028,7 @@ namespace Unilag_Medic.Controllers
 
         }
 
-
+       
 
 
         //End of POST requests

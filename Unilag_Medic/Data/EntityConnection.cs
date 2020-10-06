@@ -1,17 +1,10 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
-using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Json;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using Unilag_Medic.Models;
 using Unilag_Medic.ViewModel;
 
@@ -221,7 +214,7 @@ namespace Unilag_Medic.Data
 
 
 
-        //A new method to catch the itbId of a new insert author: John
+        //A new method to catch the itbId of a new insert author: John and Lawal
         public long InsertScalar(Dictionary<string, object> content)
         {
             this.connection.Open();
@@ -1359,6 +1352,97 @@ namespace Unilag_Medic.Data
 
             this.connection.Close();
             return hospnum;
+        }
+
+        // A method to get lab request data from the DB using the visitId as a filter paramater
+        public Dictionary<string, object> GetLabRequestByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_labtest_request WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+        // A method to get X-ray request data from the DB using the visitId as a filter paramater
+        public Dictionary<string, object> GetXrayRequestByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_xray_request WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
+        // A method to get Refereals request data from the DB using the visitId as a filter paramater
+        public Dictionary<string, object> GetReferralByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_referral WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+        // A meethod to get a prescription record by visitId
+        public Dictionary<string, object> GetPrescriptionVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT * from tbl_prescription WHERE visitId = @visitId ORDER BY itbId DESC LIMIT 1";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
         }
 
 

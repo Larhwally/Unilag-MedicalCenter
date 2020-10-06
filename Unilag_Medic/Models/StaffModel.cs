@@ -5,7 +5,7 @@ namespace Unilag_Medic.Models
 
         public string NameTitle { get; set; }
         public string StaffID { get; set; }
-        public string InstittionEmail { get; set; }
+        public string InstitutionEmail { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string OtherName { get; set; }

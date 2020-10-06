@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Hangfire;
 using Hangfire.MemoryStorage;
-using Microsoft.IdentityModel.Tokens;
-using Unilag_Medic.Data;
 using Unilag_Medic.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Hosting;
 
 namespace Unilag_Medic
 {
@@ -44,7 +43,7 @@ namespace Unilag_Medic
                 .UseMemoryStorage()
             );
 
-            services.AddHangfireServer();
+            //services.AddHangfireServer();
 
             services.AddSingleton<ICronServices, CronServices>();
 
@@ -60,20 +59,20 @@ namespace Unilag_Medic
                 });
             });
 
-            services.AddDbContext<ApplicationDbContext>(
-                option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationDbContext>(
+            //    option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
-            services.AddIdentity<IdentityUser, IdentityRole>(
-                option =>
-                {
-                    option.Password.RequireDigit = false;
-                    option.Password.RequiredLength = 10;
-                    option.Password.RequireLowercase = false;
-                    option.Password.RequireUppercase = false;
-                    option.Password.RequireNonAlphanumeric = false;
-                }).AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            //services.AddIdentity<IdentityUser, IdentityRole>(
+            //    option =>
+            //    {
+            //        option.Password.RequireDigit = false;
+            //        option.Password.RequiredLength = 10;
+            //        option.Password.RequireLowercase = false;
+            //        option.Password.RequireUppercase = false;
+            //        option.Password.RequireNonAlphanumeric = false;
+            //    }).AddEntityFrameworkStores<ApplicationDbContext>()
+            //    .AddDefaultTokenProviders();
 
             services.AddAuthentication(
                 option =>
@@ -95,13 +94,13 @@ namespace Unilag_Medic
                     };
                 });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Latest);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-        IHostingEnvironment env,
+        IWebHostEnvironment env,
         IBackgroundJobClient backgroundJobClient,
         IRecurringJobManager recurringJobManger,
         IServiceProvider serviceProvider)
@@ -118,16 +117,26 @@ namespace Unilag_Medic
 
             app.UseCors("default");
             app.UseHttpsRedirection();
-            app.UseAuthentication();
-            app.UseMvc();
 
-            app.UseHangfireDashboard();
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
+            //app.UseMvc();
+
+            //app.UseHangfireDashboard();
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
-            // recurringJobManger.AddOrUpdate(
-            //     "Run Daily",
-            //     () => serviceProvider.GetService<ICronServices>().UpdateDependent(),
-            //     Cron.Daily
-            // );
+           // recurringJobManger.AddOrUpdate(
+           //     "Run Daily",
+           //() => serviceProvider.GetService<ICronServices>().UpdateDependent(),
+           //     Cron.Daily
+           // );
             //backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
 
 

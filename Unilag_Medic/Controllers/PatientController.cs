@@ -11,7 +11,7 @@ using Unilag_Medic.ViewModel;
 
 namespace Unilag_Medic.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
@@ -22,7 +22,7 @@ namespace Unilag_Medic.Controllers
         public IActionResult GetPatient()
         {
             EntityConnection con = new EntityConnection("tbl_patient");
-            List<Dictionary<string, object>> result = con.Select();
+            List<Dictionary<string, object>> result = con.SelectAll();
 
             return Ok(result);
         }

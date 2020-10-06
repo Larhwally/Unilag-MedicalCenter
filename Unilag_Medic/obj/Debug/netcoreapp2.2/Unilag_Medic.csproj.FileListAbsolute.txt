@@ -12,3 +12,6 @@ C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\o
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.RazorTargetAssemblyInfo.cache
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.dll
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.pdb
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp2.2\appsettings.Development.json
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp2.2\appsettings.json
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp2.2\Unilag_Medic.genruntimeconfig.cache

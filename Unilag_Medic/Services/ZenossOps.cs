@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RestSharp;
 using RestSharp.Serialization.Json;
+using Unilag_Medic.Data;
 using Unilag_Medic.Models;
 
 
@@ -33,8 +37,9 @@ namespace Unilag_Medic.Services
 
             RestRequest restRequest = new RestRequest(Method.POST);
 
-            client.ClearHandlers();
-            client.AddHandler("application/json", new JsonDeserializer());
+            client.ClearHandlers(); //clear handlers to change response format away from xml
+
+            client.AddHandler("application/json", new JsonDeserializer()); //Make response into a json format
             restRequest.AddHeader("X-Requested-With", "XMLHttpRequest");
             // restRequest.AddHeader("Content-Type", "application/json");
             restRequest.AddParameter("application/json", jObjectBody, ParameterType.RequestBody);
@@ -64,7 +69,7 @@ namespace Unilag_Medic.Services
         }
 
 
-        // Fetch student Details by making an API call to the Zenoss API
+        // Fetch student Details using MatricNo as parameter by making an API call to the Zenoss API
         [System.Obsolete]
         public async Task<StudentModel> GetStudentDetailAsync(string matricNum, string sessionToken)
         {
@@ -76,11 +81,11 @@ namespace Unilag_Medic.Services
 
             //JObject reqBody = new JObject("GetStudentProgramDetails", new JObject("MatricNo", matricNum));
 
-            JObject jStaffId = new JObject();
-            jStaffId.Add("MatricNo", matricNum);
+            JObject jStudent = new JObject();
+            jStudent.Add("MatricNo", matricNum);
 
             JObject jObjectBody = new JObject();
-            jObjectBody.Add("GetStudentProgramDetails", jStaffId);
+            jObjectBody.Add("GetStudentProgramDetails", jStudent);
 
             RestRequest restRequest = new RestRequest(Method.POST);
 
@@ -94,6 +99,7 @@ namespace Unilag_Medic.Services
             IRestResponse restResponse = await client.ExecuteAsync(restRequest);
             if (restResponse.IsSuccessful)
             {
+
                 var _content = JsonConvert.DeserializeObject<Dictionary<string, object>>(restResponse.Content);
                 var resp = (JObject)_content["StudentProgramResponse"];
                 var content = (JObject)resp["student"];
@@ -170,6 +176,176 @@ namespace Unilag_Medic.Services
             return null;
 
         }
+
+
+        // Fetch staff Details using StaffID as parameter by making an API call to the Zenoss API
+        [System.Obsolete]
+        public async Task<StaffModel> GetStaffDetailAsync(string staffId, string sessionToken)
+        {
+            RestClient client = new RestClient();
+            client = new RestClient(baseURL + "/melon");
+
+            //  get RestSharp to ignore errors in SSL certificates
+            client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+            //JObject reqBody = new JObject("GetStudentProgramDetails", new JObject("MatricNo", matricNum));
+
+            JObject jStaffId = new JObject();
+            jStaffId.Add("StaffID", staffId);
+
+            JObject jObjectBody = new JObject();
+            jObjectBody.Add("StaffProfileRequest", jStaffId);
+
+            RestRequest restRequest = new RestRequest(Method.POST);
+
+            client.ClearHandlers();
+            client.AddHandler("application/json", new JsonDeserializer());
+            restRequest.AddHeader("X-DreamFactory-API-Key", "12d06d0e08eef80daeb2f7b3f53f9e2563b437d48fbd4b3db653ea240c35d674");
+            restRequest.AddHeader("X-DreamFactory-Session-Token", sessionToken);
+            restRequest.AddParameter("application/json", jObjectBody, ParameterType.RequestBody);
+
+
+
+            IRestResponse restResponse = await client.ExecuteAsync(restRequest);
+            if (restResponse.IsSuccessful)
+            {
+                var _content = JsonConvert.DeserializeObject<Dictionary<string, object>>(restResponse.Content);
+                var resp = (JArray)_content["StaffProfileResponse"];
+                //var content = resp;
+
+                Dictionary<string, object> staffDictionary = new Dictionary<string, object>();
+
+                foreach (var item in resp)
+                {
+                    staffDictionary.Add("StaffID", item["StaffID"]);
+                    staffDictionary.Add("NameTitle", item["NameTitle"]);
+                    staffDictionary.Add("FirstName", item["FirstName"]);
+                    staffDictionary.Add("LastName", item["LastName"]);
+                    staffDictionary.Add("OtherName", item["OtherName"]);
+                    staffDictionary.Add("DateOfBirth", item["DateOfBirth"]);
+                    staffDictionary.Add("Nationality", item["Nationality"]);
+                    staffDictionary.Add("StateOfOrigin", item["StateOfOrigin"]);
+                    staffDictionary.Add("MaritalStatus", item["MaritalStatus"]);
+                    staffDictionary.Add("Address", item["Address"]);
+                    staffDictionary.Add("DateOfFirstAppointment", item["DateOfFirstAppointment"]);
+                    staffDictionary.Add("Telephone", item["Telephone"]);
+                    staffDictionary.Add("Mobile", item["Mobile"]);
+                    staffDictionary.Add("InstitutionEmail", item["InstitutionEmail"]);
+                }
+
+                var staffModel = new StaffModel
+                {
+                    NameTitle = staffDictionary["NameTitle"].ToString(),
+                    StaffID = staffDictionary["StaffID"].ToString(),
+                    FirstName = staffDictionary["FirstName"].ToString(),
+                    LastName = staffDictionary["LastName"].ToString(),
+                    OtherName = staffDictionary["OtherName"].ToString(),
+                    DateOfBirth = staffDictionary["DateOfBirth"].ToString(),
+                    Nationality = staffDictionary["Nationality"].ToString(),
+                    StateOfOrigin = staffDictionary["StateOfOrigin"].ToString(),
+                    MaritalStatus = staffDictionary["MaritalStatus"].ToString(),
+                    Address = staffDictionary["Address"].ToString(),
+                    InstitutionEmail = staffDictionary["InstitutionEmail"].ToString(),
+                    Telephone = staffDictionary["Telephone"].ToString(),
+                    Mobile = staffDictionary["Mobile"].ToString(),
+                    DateOfFirstAppointment = staffDictionary["DateOfFirstAppointment"].ToString(),
+
+                };
+
+                // ZenossConnection connection = new ZenossConnection("tbl_staffs");
+                // connection.InsertZenossStaff(staffModel);
+
+                return staffModel;
+
+            }
+            else
+            {
+                string errorMessage = restResponse.ErrorMessage;
+            }
+
+            return null;
+
+        }
+
+
+        // Fetch all staff record from Zenoss API and save it on medical center database
+        [System.Obsolete]
+        public async Task<List<StaffModel>> GetAllStaffAsync(string session_token)
+        {
+            RestClient client = new RestClient();
+            client = new RestClient(baseURL + "/melon");
+
+            //  get RestSharp to ignore errors in SSL certificates
+            client.RemoteCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+            int Limit = 100;
+            int OffSet = 0;
+
+            JObject param = new JObject();
+            param.Add("Limit", Limit);
+            param.Add("Offset", OffSet);
+
+            JObject jObjectBody = new JObject();
+            jObjectBody.Add("AllStaffProfileRequest", param);
+
+            RestRequest restRequest = new RestRequest(Method.POST);
+
+            client.ClearHandlers();
+            client.AddHandler("application/json", new JsonDeserializer());
+            restRequest.AddHeader("X-DreamFactory-API-Key", "12d06d0e08eef80daeb2f7b3f53f9e2563b437d48fbd4b3db653ea240c35d674");
+            restRequest.AddHeader("X-DreamFactory-Session-Token", session_token);
+            restRequest.AddParameter("application/json", jObjectBody, ParameterType.RequestBody);
+
+
+
+            IRestResponse restResponse = await client.ExecuteAsync(restRequest);
+            if (restResponse.IsSuccessful)
+            {
+                var _content = JsonConvert.DeserializeObject<Dictionary<string, object>>(restResponse.Content);
+                var resp = (JArray)_content["StaffProfileResponse"];
+                //var content = resp;
+
+                List<StaffModel> allStaffs = new List<StaffModel>();
+
+                foreach (var item in resp)
+                {
+                    var staffModel = new StaffModel
+                    {
+                        NameTitle = item["NameTitle"].ToString(),
+                        StaffID = item["StaffID"].ToString(),
+                        FirstName = item["FirstName"].ToString(),
+                        LastName = item["LastName"].ToString(),
+                        OtherName = item["OtherName"].ToString(),
+                        DateOfBirth = item["DateOfBirth"].ToString(),
+                        Nationality = item["Nationality"].ToString(),
+                        StateOfOrigin = item["StateOfOrigin"].ToString(),
+                        MaritalStatus = item["MaritalStatus"].ToString(),
+                        Address = item["Address"].ToString(),
+                        InstitutionEmail = item["InstitutionEmail"].ToString(),
+                        Telephone = item["Telephone"].ToString(),
+                        Mobile = item["Mobile"].ToString(),
+                        DateOfFirstAppointment = item["DateOfFirstAppointment"].ToString(),
+                    };
+
+                    allStaffs.Add(staffModel);
+                }
+
+                var uniqueStaff = allStaffs.GroupBy(x => x.StaffID).Select(y => y.First());
+                ZenossConnection connection = new ZenossConnection("tbl_zenoss_staffs");
+                connection.InsertZenossStaff(uniqueStaff);
+
+                return allStaffs;
+
+            }
+            else
+            {
+                string errorMessage = restResponse.ErrorMessage;
+            }
+
+            return null;
+
+        }
+
 
 
 
