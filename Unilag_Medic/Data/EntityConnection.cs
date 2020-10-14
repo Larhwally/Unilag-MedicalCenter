@@ -730,9 +730,9 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             bool hasRows = false;
-            string query = "select * from " + this.tableName + " where uniquePath =  @uniquePath  ";
+            string query = "select * from " + this.tableName + " where pictureId =  @pictureId  ";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
-            cmd.Parameters.AddWithValue("uniquePath", uniquePath);
+            cmd.Parameters.AddWithValue("pictureId", uniquePath);
             MySqlDataReader reader = cmd.ExecuteReader();
             hasRows = reader.HasRows;
             this.connection.Close();
