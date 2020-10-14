@@ -1436,6 +1436,21 @@ namespace Unilag_Medic.Data
         }
 
 
+         // A method to update patient table with image unique path
+        public bool UpdateImagePath(int patientId, string uniquePath)
+        {
+            this.connection.Open();
+            bool hasRow = false;
+            string query = "UPDATE tbl_patient SET pictureId = " + uniquePath + "WHERE itbId = " + patientId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
+            hasRow = dataReader.HasRows;
+            this.connection.Close();
+            return hasRow;
+
+        }
+
+
 
 
 
