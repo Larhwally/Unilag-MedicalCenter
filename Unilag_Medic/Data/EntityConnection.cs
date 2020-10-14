@@ -720,9 +720,9 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             bool hasRows = false;
-            string query = "select * from " + this.tableName + " where uniquePath =  @uniquePath  ";
+            string query = "select * from " + this.tableName + " where pictureId =  @pictureId  ";
             MySqlCommand cmd = new MySqlCommand(query, this.connection);
-            cmd.Parameters.AddWithValue("uniquePath", uniquePath);
+            cmd.Parameters.AddWithValue("pictureId", uniquePath);
             MySqlDataReader reader = cmd.ExecuteReader();
             hasRows = reader.HasRows;
             this.connection.Close();
@@ -1443,6 +1443,21 @@ namespace Unilag_Medic.Data
             reader.Close();
             this.connection.Close();
             return values;
+        }
+
+
+         // A method to update patient table with image unique path
+        public bool UpdateImagePath(int patientId, string uniquePath)
+        {
+            this.connection.Open();
+            bool hasRow = false;
+            string query = "UPDATE tbl_patient SET pictureId = " + uniquePath + "WHERE itbId = " + patientId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            MySqlDataReader dataReader = command.ExecuteReader();
+            hasRow = dataReader.HasRows;
+            this.connection.Close();
+            return hasRow;
+
         }
 
 

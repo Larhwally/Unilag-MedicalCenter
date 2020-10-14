@@ -33,7 +33,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{uniquePath}")]
         public IActionResult Get(string uniquePath)
         {
-            EntityConnection con = new EntityConnection("tbl_upload");
+            EntityConnection con = new EntityConnection("tbl_patient");
             if (con.CheckImage(uniquePath) == true)
             {
                 string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniquePath);
@@ -52,93 +52,47 @@ namespace Unilag_Medic.Controllers
 
         // POST: api/Uploads
         [HttpPost]
-        public async Task<IActionResult> Post(Images imagemodel)
+        public async Task<IActionResult> Post([FromForm] IFormFile file)
         {
-            var patientId = imagemodel.patientId;
-            var fName = imagemodel.file.Select(i => i.FileName);
+            string fName = file.FileName;
             string uniqueName = Guid.NewGuid() + "" + "_" + fName;
-            var file = imagemodel.file.Select(j => j.ContentType);
 
-            foreach (var item in imagemodel.file)
+            if (!file.ContentType.StartsWith("image/"))
             {
-                if (!item.ContentType.StartsWith("image/"))
-                {
-                    objs = new { message = "not an image file" };
-                    return BadRequest(objs);
-                }
-
-                if (!item.FileName.EndsWith("jpg") & !item.FileName.EndsWith("jpeg"))
-                {
-                    objs = new { message = "image is not in jpg format" };
-                    return BadRequest(objs);
-                }
-
-                if (item.Length < 1024 * 1024 * 2)
-                {
-                    string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniqueName);
-
-                    using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
-                    {
-                        await item.CopyToAsync(stream);
-                    }
-                    EntityConnection con = new EntityConnection("tbl_upload");
-                    Dictionary<string, object> param = new Dictionary<string, object>();
-                    param.Add("patientId", patientId);
-                    param.Add("fullPath", path);
-                    param.Add("uniquePath", uniqueName);
-                    param.Add("createBy", "admin");
-                    param.Add("createDate", DateTime.Now.ToShortDateString());
-                    con.Insert(param);
-                    objs = new { uniqueName };
-                    return Ok(objs);
-                }
-                else
-                {
-                    objs = new { message = "File too large" };
-                    return BadRequest(objs);
-                }
-
-
+                objs = new { message = "not an image file" };
+                return BadRequest(objs);
             }
+            if (!fName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))
+            {
+                objs = new { message = "image is not in jpg format" };
+                return BadRequest(objs);
+            }
+            if (file.Length < 1024 * 1024 * 2)
+            {
+                string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniqueName);
 
-            return Ok(uniqueName);
+                using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+                {
+                    await file.CopyToAsync(stream);
+                }
 
-            // // if (!file..StartsWith("image/"))
-            // // {
-            // //     objs = new { message = "not an image file" };
-            // //     return BadRequest(objs);
-            // // }
-            // // if (!fName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))
-            // // {
-            // //     objs = new { message = "image is not in jpg format" };
-            // //     return BadRequest(objs);
-            // // }
-            // if (file.Length < 1024 * 1024 * 2)
-            // {
-            //     string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniqueName);
-
-            //     using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
-            //     {
-            //         await file.CopyToAsync(stream);
-            //     }
-
-            //     //save image details to the databse
-            //     EntityConnection con = new EntityConnection("tbl_upload");
-            //     Dictionary<string, object> param = new Dictionary<string, object>();
-            //     param.Add("patientId", patientId);
-            //     param.Add("fullPath", path);
-            //     param.Add("uniquePath", uniqueName);
-            //     param.Add("createBy", "admin");
-            //     param.Add("createDate", DateTime.Now.ToShortDateString());
-            //     con.Insert(param);
-            //     objs = new { uniqueName };
-            //     return Ok(objs);
-            // }
-            // else
-            // {
-            //     objs = new { message = "File too large" };
-            //     return BadRequest(objs);
-            // }
+                //save image details to the databse
+                EntityConnection con = new EntityConnection("tbl_upload");
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                //param.Add("patientId", patientId);
+                param.Add("fullPath", path);
+                param.Add("uniquePath", uniqueName);
+                param.Add("createBy", "admin");
+                param.Add("createDate", DateTime.Now.ToShortDateString());
+                con.Insert(param);
+                objs = new { uniqueName };
+                return Ok(objs);
+            }
+            else
+            {
+                objs = new { message = "File too large" };
+                return BadRequest(objs);
+            }
 
         }
 
