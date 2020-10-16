@@ -11,6 +11,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3"/>
     <PackageReference Include="MySql.Data" Version="8.0.19"/>
     <PackageReference Include="PrivateSetterContractResolver" Version="2.1.0"/>
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Hangfire.Core" Version="1.7.14"/>
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.14"/>
     <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0"/>
