@@ -9,9 +9,9 @@ namespace Unilag_Medic.Controllers
     public class MedStaffExtra : Controller
     {
 
-        public static IWebHostEnvironment _environment;
+        public static IHostingEnvironment _environment;
 
-        public MedStaffExtra(IWebHostEnvironment environment)
+        public MedStaffExtra(IHostingEnvironment environment)
         {
             _environment = environment;
         }
