@@ -1451,6 +1451,64 @@ namespace Unilag_Medic.Data
         }
 
 
+        // A method to insert states name and capitals to the tbl_states after fetching from universal_tutorial API
+        public string InsertStates(List<string> states, int nationalityId)
+        {
+            this.connection.Open();
+            //string placeholder = ListPlaceholder(states);
+            string query = "INSERT INTO tbl_state(stateName, capitalName, nationalityId, createdBy, createDate) VALUES" +
+            "(@stateName, @capitalName, @nationalityId, @createdBy, @createDate)";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+
+            string createdBy = "lawal";
+            DateTime createDate = DateTime.Now;
+            //string stateName = states[""]
+            foreach (var state in states)
+            {
+                command.Parameters.AddWithValue("@stateName", state);
+                command.Parameters.AddWithValue("@capitalName", state);
+                command.Parameters.AddWithValue("@nationalityId", nationalityId);
+                command.Parameters.AddWithValue("@createdBy", createdBy);
+                command.Parameters.AddWithValue("@createDate", createDate);
+                int n = command.ExecuteNonQuery();
+                command.Parameters.Clear();
+
+            }
+            this.connection.Close();
+            return "Inserted";
+        }
+
+
+        // Iterate through a List<string> and append ',' after each preceeding elements
+        private static string ListImplode(List<string> list)
+        {
+            string result = "";
+            for (int i = 0; i < list.Count; i++)
+            {
+                string currentValue = list[i];
+                result += string.IsNullOrEmpty(result) ? currentValue : "," + currentValue;
+            }
+
+            return result;
+        }
+
+
+        // Iterate through a List<string> and appending '@' and  ',' after each precceding elements
+        private static string ListPlaceholder(List<string> list)
+        {
+            string result = "";
+            for (int i = 0; i < list.Count; i++)
+            {
+                string currentValue = "@" + list[i];
+                result += string.IsNullOrEmpty(result) ? currentValue : "," + currentValue;
+            }
+            return result;
+        }
+
+
+
+
 
 
 
