@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Unilag_Medic.Data;
+using Unilag_Medic.Services;
 
 namespace Unilag_Medic.Controllers
 {
