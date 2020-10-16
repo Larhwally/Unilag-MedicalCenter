@@ -7,6 +7,12 @@ namespace Unilag_Medic.Controllers
 {
     public class ZenossController : Controller
     {
+        private readonly IApiCallOps _apiCallOps;
+        public ZenossController(IApiCallOps apiCallOps)
+        {
+            _apiCallOps = apiCallOps;
+        }
+
         [Route("ZenossStaffs")]
         [HttpGet("staffId")]
         public IActionResult GetZenossStaffById(string staffId)
@@ -31,7 +37,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{countryName, token, nationalityId}")]
         public async Task<IActionResult> GetStatesByCountry(string countryName, string token, int nationalityId)
         {
-            var states = await _zenossOps.GetStateByCountry(countryName, token, nationalityId);
+            var states = await _apiCallOps.GetStateByCountry(countryName, token, nationalityId);
             return Ok(states);
         }
 

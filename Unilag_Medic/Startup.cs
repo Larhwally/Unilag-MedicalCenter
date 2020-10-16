@@ -36,7 +36,7 @@ namespace Unilag_Medic
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddSingleton<IConfiguration>();
-
+            services.AddSingleton<IApiCallOps, ApiCallOps>();
             services.AddHttpClient();
 
             services.AddHangfire(config =>
