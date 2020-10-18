@@ -72,7 +72,7 @@ namespace Unilag_Medic.Controllers
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "pictureId", "status" };
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "pictureId", "status", "recordStaffId" };
 
                 if (patientTypeId == 1 || patientTypeId == 2)
                 {
@@ -97,7 +97,7 @@ namespace Unilag_Medic.Controllers
                 {
                     Dictionary<string, object> staff = new Dictionary<string, object>();
 
-                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "designation", "partnerTitle", "partnerName", "partnerHospNum", "partnerRelation", "partnerIsStaff", "dateOfArrival", "status", "recordStaffId" };
+                    string[] staffPatientRecord = { "staffCode", "dateOfEmployment", "designation", "partnerTitle", "partnerName", "partnerHospNum", "partnerRelation", "partnerIsStaff", "dateOfArrival", "status"};
 
                     staff = Utility.Pick(param, staffPatientRecord);
 
@@ -116,7 +116,7 @@ namespace Unilag_Medic.Controllers
                 {
                     Dictionary<string, object> student = new Dictionary<string, object>();
 
-                    string[] studentPatientRecord = { "matricNumber", "yearOfAdmission", "parentName", "parentAddress1", "parentAddress2", "parentPhone1", "parentPhone2", "localGuardian", "localGuardAddress1", "localGuardAddress2", "localGuardPhone1", "localGuardPhone2", "localGuardianRelationship", "status", "recordStaffId" };
+                    string[] studentPatientRecord = { "matricNumber", "yearOfAdmission", "parentName", "parentAddress1", "parentAddress2", "parentPhone1", "parentPhone2", "localGuardian", "localGuardAddress1", "localGuardAddress2", "localGuardPhone1", "localGuardPhone2", "localGuardianRelationship", "status"};
 
                     student = Utility.Pick(param, studentPatientRecord);
 
