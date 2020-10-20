@@ -63,9 +63,9 @@ namespace Unilag_Medic.Controllers
                 objs = new { message = "not an image file" };
                 return BadRequest(objs);
             }
-            if (!file.FileName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))
+            if (!file.FileName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg") & !file.FileName.EndsWith("png"))
             {
-                objs = new { message = "image is not in jpg format" };
+                objs = new { message = "image is not in correct format" };
                 return BadRequest(objs);
             }
             if (file.Length < 1024 * 1024 * 2)
