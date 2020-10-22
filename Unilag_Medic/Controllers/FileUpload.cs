@@ -13,6 +13,7 @@ using Unilag_Medic.Models;
 
 namespace Unilag_Medic.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     public class FileUpload : Controller
     {
