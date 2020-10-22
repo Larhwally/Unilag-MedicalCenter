@@ -16,10 +16,10 @@ namespace Unilag_Medic.Controllers
     [Route("api/[controller]")]
     public class FileUpload : Controller
     {
-        public static IWebHostEnvironment _environment;
+        public static IHostingEnvironment _environment;
         public object objs = new object();
         
-        public FileUpload(IWebHostEnvironment env)
+        public FileUpload(IHostingEnvironment env)
         {
             _environment = env;
         }
