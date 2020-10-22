@@ -46,7 +46,7 @@ namespace Unilag_Medic.Controllers
 
             if (file.Length < 1024 * 1024 * 10)
             {
-                Path.Combine("/home/unimed/wwwroot", uniqueName);
+                string path = Path.Combine("/home/unimed/wwwroot", uniqueName);
 
                 using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
                 {
@@ -86,7 +86,7 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_files");
             if (con.CheckFile(uniqueName) == true)
             {
-                string path = "/home/unimed/wwwroot/" + uniquePath;
+                string path = "/home/unimed/wwwroot/" + uniqueName;
                 using (var stream = new FileStream(path, FileMode.Open, FileAccess.ReadWrite))
                 {
                     return PhysicalFile(path, "application/pdf");
