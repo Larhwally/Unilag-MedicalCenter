@@ -741,6 +741,24 @@ namespace Unilag_Medic.Data
 
         }
 
+
+         //Check File name on the database
+        public bool CheckFile(string uniqueName)
+        {
+            this.connection.Open();
+            bool hasRows = false;
+            string query = "select * from " + this.tableName + " where uniqueName =  @uniqueName";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("uniqueName", uniqueName);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            hasRows = reader.HasRows;
+            this.connection.Close();
+            return hasRows;
+
+
+        }
+
+
         //Select all visit record specifying including the fields added
         public List<Dictionary<string, object>> SelectAllVisit()
         {
