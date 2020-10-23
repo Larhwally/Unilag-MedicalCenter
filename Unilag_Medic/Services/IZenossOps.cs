@@ -16,5 +16,7 @@ namespace Unilag_Medic.Services
 
         [Obsolete]
         Task<List<StaffModel>> GetAllStaffAsync(string session_token);
+
+        Task<List<string>> GetStateByCountry(string countryName, string token, int nationalityId);
     }
 }

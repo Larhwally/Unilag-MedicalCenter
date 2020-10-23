@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -62,12 +64,17 @@ namespace Unilag_Medic.Controllers
                 objs = new { message = "not an image file" };
                 return BadRequest(objs);
             }
-            if (!fName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg"))
+            // if (!file.ContentType.StartsWith("application/"))
+            // { 
+            //     objs = new {message = "file is not a pdf file"};
+            //     return BadRequest(objs);
+            // }
+            if (!fName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg") & !file.FileName.EndsWith("png"))
             {
-                objs = new { message = "image is not in jpg format" };
+                objs = new { message = "image is not in correct format" };
                 return BadRequest(objs);
             }
-            if (file.Length < 1024 * 1024 * 2)
+            if (file.Length < 1024 * 1024 * 5)
             {
                 string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniqueName);
 

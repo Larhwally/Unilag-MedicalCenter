@@ -6,6 +6,7 @@ namespace Unilag_Medic.Controllers
 {
     public class ZenossController : Controller
     {
+        // An endpoint to get all staff record fetched and saved from the zenossAPI
         [Route("ZenossStaffs")]
         [HttpGet("staffId")]
         public IActionResult GetZenossStaffById(string staffId)
@@ -18,11 +19,12 @@ namespace Unilag_Medic.Controllers
             if (record.Count > 0)
             {
                 return Ok(record);
-            }
+            } 
             else
             {
                 return Ok(new string[0]);
             }
         }
     }
+    
 }

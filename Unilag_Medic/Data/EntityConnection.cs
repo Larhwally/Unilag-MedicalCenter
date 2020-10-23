@@ -281,6 +281,7 @@ namespace Unilag_Medic.Data
         }
 
         //to connect two joins into a single string
+        // Iterate through a dictionary with this method and appending ',' after each key
         private static string implode(string[] array)
         {
             string result = "";
@@ -292,7 +293,7 @@ namespace Unilag_Medic.Data
             return result;
         }
 
-        //Select by ID parameter from all tables
+        //Select by ID(itbId) parameter from all tables
         public Dictionary<string, object> SelectByColumn(Dictionary<string, string> queryParam)
         {
             this.connection.Open();
@@ -731,6 +732,24 @@ namespace Unilag_Medic.Data
 
         }
 
+
+
+         //Check File name on the database
+        public bool CheckFile(string uniqueName)
+        {
+            this.connection.Open();
+            bool hasRows = false;
+            string query = "select * from " + this.tableName + " where uniqueName =  @uniqueName";
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("uniqueName", uniqueName);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            hasRows = reader.HasRows;
+            this.connection.Close();
+            return hasRows;
+
+
+        }
+
         //Select all visit record specifying including the fields added
         public List<Dictionary<string, object>> SelectAllVisit()
         {
@@ -1150,8 +1169,6 @@ namespace Unilag_Medic.Data
             return n > 0;
         }
 
-
-
         //Insert a non staff patient specific data to the non staff table besides the generic patient record
 
         public bool InsertNonStaff(Dictionary<string, object> nonStaff)
@@ -1458,6 +1475,62 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return hasRow;
 
+        }
+
+
+        // A method to insert states name and capitals to the tbl_states after fetching from universal_tutorial API
+        public string InsertStates(List<string> states, int nationalityId)
+        {
+            this.connection.Open();
+            //string placeholder = ListPlaceholder(states);
+            string query = "INSERT INTO tbl_state(stateName, capitalName, nationalityId, createdBy, createDate) VALUES" +
+            "(@stateName, @capitalName, @nationalityId, @createdBy, @createDate)";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+
+            string createdBy = "lawal";
+            DateTime createDate = DateTime.Now;
+            //string stateName = states[""]
+            foreach (var state in states)
+            {
+                command.Parameters.AddWithValue("@stateName", state);
+                command.Parameters.AddWithValue("@capitalName", state);
+                command.Parameters.AddWithValue("@nationalityId", nationalityId);
+                command.Parameters.AddWithValue("@createdBy", createdBy);
+                command.Parameters.AddWithValue("@createDate", createDate);
+                int n = command.ExecuteNonQuery();
+                command.Parameters.Clear();
+
+            }
+            this.connection.Close();
+            return "Inserted";
+        }
+
+
+        // Iterate through a List<string> and append ',' after each preceeding elements
+        private static string ListImplode(List<string> list)
+        {
+            string result = "";
+            for (int i = 0; i < list.Count; i++)
+            {
+                string currentValue = list[i];
+                result += string.IsNullOrEmpty(result) ? currentValue : "," + currentValue;
+            }
+
+            return result;
+        }
+
+
+        // Iterate through a List<string> and appending '@' and  ',' after each precceding elements
+        private static string ListPlaceholder(List<string> list)
+        {
+            string result = "";
+            for (int i = 0; i < list.Count; i++)
+            {
+                string currentValue = "@" + list[i];
+                result += string.IsNullOrEmpty(result) ? currentValue : "," + currentValue;
+            }
+            return result;
         }
 
 

@@ -981,6 +981,52 @@ namespace Unilag_Medic.Controllers
         }
 
 
+        // Sub test types of lab tests adding labtestId as a foreign key
+        [Route("SubTests")]
+        [HttpPost]
+        public IActionResult PostSubTest([FromBody] Dictionary<string, object> param)
+        {
+            EntityConnection connection = new EntityConnection("tbl_sub_labtest");
+
+            if (param != null)
+            {
+                param.Add("createDate", DateTime.Now.ToString());
+                connection.Insert(param);
+                return Created("", param);
+            }
+            else
+            {
+                obj = new { message = "Error in creating record" };
+                return BadRequest(obj);
+            }
+
+
+        }
+
+
+        [Route("SubTests")]
+        [HttpGet]
+        public IActionResult GetSubTest()
+        {
+            EntityConnection connection = new EntityConnection("tbl_sub_labtest");
+            List<Dictionary<string, object>> result = connection.Select();
+
+            if (result.Count > 0)
+            {
+                obj = new { data = result };
+                return Ok(obj);
+            }
+            else
+            {
+                return Ok(new string[0]);
+            }
+
+        }
+
+
+
+
+
         [Route("Countries")]
         [HttpGet]
         public async Task<IActionResult> GetCountriesAsync()

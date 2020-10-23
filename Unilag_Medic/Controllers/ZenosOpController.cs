@@ -51,6 +51,14 @@ namespace Unilag_Medic.Controllers
             return Ok(staffs);
         }
 
+        [Route("CountryStates")]
+        [HttpGet("{countryName, token, nationalityId}")]
+        public async Task<IActionResult> GetStatesByCountry(string countryName, string token, int nationalityId)
+        {
+            var states = await _zenossOps.GetStateByCountry(countryName, token, nationalityId);
+            return Ok(states);
+        }
+
 
 
 
