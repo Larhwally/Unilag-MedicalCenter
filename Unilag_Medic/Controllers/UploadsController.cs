@@ -57,6 +57,7 @@ namespace Unilag_Medic.Controllers
         {
             string fName = file.FileName;
             string uniqueName = Guid.NewGuid() + "" + "_" + fName;
+            string photoUrl = "http://196.45.48.99/api/Uploads/" + uniqueName;
 
             if (!file.ContentType.StartsWith("image/"))
             {
@@ -81,11 +82,12 @@ namespace Unilag_Medic.Controllers
                 EntityConnection con = new EntityConnection("tbl_upload");
                 Dictionary<string, object> param = new Dictionary<string, object>();
                 param.Add("fullPath", path);
+                param.Add("photoUrl", photoUrl);
                 param.Add("uniquePath", uniqueName);
                 param.Add("createBy", "admin");
                 param.Add("createDate", DateTime.Now.ToShortDateString());
                 con.Insert(param);
-                objs = new { uniqueName };
+                objs = new {data = param };
                 return Ok(objs);
             }
             else
