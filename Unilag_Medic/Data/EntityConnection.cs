@@ -792,7 +792,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, tbl_visit.patientId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            " tbl_visit.clinicId, clinicType, visitDateTime, tbl_visit.lastVisitId, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
+                            " tbl_visit.clinicId, clinicType, clinicName, visitDateTime, tbl_visit.lastVisitId, tbl_visit.status, tbl_visit.createDate, vitalStatus  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId  where tbl_visit.itbId = @itbId";
 
@@ -848,7 +848,7 @@ namespace Unilag_Medic.Data
             this.connection.Open();
             //bool hasRows = false;
 
-            string query = "SELECT tbl_visit.itbId, visitDateTime, clinicType, tbl_visit.assignedTo, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
+            string query = "SELECT tbl_visit.itbId, visitDateTime, clinicType, clinicName, tbl_visit.assignedTo, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
                " LEFT OUTER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                " LEFT OUTER JOIN tbl_medicalstaff ON tbl_visit.assignedTo = tbl_medicalstaff.itbId" +
                " where tbl_visit.patientId = @patientId ORDER BY visitDateTime DESC LIMIT 1";
@@ -1523,6 +1523,10 @@ namespace Unilag_Medic.Data
             }
             return result;
         }
+
+
+        // Select the photoUrl from tbl_upload to attach it to patient creation payload
+
 
 
 
