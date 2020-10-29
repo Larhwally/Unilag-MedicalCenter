@@ -11,7 +11,6 @@ using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
 {
-    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UploadsController : ControllerBase
