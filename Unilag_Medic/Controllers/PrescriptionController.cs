@@ -15,6 +15,9 @@ namespace Unilag_Medic.Controllers
     {
         public object obj = new object();
         public object newobj = new object();
+        public object objs1 = new object();
+        public object objs2 = new object();
+        public object objs = new object();
 
         //[Route("Prescription")]
         [HttpGet]
@@ -50,12 +53,21 @@ namespace Unilag_Medic.Controllers
             {
                 result.TryGetValue("otherDrugs", out newobj);
                 result.TryGetValue("drugs", out obj);
+                result.TryGetValue("dosageForm", out objs);
+                result.TryGetValue("dosage", out objs1);
+                result.TryGetValue("measurement", out objs2);
 
                 string otherDrugs = newobj.ToString();
                 string newdrug = obj.ToString();
+                string dosageForms = objs.ToString();
+                string dosages = objs1.ToString();
+                string measurements = objs2.ToString();
 
                 result.Remove("drugs");
                 result.Remove("otherDrugs");
+                result.Remove("dosageForm");
+                result.Remove("dosage");
+                result.Remove("measurement");
 
                 //check if the drug list is empty
                 if (newdrug.Trim() != "")
@@ -87,6 +99,39 @@ namespace Unilag_Medic.Controllers
                     result.Add("otherDrugs", new string[0]);
                 }
 
+                 //check if dosage form is empty 
+                if (dosageForms.Trim() != "")
+                {
+                    string[] newDosageForms = dosageForms.Split('|');
+                    result.Add("dosageForms", newDosageForms);
+                }
+                else
+                {
+                    result.Add("dosageForms", new string[0]);
+                }
+
+                 //check if dosage is empty 
+                if (dosages.Trim() != "")
+                {
+                    string[] newDosages = dosages.Split('|');
+                    result.Add("dosages", newDosages);
+                }
+                else
+                {
+                    result.Add("dosages", new string[0]);
+                }
+
+                 //check if measurements is empty 
+                if (measurements.Trim() != "")
+                {
+                    string[] newMeasurements = measurements.Split('|');
+                    result.Add("measurements", newMeasurements);
+                }
+                else
+                {
+                    result.Add("measurements", new string[0]);
+                }
+
                 obj = new { data = result };
                 return Ok(obj);
             }
@@ -107,12 +152,21 @@ namespace Unilag_Medic.Controllers
                 param.Add("createDate", DateTime.Now.ToString());
                 JArray drugs = (JArray)param["drugs"];
                 JArray OtherDrugs = (JArray)param["otherDrugs"];
+                JArray dosageForms = (JArray)param["dosageForm"];
+                JArray measurements = (JArray)param["measurement"];
+                JArray dosages = (JArray)param["dosage"];
 
                 param.Remove("drugs");
                 param.Remove("otherDrugs");
+                param.Remove("dosageForm");
+                param.Remove("measurement");
+                param.Remove("dosage");
 
                 param.Add("drugs", String.Join(",", drugs));
                 param.Add("otherDrugs", string.Join("|", OtherDrugs));
+                param.Add("dosageForm", string.Join("|", dosageForms));
+                param.Add("measurement", string.Join("|", measurements));
+                param.Add("dosage", string.Join("|", dosages));
 
                 connection.Insert(param);
                 return Created("", param);

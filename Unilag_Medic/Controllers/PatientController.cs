@@ -1,8 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -16,7 +18,14 @@ namespace Unilag_Medic.Controllers
     [ApiController]
     public class PatientController : ControllerBase
     {
+        public static IWebHostEnvironment _environment;
         public object obj = new object();
+        public object objs = new object();
+
+        public PatientController(IWebHostEnvironment env)
+        {
+            _environment = env;
+        }
         // GET: api/Patient
         [HttpGet]
         public IActionResult GetPatient()
@@ -53,6 +62,50 @@ namespace Unilag_Medic.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
+            // Uploading image
+            // string fName = file.FileName;
+            // string uniqueName = Guid.NewGuid() + "" + "_" + fName;
+            // string photoUrl = "http://localhost:5000/api/Uploads/" + uniqueName;
+
+            // if (!file.ContentType.StartsWith("image/"))
+            // {
+            //     objs = new { message = "not an image file" };
+            //     return BadRequest(objs);
+            // }
+           
+            // if (!fName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg") & !file.FileName.EndsWith("png"))
+            // {
+            //     objs = new { message = "image is not in correct format" };
+            //     return BadRequest(objs);
+            // }
+            // if (file.Length < 1024 * 1024 * 5)
+            // {
+            //     string path = Path.Combine(_environment.ContentRootPath, "upload/" + uniqueName);
+
+            //     using (var stream = new FileStream(path, FileMode.Create, FileAccess.ReadWrite))
+            //     {
+            //         await file.CopyToAsync(stream);
+            //     }
+
+            //     //save image details to the databse
+            //     // EntityConnection con = new EntityConnection("tbl_upload");
+            //     // Dictionary<string, object> param = new Dictionary<string, object>();
+            //     // //param.Add("patientId", patientId);
+            //     // param.Add("photoUrl", photoUrl);
+            //     // param.Add("fullPath", path);
+            //     // param.Add("uniquePath", uniqueName);
+            //     // param.Add("createBy", "admin");
+            //     // param.Add("createDate", DateTime.Now.ToShortDateString());
+            //     // con.Insert(param);
+            //     // objs = new { data = photoUrl };
+            //     // return Ok(objs);
+            // }
+            // else
+            // {
+            //     objs = new { message = "File too large" };
+            //     return BadRequest(objs);
+            // }
+
 
             EntityConnection con = new EntityConnection("tbl_patient");
             if (param != null)
@@ -66,7 +119,9 @@ namespace Unilag_Medic.Controllers
 
                 Dictionary<string, object> genericPatient = new Dictionary<string, object>();
 
-                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "pictureId", "status", "recordStaffId" };
+                //genericPatient.Add("photoUrl", photoUrl);
+
+                string[] patientRecord = { "surname", "otherNames", "phoneNumber", "altPhoneNum", "email", "ethnicGroup", "gender", "nhisNumber", "hmoId", "dateOfBirth", "maritalStatus", "address", "stateId", "nationalityId", "patientType", "nokName", "nokAddress", "nokPhoneNum", "nokRelationship", "faculty", "department", "photoUrl", "status", "recordStaffId" };
 
                 genericPatient = Utility.Pick(param, patientRecord);
 

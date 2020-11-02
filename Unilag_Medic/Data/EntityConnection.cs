@@ -1535,6 +1535,15 @@ namespace Unilag_Medic.Data
 
 
 
+        // Select the photoUrl from tbl_upload to attach to patient profile creation payload
+        // public string GetPhotoUrl()
+        // {
+        //     this.connection.Open();
+        //     string query = "SELECT itbId from tbl_upload ORDER by itbId desc LIMIT 1";
+        // }
+
+
+
 
 
 
