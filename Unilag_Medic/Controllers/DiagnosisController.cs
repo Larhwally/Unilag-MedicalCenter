@@ -54,10 +54,13 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                con.InsertRecord(param);
+                long id = con.InsertToGetId(param);
+
                 string visitId = "";
                 param.TryGetValue("visitId", out visitId);
                 con.UpdateDiagnosis(Convert.ToInt32(visitId));
+                
+                param.Add("itbId", id.ToString());
                 return Created("", param);
             }
             else

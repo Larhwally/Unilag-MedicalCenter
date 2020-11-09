@@ -240,6 +240,33 @@ namespace Unilag_Medic.Data
             return w;
         }
 
+
+
+         //A new method to catch the itbId of a new insert action using a dictionary with string key:value pair author:Lawal
+        public long InsertToGetId(Dictionary<string, string> content)
+        {
+            this.connection.Open();
+            string[] keys = content.Keys.ToArray<string>();
+            string placeholder = GetPlaceholder(keys);
+            string query = "insert into " + this.tableName + "(" + implode(keys) + ") VALUES (" + placeholder + ")";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentParam = "@" + keys[i];
+                string currentValue = content[keys[i]].ToString();
+                MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
+                MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
+                tempParam.Value = wrapValue(currentValue, dbType);
+                command.Parameters.Add(tempParam);
+            }
+            command.ExecuteScalar();
+            long w = command.LastInsertedId;
+            this.connection.Close();
+            return w;
+
+        }
+
         private object wrapValue(string currentValue, MySqlDbType dbType)
         {
             if (dbType == MySqlDbType.DateTime)
