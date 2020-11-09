@@ -592,7 +592,7 @@ namespace Unilag_Medic.Controllers
         {
             EntityConnection con = new EntityConnection("tbl_drugtype");
             //string result = "{'status':true, 'data':" + EntityConnection.ToJson(con.Select()) + "}";
-            List<Dictionary<string, object>> rec = con.Select();
+            List<Dictionary<string, object>> rec = con.SelectAll();
 
             if (rec != null)
             {

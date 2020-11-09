@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,23 +13,25 @@ namespace Unilag_Medic.Controllers
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class DiagnosisController : ControllerBase
+    public class DocVitalSignsController : ControllerBase
     {
-        // GET: api/Diagnosis
+        public object obj = new object();
+
+        // GET: api/DocVitalSigns
         [HttpGet]
-        public IActionResult GetDiagnosis()
+        public IActionResult GetVitalSign()
         {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            EntityConnection con = new EntityConnection("tbl_doctor_vitalsigns");
             //string result = "{'Status': true, 'Data':" + EntityConnection.ToJson(con.Select()) + "}";
             List<Dictionary<string, object>> result = con.Select();
             return Ok(result);
         }
 
-        // GET: api/Diagnosis/5
+        // GET: api/DocVitalSigns/5
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public IActionResult GetVitalSign(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            EntityConnection con = new EntityConnection("tbl_doctor_vitalsigns");
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
@@ -37,7 +39,8 @@ namespace Unilag_Medic.Controllers
 
             if (con.SelectByColumn(dic).Count > 0)
             {
-                return Ok(record);
+                obj = new { vitals = record };
+                return Ok(obj);
             }
             else
             {
@@ -46,37 +49,33 @@ namespace Unilag_Medic.Controllers
 
         }
 
-        // POST: api/Diagnosis
+
+        // POST: api/DocVitalSigns
         [HttpPost]
-        public IActionResult PostDiagnosis([FromBody] Dictionary<string, string> param)
+        public IActionResult Post([FromBody] Dictionary<string, object> param)
         {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            EntityConnection con = new EntityConnection("tbl_doctor_vitalsigns");
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                long id = con.InsertToGetId(param);
-                string visitId = "";
-                param.TryGetValue("visitId", out visitId);
-                
-                con.UpdateDiagnosis(Convert.ToInt32(visitId));
-
-                param.Add("itbId", id.ToString());
+                long id = con.InsertScalar(param);
+                param.Add("itbId", id);
                 return Created("", param);
             }
             else
             {
-                return BadRequest("Error in creating record");
                 //var resp = Response.WriteAsync("Error in creating record");
-                //return resp + "";
+                obj = new { message = "Error in adding vital signs record" };
+                return BadRequest(obj);
             }
 
         }
 
-        // PUT: api/Diagnosis/5
+        // PUT: api/DocVitalSigns/5
         [HttpPut("{id}")]
-        public IActionResult PutDiagnosis(int id, Dictionary<string, string> content)
+        public IActionResult Put(int id, Dictionary<string, string> content)
         {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            EntityConnection con = new EntityConnection("tbl_doctor_vitalsigns");
             if (id != 0)
             {
                 con.Update(id, content);
@@ -89,11 +88,11 @@ namespace Unilag_Medic.Controllers
             return Ok(content);
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/DocVitalSigns/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            EntityConnection con = new EntityConnection("tbl_diagnosis");
+            EntityConnection con = new EntityConnection("tbl_doctor_vitalsigns");
             if (id != 0)
             {
                 Dictionary<string, string> param = new Dictionary<string, string>();
@@ -106,6 +105,9 @@ namespace Unilag_Medic.Controllers
             }
             return Ok("Record deleted successfully");
         }
+
+
+
 
 
     }

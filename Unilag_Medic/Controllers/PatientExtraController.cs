@@ -364,6 +364,30 @@ namespace Unilag_Medic.Controllers
         }
 
 
+        [Route("VisitVitalSigns")]
+        [HttpGet("{visitId}")]
+        public IActionResult GetVitalByVisit(int visitId)
+        {
+            EntityConnection con = new EntityConnection("tbl_doctor_vitalsigns");
+            Dictionary<string, string> pairs = new Dictionary<string, string>
+            {
+                { "visitId", visitId.ToString()}
+            };
+            var result = con.SelectByParam(pairs);
+            if (result.Count > 0)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                obj = new { message = visitId + " does not exist" };
+                return NotFound(obj);
+            }
+            //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));
+
+        }
+
+
         [Route("VitalSigns")]
         [HttpGet("{hospitalNumber}")]
         public IActionResult GetVitByHospnum(string hospitalNumber)

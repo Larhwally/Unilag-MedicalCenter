@@ -239,6 +239,32 @@ namespace Unilag_Medic.Data
 
         }
 
+
+        //A new method to catch the itbId of a new insert action using a dictionary with string key:value pair author:Lawal
+        public long InsertToGetId(Dictionary<string, string> content)
+        {
+            this.connection.Open();
+            string[] keys = content.Keys.ToArray<string>();
+            string placeholder = GetPlaceholder(keys);
+            string query = "insert into " + this.tableName + "(" + implode(keys) + ") VALUES (" + placeholder + ")";
+
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            for (int i = 0; i < keys.Length; i++)
+            {
+                string currentParam = "@" + keys[i];
+                string currentValue = content[keys[i]].ToString();
+                MySqlDbType dbType = getColumnType(this.tableSchema[keys[i]]);
+                MySqlParameter tempParam = new MySqlParameter(currentParam, dbType);
+                tempParam.Value = wrapValue(currentValue, dbType);
+                command.Parameters.Add(tempParam);
+            }
+            command.ExecuteScalar();
+            long w = command.LastInsertedId;
+            this.connection.Close();
+            return w;
+
+        }
+
         private object wrapValue(string currentValue, MySqlDbType dbType)
         {
             if (dbType == MySqlDbType.DateTime)
@@ -513,7 +539,7 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> DisplayRoles(string email)
         {
             this.connection.Open();
-            string query = "SELECT tbl_medicalstaff.itbId AS medstaffId, tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname FROM tbl_medicalstaff " +
+            string query = "SELECT tbl_medicalstaff.itbId AS medstaffId, tbl_medicalstaff.email, tbl_medicalstaff.roleId, roleTitle, staffCode, surname, otherNames FROM tbl_medicalstaff " +
                             "INNER JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE tbl_medicalstaff.email = @email";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@email", email);
@@ -539,7 +565,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_vitalsigns.itbId, tbl_vitalsigns.patientId, hospitalNumber, tbl_patient.surname, bpSystolic, bpDiastolic, bloodPressure, temperature," +
-                           " pulse, bmi, bmiStatus, oxygenSaturation, otherNotes,  tbl_vitalsigns.visitId, visitDateTime, tbl_vitalsigns.status, nurseId, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
+                           " pulse, bmi, bmiStatus, oxygenSaturation, respiration, otherNotes,  tbl_vitalsigns.visitId, visitDateTime, tbl_vitalsigns.status, nurseId, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
                            " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId  " +
                            "INNER  JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId  WHERE visitId = @visitId ";
             MySqlCommand command = new MySqlCommand(query, this.connection);
@@ -559,6 +585,37 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return result;
         }
+
+
+
+        //Select vital signs recorded by the Doctor using visitId as a search parameter
+        public Dictionary<string, object> SelectDocVitalByVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_doctor_vitalsigns.itbId, tbl_doctor_vitalsigns.patientId, hospitalNumber, tbl_patient.surname, bpSystolic, bpDiastolic, bloodPressure, temperature," +
+                           " pulse, bmi, bmiStatus, oxygenSaturation, respiration, otherNotes,  tbl_doctor_vitalsigns.visitId, visitDateTime, tbl_doctor_vitalsigns.status, nurseId, tbl_doctor_vitalsigns.createDate FROM tbl_doctor_vitalsigns " +
+                           " INNER JOIN tbl_patient ON tbl_doctor_vitalsigns.patientId = tbl_patient.itbId  " +
+                           "INNER  JOIN tbl_visit ON tbl_doctor_vitalsigns.visitId = tbl_visit.itbId  WHERE visitId = @visitId ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                //Dictionary<string, object> tempresult = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    result.TryAdd(reader.GetName(i), reader.GetValue(i));
+                }
+                //result.Add(tempresult);
+            }
+            reader.Close();
+            this.connection.Close();
+            return result;
+        }
+
+
+
 
 
         //Use this  method to get a  patient visit record with  hospital number as parameter
