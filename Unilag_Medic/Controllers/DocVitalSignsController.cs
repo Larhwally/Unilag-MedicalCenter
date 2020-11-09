@@ -58,7 +58,8 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                con.Insert(param);
+                long id = con.InsertScalar(param);
+                param.Add("itbId", id);
 
                 return Created("", param);
             }
