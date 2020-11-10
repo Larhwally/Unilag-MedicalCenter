@@ -15,6 +15,7 @@ namespace Unilag_Medic.Services
 
     public class ApiCallOps : IApiCallOps
     {
+        [System.Obsolete]
         // Get a list of all states by country from making an API call to universal-tutorial API
         public async Task<List<string>> GetStateByCountry(string countryName, string token, int nationalityId)
         {
