@@ -33,7 +33,7 @@ namespace Unilag_Medic.Controllers
         [HttpGet("{uniquePath}")]
         public IActionResult Get(string uniquePath)
         {
-            EntityConnection con = new EntityConnection("tbl_patient");
+            EntityConnection con = new EntityConnection("tbl_upload");
             if (con.CheckImage(uniquePath) == true)
             {
                 string path = "/home/unimed/wwwroot/" + uniquePath;
