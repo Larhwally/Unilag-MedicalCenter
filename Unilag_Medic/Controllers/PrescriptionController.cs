@@ -190,11 +190,18 @@ namespace Unilag_Medic.Controllers
                 var drugs = param["drugs"];
                 var otherDrugs = param["otherDrugs"];
 
+                Console.WriteLine(drugs);
+                Console.WriteLine(otherDrugs);
+
                 param.Remove("drugs");
                 param.Remove("otherDrugs");
 
                 var DrugDetails = JsonSerializer.Serialize(drugs);
                 var otherDrugDetail = JsonSerializer.Serialize(otherDrugs);
+
+                Console.WriteLine(DrugDetails);
+                Console.WriteLine(otherDrugDetail);
+
                 
 
                 param.Add("drugs", DrugDetails);
