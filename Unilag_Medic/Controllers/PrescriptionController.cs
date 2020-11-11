@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using Newtonsoft.Json.Linq;
+//using Newtonsoft.Json.Linq;
 using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
