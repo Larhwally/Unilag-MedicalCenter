@@ -17,6 +17,7 @@ namespace Unilag_Medic.Data
         private string tableName;
         private int defaultSelectLength;
         private Dictionary<string, string> tableSchema;
+        
 
         public static string ToJson(string list) //changed object to string for dict
         {
@@ -791,7 +792,7 @@ namespace Unilag_Medic.Data
 
 
 
-         //Check File name on the database
+        //Check File name on the database
         public bool CheckFile(string uniqueName)
         {
             this.connection.Open();
@@ -1147,6 +1148,8 @@ namespace Unilag_Medic.Data
 
         //     return result;
         // }
+
+
         // Insert a result of an External API call into a table
         public string InsertResult(List<NationalityModel> countries)
         {
@@ -1249,6 +1252,77 @@ namespace Unilag_Medic.Data
             int n = command.ExecuteNonQuery();
             this.connection.Close();
             return n > 0;
+        }
+
+
+        // A method to select staff patient details from tbl_staff_patient by patient ID
+        public Dictionary<string, object> SelectStaffPatient(int patientId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_staff_patient where patientId = " + patientId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("patientId", patientId);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
+        // A method to select student patient details from tbl_student_patient by patient ID
+        public Dictionary<string, object> SelectStudentPatient(int patientId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_student_patient where patientId = " + patientId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("patientId", patientId);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
+
+
+
+        // A method to select non staff patient details from tbl_nonstaff by patient ID
+        public Dictionary<string, object> SelectNonStaffPatient(int patientId)
+        {
+            this.connection.Open();
+            string query = "SELECT * FROM tbl_nonstaff where patientId = " + patientId;
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("patientId", patientId);
+            MySqlDataReader reader = command.ExecuteReader();
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
         }
 
 
@@ -1520,7 +1594,7 @@ namespace Unilag_Medic.Data
         }
 
 
-         // A method to update patient table with image unique path
+        // A method to update patient table with image unique path
         public bool UpdateImagePath(int patientId, string uniquePath)
         {
             this.connection.Open();
@@ -1598,6 +1672,33 @@ namespace Unilag_Medic.Data
         //     this.connection.Open();
         //     string query = "SELECT itbId from tbl_upload ORDER by itbId desc LIMIT 1";
         // }
+
+
+        // Select staff record by email from the tbl_medicalstaff table 
+        public Dictionary<string, object> SelectStaffByEmail(string email)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_medicalstaff.itbId, surname, email, roleId, roleTitle from tbl_medicalstaff " +
+                           " LEFT JOIN tbl_role ON tbl_medicalstaff.roleId = tbl_role.itbId WHERE email = @email";
+
+            MySqlCommand cmd = new MySqlCommand(query, this.connection);
+            cmd.Parameters.AddWithValue("@email", email);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (!reader.HasRows) return null;
+
+            Dictionary<string, object> values = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    values.Add(reader.GetName(i), reader.GetValue(i));
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return values;
+        }
 
 
 

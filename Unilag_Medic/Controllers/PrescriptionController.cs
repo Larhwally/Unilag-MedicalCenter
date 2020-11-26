@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using MySql.Data.MySqlClient;
-using Newtonsoft.Json.Linq;
 using Unilag_Medic.Data;
+using System.Text.Json;
+using Unilag_Medic.Helpers;
 
 namespace Unilag_Medic.Controllers
 {
-    [authorize]
+
+
     [Route("api/[controller]")]
     [ApiController]
     public class PrescriptionController : ControllerBase
@@ -37,6 +37,8 @@ namespace Unilag_Medic.Controllers
             }
         }
 
+
+        [Authorize]
         //[Route("Prescription")]
         [HttpGet("{id}")]
         public IActionResult GetPrescriptionById(int id)
@@ -51,89 +53,106 @@ namespace Unilag_Medic.Controllers
             //Check if the parent method returns a record
             if (result.Count > 0)
             {
-                result.TryGetValue("otherDrugs", out newobj);
-                result.TryGetValue("drugs", out obj);
-                result.TryGetValue("dosageForm", out objs);
-                result.TryGetValue("dosage", out objs1);
-                result.TryGetValue("measurement", out objs2);
+                var drugs = result["drugs"].ToString();
+                var otherDrugs = result["otherDrugs"].ToString();
 
-                string otherDrugs = newobj.ToString();
-                string newdrug = obj.ToString();
-                string dosageForms = objs.ToString();
-                string dosages = objs1.ToString();
-                string measurements = objs2.ToString();
+
 
                 result.Remove("drugs");
                 result.Remove("otherDrugs");
-                result.Remove("dosageForm");
-                result.Remove("dosage");
-                result.Remove("measurement");
 
-                //check if the drug list is empty
-                if (newdrug.Trim() != "")
-                {
+                var DrugDetails = JsonSerializer.Deserialize<List<object>>(drugs);
+                var otherDrugDetail = JsonSerializer.Deserialize<List<object>>(otherDrugs);
 
-                    string[] drugs = newdrug.Split(',');
 
-                    string[] orQueries = drugs.Select(drugId => "itbId =" + drugId).ToArray(); // [itbId=3, itbId=5]
 
-                    if (orQueries != null)
-                    {
-                        var drugDetails = connection.DrugDetails(orQueries);
-                        result.Add("drugs", drugDetails);
-                    }
-                }
-                else
-                {
-                    result.Add("drugs", new string[0]);
-                }
+                result.Add("drugs", DrugDetails);
+                result.Add("otherDrugs", otherDrugDetail);
 
-                //check if other drugs is empty 
-                if (otherDrugs.Trim() != "")
-                {
-                    string[] newOtherDrugs = otherDrugs.Split('|');
-                    result.Add("otherDrugs", newOtherDrugs);
-                }
-                else
-                {
-                    result.Add("otherDrugs", new string[0]);
-                }
+                return Ok(result);
+                // result.TryGetValue("otherDrugs", out newobj);
+                // result.TryGetValue("drugs", out obj);
+                // result.TryGetValue("dosageForm", out objs);
+                // result.TryGetValue("dosage", out objs1);
+                // result.TryGetValue("measurement", out objs2);
 
-                 //check if dosage form is empty 
-                if (dosageForms.Trim() != "")
-                {
-                    string[] newDosageForms = dosageForms.Split('|');
-                    result.Add("dosageForms", newDosageForms);
-                }
-                else
-                {
-                    result.Add("dosageForms", new string[0]);
-                }
+                // string otherDrugs = newobj.ToString();
+                // string newdrug = obj.ToString();
+                // string dosageForms = objs.ToString();
+                // string dosages = objs1.ToString();
+                // string measurements = objs2.ToString();
 
-                 //check if dosage is empty 
-                if (dosages.Trim() != "")
-                {
-                    string[] newDosages = dosages.Split('|');
-                    result.Add("dosages", newDosages);
-                }
-                else
-                {
-                    result.Add("dosages", new string[0]);
-                }
+                // result.Remove("drugs");
+                // result.Remove("otherDrugs");
+                // result.Remove("dosageForm");
+                // result.Remove("dosage");
+                // result.Remove("measurement");
 
-                 //check if measurements is empty 
-                if (measurements.Trim() != "")
-                {
-                    string[] newMeasurements = measurements.Split('|');
-                    result.Add("measurements", newMeasurements);
-                }
-                else
-                {
-                    result.Add("measurements", new string[0]);
-                }
+                //check if the drug list is empty *comment*
+                // if (newdrug.Trim() != "")
+                // {
 
-                obj = new { data = result };
-                return Ok(obj);
+                //     string[] drugs = newdrug.Split(',');
+
+                //     string[] orQueries = drugs.Select(drugId => "itbId =" + drugId).ToArray(); // [itbId=3, itbId=5]
+
+                //     if (orQueries != null)
+                //     {
+                //         var drugDetails = connection.DrugDetails(orQueries);
+                //         result.Add("drugs", drugDetails);
+                //     }
+                // }
+                // else
+                // {
+                //     result.Add("drugs", new string[0]);
+                // }
+
+                // //check if other drugs is empty 
+                // if (otherDrugs.Trim() != "")
+                // {
+                //     string[] newOtherDrugs = otherDrugs.Split('|');
+                //     result.Add("otherDrugs", newOtherDrugs);
+                // }
+                // else
+                // {
+                //     result.Add("otherDrugs", new string[0]);
+                // }
+
+                //  //check if dosage form is empty 
+                // if (dosageForms.Trim() != "")
+                // {
+                //     string[] newDosageForms = dosageForms.Split('|');
+                //     result.Add("dosageForms", newDosageForms);
+                // }
+                // else
+                // {
+                //     result.Add("dosageForms", new string[0]);
+                // }
+
+                //  //check if dosage is empty 
+                // if (dosages.Trim() != "")
+                // {
+                //     string[] newDosages = dosages.Split('|');
+                //     result.Add("dosages", newDosages);
+                // }
+                // else
+                // {
+                //     result.Add("dosages", new string[0]);
+                // }
+
+                //  //check if measurements is empty 
+                // if (measurements.Trim() != "")
+                // {
+                //     string[] newMeasurements = measurements.Split('|');
+                //     result.Add("measurements", newMeasurements);
+                // }
+                // else
+                // {
+                //     result.Add("measurements", new string[0]);
+                // }
+
+                // obj = new { data = result };
+                // return Ok(obj);
             }
             else
             {
@@ -150,23 +169,61 @@ namespace Unilag_Medic.Controllers
             if (param != null)
             {
                 param.Add("createDate", DateTime.Now.ToString());
-                JArray drugs = (JArray)param["drugs"];
-                JArray OtherDrugs = (JArray)param["otherDrugs"];
-                JArray dosageForms = (JArray)param["dosageForm"];
-                JArray measurements = (JArray)param["measurement"];
-                JArray dosages = (JArray)param["dosage"];
+
+
+                var drugs = param["drugs"];
+                var otherDrugs = param["otherDrugs"];
+                // var drugs = new JArray(obj);
+                // var otherDrugs = new JArray(objs1);
+
+                // Console.WriteLine(drugs);
+                // Console.WriteLine(otherDrugs);
 
                 param.Remove("drugs");
                 param.Remove("otherDrugs");
-                param.Remove("dosageForm");
-                param.Remove("measurement");
-                param.Remove("dosage");
 
-                param.Add("drugs", String.Join(",", drugs));
-                param.Add("otherDrugs", string.Join("|", OtherDrugs));
-                param.Add("dosageForm", string.Join("|", dosageForms));
-                param.Add("measurement", string.Join("|", measurements));
-                param.Add("dosage", string.Join("|", dosages));
+                var DrugDetails = JsonSerializer.Serialize(drugs);
+                var otherDrugDetail = JsonSerializer.Serialize(otherDrugs);
+
+
+                param.Add("drugs", DrugDetails);
+                param.Add("otherDrugs", otherDrugDetail);
+
+                // var drugs = param["drugs"].ToArray();
+                // var otherDrugs = param["otherDrugs"].ToArray();
+                // JArray dosageForms = (JArray)param["dosageForm"];
+                // JArray measurements = (JArray)param["measurement"];
+                // JArray dosages = (JArray)param["dosage"];
+
+                // foreach (var drug in drugs)
+                // {
+                //     var drugDetail = JsonConvert.SerializeObject(drug);
+                // }
+
+                // foreach (var otherDrug in otherDrugs)
+                // {
+                //     var otherDrugDetail = JsonConvert.SerializeObject(otherDrug);
+                // }
+
+
+                // Stringify the drug details from the payload
+
+
+                // param.Remove("drugs");
+                // param.Remove("otherDrugs");
+                // param.Remove("dosageForm");
+                // param.Remove("measurement");
+                // param.Remove("dosage");
+
+                // param.Add("drug", drugs);
+                // param.Add("otherDurgs", otherDrugs);
+
+
+                // param.Add("drugs", String.Join(",", drugs));
+                // param.Add("otherDrugs", string.Join("|", OtherDrugs));
+                // param.Add("dosageForm", string.Join("|", dosageForms));
+                // param.Add("measurement", string.Join("|", measurements));
+                // param.Add("dosage", string.Join("|", dosages));
 
                 connection.Insert(param);
                 return Created("", param);
@@ -178,7 +235,7 @@ namespace Unilag_Medic.Controllers
             }
         }
 
-        
+
 
 
 

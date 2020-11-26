@@ -3,17 +3,18 @@ using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+// using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Unilag_Medic.Data;
 using Unilag_Medic.ViewModel;
+using Unilag_Medic.Helpers;
 
 namespace Unilag_Medic.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PatientController : ControllerBase
@@ -27,7 +28,7 @@ namespace Unilag_Medic.Controllers
             _environment = env;
         }
         // GET: api/Patient
-        [HttpGet]
+        [HttpGet()]
         public IActionResult GetPatient()
         {
             EntityConnection con = new EntityConnection("tbl_patient");
@@ -46,9 +47,34 @@ namespace Unilag_Medic.Controllers
                 { "itbId", id + "" }
             };
             //string record = EntityConnection.ToJson(con.SelectByColumn(pairs));
-            if (con.SelectByColumn(pairs).Count > 0)
+
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            result = con.SelectByColumn(pairs);
+
+            var patientType = Convert.ToInt32(result["patientType"]);
+
+            Dictionary<string, object> param = new Dictionary<string, object>();
+
+            if (patientType == 1)
             {
-                return Ok(con.SelectByColumn(pairs));
+                param = con.SelectStaffPatient(id);
+            }
+            else if (patientType == 2)
+            {
+                param = con.SelectStudentPatient(id);
+            }
+            else
+            {
+                param = con.SelectNonStaffPatient(id);
+            }
+            foreach (var (key, value) in param)
+            {
+                result.TryAdd(key, value);
+            }
+
+            if (result.Count > 0)
+            {
+                return Ok(result);
             }
             else
             {
@@ -72,7 +98,7 @@ namespace Unilag_Medic.Controllers
             //     objs = new { message = "not an image file" };
             //     return BadRequest(objs);
             // }
-           
+
             // if (!fName.EndsWith("jpg") & !file.FileName.EndsWith("jpeg") & !file.FileName.EndsWith("png"))
             // {
             //     objs = new { message = "image is not in correct format" };

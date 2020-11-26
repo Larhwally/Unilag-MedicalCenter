@@ -5,22 +5,23 @@
     <UserSecretsId>5b15f5d1-7200-4fa5-bc82-4c40caf84249</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Json.Net" Version="1.0.23" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
-    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.7.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
-    <PackageReference Include="MySql.Data" Version="8.0.19" />
-    <PackageReference Include="PrivateSetterContractResolver" Version="2.1.0" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1" />
-    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.1.20451.14" />
-    <PackageReference Include="Hangfire.Core" Version="1.7.13" />
-    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.13" />
-    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0" />
-    <PackageReference Include="RestSharp" Version="106.11.5" />
-    <PackageReference Include="System.Runtime" Version="4.3.1" />
+    <PackageReference Include="Json.Net" Version="1.0.23"/>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8"/>
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="6.7.1"/>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3"/>
+    <PackageReference Include="MySql.Data" Version="8.0.19"/>
+    <PackageReference Include="PrivateSetterContractResolver" Version="2.1.0"/>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.7.1"/>
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0-rc.1.20451.14"/>
+    <PackageReference Include="Hangfire.Core" Version="1.7.13"/>
+    <PackageReference Include="Hangfire.AspNetCore" Version="1.7.13"/>
+    <PackageReference Include="Hangfire.MemoryStorage" Version="1.7.0"/>
+    <PackageReference Include="RestSharp" Version="106.11.5"/>
+    <PackageReference Include="System.Runtime" Version="4.3.1"/>
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="6.0.1"/>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-    <Folder Include="upload\" />
+    <Folder Include="wwwroot\"/>
+    <Folder Include="upload\"/>
   </ItemGroup>
 </Project>

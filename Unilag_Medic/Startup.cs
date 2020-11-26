@@ -2,7 +2,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +11,7 @@ using Unilag_Medic.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Hosting;
+using Unilag_Medic.Helpers;
 
 namespace Unilag_Medic
 {
@@ -29,9 +29,15 @@ namespace Unilag_Medic
         // }
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add services to the Dependency Injection container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure strongly typed settings objects
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            // Configure DI for application service
+            services.AddScoped<IUserService, UserService>();
+
             //services.AddSingleton<IConfiguration>();
             services.AddSingleton<IZenossOps, ZenossOps>();
             services.AddHttpClient();
@@ -47,17 +53,9 @@ namespace Unilag_Medic
 
             services.AddSingleton<ICronServices, CronServices>();
 
+            services.AddCors();
 
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("default", policy =>
-                {
-                    policy.WithOrigins("http://localhost:3000")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod();
-                });
-            });
+            services.AddControllers();
 
             //services.AddDbContext<ApplicationDbContext>(
             //    option => option.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -114,14 +112,21 @@ namespace Unilag_Medic
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseCors("default");
-            app.UseHttpsRedirection();
-
             app.UseRouting();
+
+            // global cors policy
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
+
+            app.UseHttpsRedirection();
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
@@ -132,11 +137,11 @@ namespace Unilag_Medic
 
             //app.UseHangfireDashboard();
             //backgroundJobClient.Enqueue(() => Console.WriteLine("Hello hangfire!"));
-           // recurringJobManger.AddOrUpdate(
-           //     "Run Daily",
-           //() => serviceProvider.GetService<ICronServices>().UpdateDependent(),
-           //     Cron.Daily
-           // );
+            // recurringJobManger.AddOrUpdate(
+            //     "Run Daily",
+            //() => serviceProvider.GetService<ICronServices>().UpdateDependent(),
+            //     Cron.Daily
+            // );
             //backgroundJobClient.Schedule(() => serviceProvider.GetService<ICreateClinic>().InsertClinic(), TimeSpan.FromMinutes(2));
 
 

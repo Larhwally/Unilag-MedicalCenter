@@ -1,29 +1,33 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-//using Microsoft.IdentityModel.JsonWebTokens;
-using Microsoft.IdentityModel.Tokens;
 using Unilag_Medic.Data;
+using Unilag_Medic.Helpers;
+using Unilag_Medic.Services;
 using Unilag_Medic.ViewModel;
+
+
 
 namespace Unilag_Medic.Controllers
 {
-    [Authorize]
+
     public class AuthenController : Controller
     {
+
         public object obj = new object();
         private readonly IConfiguration _configuration;
 
-        public AuthenController(IConfiguration configuration)
+        private IUserService _userService;
+
+        public AuthenController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
+            _userService = userService;
         }
 
+        [Authorize]
         [Route("RegisterUser")]
         [HttpPost]
         public IActionResult RegUser([FromBody] UnilagMedLogin model)
@@ -67,7 +71,7 @@ namespace Unilag_Medic.Controllers
         }
 
 
-        [AllowAnonymous]
+        //[AllowAnonymous]
         [Route("LoginUser")]
         [HttpPost]
         public IActionResult Loginuser([FromBody] UnilagMedLogin model)
@@ -77,37 +81,48 @@ namespace Unilag_Medic.Controllers
             string pass = model.password;
             DateTime logindate = DateTime.Now;
 
-
-
             if (connection.CheckUser(email, pass) == true && model != null)
             {
-                var claim = new[]
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, model.roleId.ToString()),
-                        new Claim(JwtRegisteredClaimNames.Sub, model.email),//gotta add role as a sub for claim
-                       
-                    };
-                var signingkey = new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
+                // var claim = new[]
+                //     {
+                //         new Claim(ClaimTypes.NameIdentifier, model.roleId.ToString()),
+                //         new Claim(JwtRegisteredClaimNames.Sub, model.email),//gotta add role as a sub for claim
 
-                int Expireminutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
+                //     };
+                // var signingkey = new SymmetricSecurityKey(
+                //     Encoding.UTF8.GetBytes(_configuration["Jwt:SigningKey"]));
 
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["Jwt:Site"],
-                    audience: _configuration["Jwt:Site"],
-                    expires: DateTime.Today.AddDays(2),
-                    signingCredentials: new SigningCredentials(signingkey, SecurityAlgorithms.HmacSha256));
+                // int Expireminutes = Convert.ToInt32(_configuration["Jwt:ExpiryInMinutes"]);
 
-                var tokenval = new JwtSecurityTokenHandler().WriteToken(token);
+                // var token = new JwtSecurityToken(
 
-                //var output = JsonConvert.SerializeObject(res);
-                //var result = JsonConvert.SerializeObject(tokenval);
+                //     issuer: _configuration["Jwt:Site"],
+                //     audience: _configuration["Jwt:Site"],
+                //     expires: DateTime.Today.AddDays(2),
+                //     signingCredentials: new SigningCredentials(signingkey, SecurityAlgorithms.HmacSha256));
 
+                // var tokenval = new JwtSecurityTokenHandler().WriteToken(token);
 
+                //---------------------------------------------------------------------------------------------------
                 var role = connection.DisplayRoles(email);
-                var tempresult = new { logindate, tokenval };
+                role.Add("logindate", logindate);
+                role.Remove("email");
+                var response = _userService.Authenticate(model);
+                if (response == null)
+                    return BadRequest(new { message = "Email or Password is incorredt" });
 
-                return Ok(new { data = role, tempresult });
+                var data = new Dictionary<string, object>();
+                data.Add("email", response.email);
+                data.Add("token", response.token);
+
+                foreach (var (key, value) in role)
+                {
+                    data.Add(key, value);
+                }
+
+
+                return Ok(new { data });
+
 
             }
             obj = new { message = "Please check login details and try again!" };

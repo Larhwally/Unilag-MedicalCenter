@@ -148,3 +148,13 @@ C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\o
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp3.1\Unilag_Medic.dll
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp3.1\Unilag_Medic.pdb
 C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp3.1\Unilag_Medic.genruntimeconfig.cache
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\obj\Debug\netcoreapp3.1\Unilag_Medic.MvcApplicationPartsAssemblyInfo.cs
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Microsoft.OpenApi.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Scrutor.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Annotations.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Filters.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.Swagger.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\MYPROJECTS\.NET Core Tut\TutorialNetCore\Unilag_Medical_Center\Unilag_Medic\bin\Debug\netcoreapp3.1\Swashbuckle.AspNetCore.SwaggerUI.dll
