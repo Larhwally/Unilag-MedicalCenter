@@ -10,7 +10,7 @@ using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
 {
-    [Authorize]
+    // [Authorize]
     public class PatientExtraController : Controller
     {
 
@@ -356,7 +356,7 @@ namespace Unilag_Medic.Controllers
             }
             else
             {
-                obj = new { message = visitId + "does not exist" };
+                obj = new { message = visitId + " does not exist" };
                 return NotFound(obj);
             }
             //string rec = EntityConnection.ToJson(con.SelectByParam(pairs));

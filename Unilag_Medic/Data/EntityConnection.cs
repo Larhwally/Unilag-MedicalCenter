@@ -17,7 +17,7 @@ namespace Unilag_Medic.Data
         private string tableName;
         private int defaultSelectLength;
         private Dictionary<string, string> tableSchema;
-        
+        public object obj = new object();
 
         public static string ToJson(string list) //changed object to string for dict
         {
@@ -302,6 +302,8 @@ namespace Unilag_Medic.Data
                     return MySqlDbType.Text;
                 case "nvarchar":
                     return MySqlDbType.LongText;
+                case "{}":
+                    return MySqlDbType.String;
                 default:
                     return MySqlDbType.JSON;
             }
@@ -373,7 +375,9 @@ namespace Unilag_Medic.Data
                 {
                     result.TryAdd(reader.GetName(i), reader.GetValue(i));
                 }
+                
             }
+            
             reader.Close();
             this.connection.Close();
             return result;
@@ -581,6 +585,13 @@ namespace Unilag_Medic.Data
                     result.TryAdd(reader.GetName(i), reader.GetValue(i));
                 }
                 //result.Add(tempresult);
+            }
+            foreach (KeyValuePair<string, object> item in result)
+            {
+                if (item.Value == obj)
+                {
+                    item.ToString();
+                }
             }
             reader.Close();
             this.connection.Close();
@@ -813,7 +824,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, patientId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicName, visitDateTime, recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo  FROM tbl_visit" +
+                            "clinicName, visitDateTime, tbl_visit.recordStaffId, staffCode, tbl_medicalstaff.email, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId" +
                             " INNER JOIN tbl_medicalstaff ON tbl_visit.recordStaffId = tbl_medicalstaff.itbId ORDER BY itbId DESC LIMIT 20";
@@ -840,7 +851,7 @@ namespace Unilag_Medic.Data
         {
             this.connection.Open();
             string query = "SELECT tbl_visit.itbId, patientId, hospitalNumber, tbl_patient.surname, tbl_patient.otherNames, tbl_patient.gender, tbl_patient.dateOfBirth, patientType, " +
-                            "clinicType, visitDateTime, tbl_visit.lastVisitId, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo  FROM tbl_visit" +
+                            "clinicType, visitDateTime, IFNULL(tbl_visit.lastVisitId, ' ') AS lastVisitId, tbl_visit.status, tbl_visit.createDate, vitalStatus, assignedTo  FROM tbl_visit" +
                             " INNER JOIN tbl_patient ON tbl_visit.patientId = tbl_patient.itbId" +
                             " INNER JOIN tbl_clinic ON tbl_visit.clinicId = tbl_clinic.itbId  where tbl_visit.itbId = @itbId";
 
@@ -854,8 +865,16 @@ namespace Unilag_Medic.Data
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
                     values.Add(reader.GetName(i), reader.GetValue(i));
+
                 }
                 //values.Add(pairs);
+            }
+            foreach (KeyValuePair<string, object> item in values)
+            {
+                if (item.Value == obj)
+                {
+                    item.ToString();
+                }
             }
             reader.Close();
             this.connection.Close();
@@ -978,18 +997,19 @@ namespace Unilag_Medic.Data
         public Dictionary<string, object> SelectAppointedDetails(int id)
         {
             this.connection.Open();
-            string query = "SELECT tbl_visit.itbId, assignedTo, staffId, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames, tbl_medicalstaff.position FROM tbl_visit" +
+            string query = "SELECT tbl_visit.itbId, IFNULL(assignedTo, 0) AS AssignedTO, staffId, tbl_medicalstaff.surname, tbl_medicalstaff.otherNames FROM tbl_visit" +
                            " INNER JOIN tbl_doctor ON tbl_visit.assignedTo = tbl_doctor.itbId INNER JOIN tbl_medicalstaff ON tbl_doctor.staffId = tbl_medicalstaff.itbId" +
                            " WHERE tbl_visit.itbId = @visitId";
             MySqlCommand command = new MySqlCommand(query, this.connection);
             command.Parameters.AddWithValue("@visitId", id);
             MySqlDataReader reader = command.ExecuteReader();
             Dictionary<string, object> values = new Dictionary<string, object>();
+           
             while (reader.Read())
             {
                 //Dictionary<string, object> pairs = new Dictionary<string, object>();
                 for (int i = 0; i < reader.FieldCount; i++)
-                {
+                { 
                     values.Add(reader.GetName(i), reader.GetValue(i));
                 }
                 //values.Add(pairs);

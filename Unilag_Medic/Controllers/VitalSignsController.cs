@@ -10,7 +10,7 @@ using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VitalSignsController : ControllerBase
@@ -55,6 +55,10 @@ namespace Unilag_Medic.Controllers
             EntityConnection con = new EntityConnection("tbl_vitalsigns");
             if (param != null)
             {
+                // foreach(int item in param)
+                // {
+                //     item.ToString();
+                // }
                 param.Add("createDate", DateTime.Now.ToString());
                 con.InsertRecord(param);
 

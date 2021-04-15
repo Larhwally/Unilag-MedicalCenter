@@ -8110,11 +8110,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\Unilag_Medical_Center\\Unilag_Medic\\Unilag_Medic.csproj",
+      "projectUniqueName": "C:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\Unilag_Medical_Center\\Unilag_Medic\\Unilag_Medic.csproj",
       "projectName": "Unilag_Medic",
-      "projectPath": "c:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\Unilag_Medical_Center\\Unilag_Medic\\Unilag_Medic.csproj",
+      "projectPath": "C:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\Unilag_Medical_Center\\Unilag_Medic\\Unilag_Medic.csproj",
       "packagesPath": "C:\\Users\\lawal\\.nuget\\packages\\",
-      "outputPath": "c:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\Unilag_Medical_Center\\Unilag_Medic\\obj\\",
+      "outputPath": "C:\\MYPROJECTS\\.NET Core Tut\\TutorialNetCore\\Unilag_Medical_Center\\Unilag_Medic\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -8213,12 +8213,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[3.1.2, 3.1.2]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -8227,7 +8221,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.100-rc.1.20452.10\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.200-preview.20601.7\\RuntimeIdentifierGraph.json"
       }
     }
   }

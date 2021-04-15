@@ -10,7 +10,7 @@ using Unilag_Medic.Data;
 
 namespace Unilag_Medic.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VisitController : ControllerBase
