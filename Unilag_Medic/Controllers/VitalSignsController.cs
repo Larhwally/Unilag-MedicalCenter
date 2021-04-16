@@ -34,9 +34,9 @@ namespace Unilag_Medic.Controllers
             Dictionary<string, string> dic = new Dictionary<string, string>();
             dic.Add("itbId", id + "");
             //string record = "{'status':true,'data':" + EntityConnection.ToJson(con.SelectByColumn(dic)) + "}";
-            Dictionary<string, object> record = con.SelectByColumn(dic);
+            Dictionary<string, object> record = con.VitalSignByID(id);
 
-            if (con.SelectByColumn(dic).Count > 0)
+            if (record.Count > 0)
             {
                 obj = new { vitals = record };
                 return Ok(obj);

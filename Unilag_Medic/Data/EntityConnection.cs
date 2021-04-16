@@ -600,6 +600,46 @@ namespace Unilag_Medic.Data
 
 
 
+
+        /* A twin method to the above method buh including some extra columns specific for VisitVitals Endpoint
+            It also include the IFNULL(column_name, what_should_be_returned) method to handle DBNULL
+
+
+        */
+        public Dictionary<string, object> VitalForVisit(int visitId)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_vitalsigns.itbId, tbl_vitalsigns.patientId, IFNULL(weight, ' ') AS weight, IFNULL(height, ' ') AS height, IFNULL(bpSystolic, ' ') AS bpSystolic, IFNULL(bpDiastolic, ' ') AS bpDiastolic, IFNULL(bloodPressure, ' ') AS bloodPressure, IFNULL(temperature, ' ') AS temperature," +
+                           " IFNULL(pulse, ' ') AS pulse, IFNULL(bmi, ' ') AS bmi, IFNULL(bmiStatus, ' ') AS bmiStatus, IFNULL(oxygenSaturation, ' ') AS oxygenSaturation, IFNULL(respiration, ' ') AS respiration, IFNULL(headCircumference, ' ') AS headCircumference," +
+                           " IFNULL(waistCircumference, ' ') AS waistCircumference, IFNULL(specificGravity, ' ') AS specificGravity, IFNULL(ketone, ' ') AS ketone, IFNULL(blood, ' ') AS blood, IFNULL(glucose, ' ') AS glucose," +
+                           " IFNULL(otherNotes, ' ') AS otherNotes,  tbl_vitalsigns.visitId, visitDateTime, tbl_vitalsigns.status, nurseId, tbl_vitalsigns.assignedTo, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
+                           " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId  " +
+                           "INNER  JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId  WHERE visitId = @visitId ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@visitId", visitId);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                //Dictionary<string, object> tempresult = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    result.TryAdd(reader.GetName(i), reader.GetValue(i));
+                }
+                //result.Add(tempresult);
+            }
+            foreach (KeyValuePair<string, object> item in result)
+            {
+                if (item.Value == obj)
+                {
+                    item.ToString();
+                }
+            }
+            reader.Close();
+            this.connection.Close();
+            return result;
+        }
+
         //Select vital signs recorded by the Doctor using visitId as a search parameter
         public Dictionary<string, object> SelectDocVitalByVisit(int visitId)
         {
@@ -907,6 +947,47 @@ namespace Unilag_Medic.Data
             this.connection.Close();
             return values;
         }
+
+
+
+
+        /*
+        This method get a vitalsign record by ID 
+        A twin method to the above method buh including some extra columns specific for VisitVitals Endpoint
+        It also include the IFNULL(column_name, what_should_be_returned) method to handle DBNULL
+        */
+        public Dictionary<string, object> VitalSignByID(int vitalSignId)
+        {
+            this.connection.Open();
+            string query = "SELECT tbl_vitalsigns.itbId, tbl_vitalsigns.patientId, IFNULL(weight, ' ') AS weight, IFNULL(height, ' ') AS height, IFNULL(bpSystolic, ' ') AS bpSystolic, IFNULL(bpDiastolic, ' ') AS bpDiastolic, IFNULL(bloodPressure, ' ') AS bloodPressure, IFNULL(temperature, ' ') AS temperature," +
+                           " IFNULL(pulse, ' ') AS pulse, IFNULL(bmi, ' ') AS bmi, IFNULL(bmiStatus, ' ') AS bmiStatus, IFNULL(oxygenSaturation, ' ') AS oxygenSaturation, IFNULL(respiration, ' ') AS respiration, IFNULL(headCircumference, ' ') AS headCircumference," +
+                           " IFNULL(waistCircumference, ' ') AS waistCircumference, IFNULL(specificGravity, ' ') AS specificGravity, IFNULL(ketone, ' ') AS ketone, IFNULL(blood, ' ') AS blood, IFNULL(glucose, ' ') AS glucose," +
+                           " IFNULL(otherNotes, ' ') AS otherNotes,  tbl_vitalsigns.visitId, visitDateTime, tbl_vitalsigns.status, nurseId, tbl_vitalsigns.assignedTo, tbl_vitalsigns.createDate FROM tbl_vitalsigns " +
+                           " INNER JOIN tbl_patient ON tbl_vitalsigns.patientId = tbl_patient.itbId  " +
+                           "INNER  JOIN tbl_visit ON tbl_vitalsigns.visitId = tbl_visit.itbId  WHERE tbl_vitalsigns.itbId = @vitalSignId ";
+            MySqlCommand command = new MySqlCommand(query, this.connection);
+            command.Parameters.AddWithValue("@vitalSignId", vitalSignId);
+            MySqlDataReader reader = command.ExecuteReader();
+            Dictionary<string, object> result = new Dictionary<string, object>();
+            while (reader.Read())
+            {
+                //Dictionary<string, object> tempresult = new Dictionary<string, object>();
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    result.TryAdd(reader.GetName(i), reader.GetValue(i));
+                }
+                //result.Add(tempresult);
+            }
+            
+            reader.Close();
+            this.connection.Close();
+            return result;
+        }
+
+
+
+
+
 
         //Method for last appointment details
         public Dictionary<string, object> LastVisit(int patientId)

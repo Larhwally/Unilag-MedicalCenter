@@ -345,11 +345,11 @@ namespace Unilag_Medic.Controllers
         public IActionResult GetVitByVisit(int visitId)
         {
             EntityConnection con = new EntityConnection("tbl_vitalsigns");
-            Dictionary<string, string> pairs = new Dictionary<string, string>
-            {
-                { "visitId", visitId.ToString()}
-            };
-            var result = con.SelectByParam(pairs);
+            // Dictionary<string, string> pairs = new Dictionary<string, string>
+            // {
+            //     { "visitId", visitId.ToString()}
+            // };
+            var result = con.VitalForVisit(visitId);
             if (result.Count > 0)
             {
                 return Ok(result);
